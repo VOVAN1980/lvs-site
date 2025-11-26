@@ -1,10 +1,10 @@
-
 (function () {
     if (typeof Cesium === "undefined") {
         console.error("Cesium is not loaded.");
         return;
     }
 
+    // Твой токен
     Cesium.Ion.defaultAccessToken =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxNGJlYzY3MS0wNzg0LTRhMTYtYTg4ZS0wZDk2Njk4MmJkODAiLCJpZCI6MzYzOTE1LCJpYXQiOjE3NjQxMTY4MTd9.mB7rmSUqh2vbP7RDT5B2nQMtOOoRNX0U1e3Z09v5ILM";
 
@@ -14,13 +14,9 @@
         if (el.dataset.ready) return;
         el.dataset.ready = "1";
 
-        // Картинка Земли из Ion
-        var imagery = new Cesium.IonImageryProvider({
-            assetId: 2
-        });
-
+        // === ИНИЦИАЛИЗАЦИЯ VIEWER БЕЗ ЛАЗАНИЯ В КОНТЕЙНЕРЫ ===
         var viewer = new Cesium.Viewer(el, {
-            imageryProvider: imagery,
+            // imageryProvider НЕ трогаем здесь, добавим ниже
             baseLayerPicker: false,
             geocoder: false,
             homeButton: false,
@@ -38,21 +34,32 @@
         var scene = viewer.scene;
         var camera = viewer.camera;
 
+        // === ПОДКЛЮЧАЕМ НОРМАЛЬНУЮ ТЕКСТУРУ ЗЕМЛИ ===
+        // Сносим дефолтные слои и вешаем Ion-имагери
+        viewer.imageryLayers.removeAll();
+        viewer.imageryLayers.addImageryProvider(
+            new Cesium.IonImageryProvider({
+                // стандартный глобальный imagery в ion
+                assetId: 3      // если вдруг будет опять синий шар – можно попробовать 2
+            })
+        );
+
         // Фон и атмосфера
         scene.skyBox = null;
         scene.skyAtmosphere.show = false;
         scene.fog.enabled = false;
         scene.globe.enableLighting = true;
+        scene.globe.show = true;
         scene.backgroundColor = Cesium.Color.TRANSPARENT;
+        // на всякий случай база не синяя
+        scene.globe.baseColor = Cesium.Color.BLACK;
 
-        // Делаем шар большим и фиксированным в рамке
-        // — маленький FOV, близкая камера, без зума пользователем
-        camera.frustum.fov = Cesium.Math.toRadians(24); // уже "телевик"
+        // === КАМЕРА / РАЗМЕРЫ — КАК У ТЕБЯ БЫЛО ===
+        camera.frustum.fov = Cesium.Math.toRadians(24);
         camera.frustum.near = 1.0;
         camera.frustum.far = 1e8;
 
-        // Позиция камеры: немного над экватором, близко к Земле
-        var distance = 9000000.0; // подогнанная дистанция, чтобы шар почти упирался в края
+        var distance = 9000000.0;
         camera.setView({
             destination: Cesium.Cartesian3.fromDegrees(10.0, 15.0, distance)
         });
@@ -60,11 +67,11 @@
         var controller = scene.screenSpaceCameraController;
         controller.enableZoom = false;
         controller.enableTilt = false;
-        controller.enableRotate = true; // но будем крутить сами
+        controller.enableRotate = true;
         controller.minimumZoomDistance = distance;
         controller.maximumZoomDistance = distance;
 
-        // Авто-вращение
+        // авто-вращение
         var last = performance.now();
         scene.preRender.addEventListener(function () {
             var now = performance.now();
@@ -73,12 +80,12 @@
             camera.rotate(Cesium.Cartesian3.UNIT_Z, dt * 0.12);
         });
 
-        // Клик по мини-глобусу → полная карта
+        // клик по мини-глобусу → space.html
         el.addEventListener("click", function () {
             window.location.href = "space.html";
         });
 
-        // Прячем кредиты Cesium
+        // скрыть кредиты Cesium
         try {
             viewer._cesiumWidget._creditContainer.style.display = "none";
         } catch (e) {}
