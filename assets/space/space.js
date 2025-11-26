@@ -1,22 +1,30 @@
 (function () {
-    if (typeof Cesium === "undefined") return;
+    if (typeof Cesium === "undefined") {
+        console.error("Cesium not loaded");
+        return;
+    }
 
+    // Твой токен Ion
     Cesium.Ion.defaultAccessToken =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxNGJlYzY3MS0wNzg0LTRhMTYtYTg4ZS0wZDk2Njk4MmJkODAiLCJpZCI6MzYzOTE1LCJpYXQiOjE3NjQxMTY4MTd9.mB7rmSUqh2vbP7RDT5B2nQMtOOoRNX0U1e3Z09v5ILM";
 
+    // ==== КНОПКА НАЗАД ====
     var backBtn = document.getElementById("space-back-btn");
-
     function goBack() {
         window.location.href = "index.html#work";
     }
-
     if (backBtn) {
         backBtn.addEventListener("click", goBack);
     }
 
+    // ==== НОРМАЛЬНАЯ ЗЕМЛЯ ЧЕРЕЗ ION ====
+    var imagery = new Cesium.IonImageryProvider({
+        assetId: 2     // стандартная текстура Земли
+    });
+
     var viewer = new Cesium.Viewer("cesiumContainer", {
-        imageryProvider: new Cesium.IonImageryProvider({ assetId: 2 }),
-        terrain: undefined,
+        imageryProvider: imagery,
+        terrainProvider: new Cesium.EllipsoidTerrainProvider(),
 
         animation: false,
         timeline: false,
@@ -30,24 +38,37 @@
         selectionIndicator: false
     });
 
+    // убираем кредиты
     try {
         viewer._cesiumWidget._creditContainer.style.display = "none";
     } catch (e) {}
 
     var scene = viewer.scene;
+    var camera = viewer.camera;
+
+    // Немного красоты
     scene.globe.enableLighting = true;
     scene.skyAtmosphere.show = true;
     scene.skyBox.show = true;
+    scene.backgroundColor = Cesium.Color.BLACK;
 
-    viewer.camera.flyTo({
+    // Ограничения по зуму, чтобы не улетать в ад
+    var controller = scene.screenSpaceCameraController;
+    controller.minimumZoomDistance = 200000;      // 200 км
+    controller.maximumZoomDistance = 30000000;    // 30 000 км
+
+    // Стартовый обзор Европы
+    camera.flyTo({
         destination: Cesium.Cartesian3.fromDegrees(10, 50, 15000000),
         duration: 0
     });
 
+    // Отключаем дефолтный double-click зум
     viewer.screenSpaceEventHandler.removeInputAction(
         Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK
     );
 
+    // ==== ГОРОДА ====
     var CITY_DATA = [
         { name: "Bad Kreuznach", lat: 49.8454, lon: 7.8670 },
         { name: "Mainz",        lat: 49.9929, lon: 8.2473 },
@@ -95,39 +116,42 @@
         });
     });
 
+    // ==== ДВОЙНОЙ КЛИК: ФОКУС НА ГОРОД / ТОЧКУ ====
     var handler = new Cesium.ScreenSpaceEventHandler(viewer.canvas);
 
     handler.setInputAction(function (click) {
         var picked = scene.pick(click.position);
 
+        // клик по городу
         if (picked && picked.id && picked.id.position) {
             var pos = picked.id.position.getValue(Cesium.JulianDate.now());
             var cartographic = Cesium.Cartographic.fromCartesian(pos);
             var lat = Cesium.Math.toDegrees(cartographic.latitude);
             var lon = Cesium.Math.toDegrees(cartographic.longitude);
 
-            viewer.camera.flyTo({
-                destination: Cesium.Cartesian3.fromDegrees(lon, lat, 900000),
+            camera.flyTo({
+                destination: Cesium.Cartesian3.fromDegrees(lon, lat, 450000),
                 duration: 0.9
             });
-
             return;
         }
 
+        // клик по земле
         var ellipsoid = scene.globe.ellipsoid;
-        var cartesian = viewer.camera.pickEllipsoid(click.position, ellipsoid);
+        var cartesian = camera.pickEllipsoid(click.position, ellipsoid);
         if (!cartesian) return;
 
-        var cartographic = ellipsoid.cartesianToCartographic(cartesian);
-        var lat = Cesium.Math.toDegrees(cartographic.latitude);
-        var lon = Cesium.Math.toDegrees(cartographic.longitude);
+        var cartographic2 = ellipsoid.cartesianToCartographic(cartesian);
+        var lat2 = Cesium.Math.toDegrees(cartographic2.latitude);
+        var lon2 = Cesium.Math.toDegrees(cartographic2.longitude);
 
-        viewer.camera.flyTo({
-            destination: Cesium.Cartesian3.fromDegrees(lon, lat, 1600000),
+        camera.flyTo({
+            destination: Cesium.Cartesian3.fromDegrees(lon2, lat2, 1200000),
             duration: 0.9
         });
     }, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
 
+    // ESC → назад
     window.addEventListener("keydown", function (e) {
         if (e.key === "Escape") goBack();
     });
