@@ -4,7 +4,7 @@
         return;
     }
 
-    // Токен пусть остаётся — пригодится, если потом захочешь Ion-ассеты
+    // твой токен Ion
     Cesium.Ion.defaultAccessToken =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxNGJlYzY3MS0wNzg0LTRhMTYtYTg4ZS0wZDk2Njk4MmJkODAiLCJpZCI6MzYzOTE1LCJpYXQiOjE3NjQxMTY4MTd9.mB7rmSUqh2vbP7RDT5B2nQMtOOoRNX0U1e3Z09v5ILM";
 
@@ -14,16 +14,9 @@
         if (el.dataset.ready) return;
         el.dataset.ready = "1";
 
-        // ===== ТОЛЬКО ЭТО ГЛАВНОЕ: даём нормальную карту =====
-        // Берём обычные тайлы OpenStreetMap — без Ion, без createWorldImagery
-        var imagery = new Cesium.UrlTemplateImageryProvider({
-            url: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-            credit: ""
-        });
-
+        // создаём viewer БЕЗ дефолтного слоя — будем добавлять свой
         var viewer = new Cesium.Viewer(el, {
-            imageryProvider: imagery,
-            terrainProvider: new Cesium.EllipsoidTerrainProvider(), // без world terrain
+            imageryProvider: false,
             baseLayerPicker: false,
             geocoder: false,
             homeButton: false,
@@ -38,20 +31,31 @@
 
         el._viewer = viewer;
 
-        var scene = viewer.scene;
+        var scene  = viewer.scene;
         var camera = viewer.camera;
 
-        // Фон и атмосфера
+        // === ВОТ ТУТ ПОДКЛЮЧАЕМ ЗЕМЛЮ ЧЕРЕЗ ION ===
+        var layers = viewer.imageryLayers;
+        layers.removeAll(); // на всякий случай
+
+        layers.addImageryProvider(
+            new Cesium.IonImageryProvider({
+                assetId: 2   // стандартная земная текстура (Bing / World Imagery)
+            })
+        );
+        // =========================================
+
+        // оформление сцены
         scene.skyBox = null;
         scene.skyAtmosphere.show = false;
         scene.fog.enabled = false;
         scene.globe.enableLighting = true;
         scene.backgroundColor = Cesium.Color.TRANSPARENT;
 
-        // НИЧЕГО НЕ МЕНЯЕМ в логике размера шара
-        camera.frustum.fov = Cesium.Math.toRadians(24);
+        // НИЧЕГО не ломаем по камере: просто ставим шар в центр твоего круга
+        camera.frustum.fov  = Cesium.Math.toRadians(24);
         camera.frustum.near = 1.0;
-        camera.frustum.far = 1e8;
+        camera.frustum.far  = 1e8;
 
         var distance = 9000000.0;
         camera.setView({
@@ -65,7 +69,7 @@
         controller.minimumZoomDistance = distance;
         controller.maximumZoomDistance = distance;
 
-        // Авто-вращение
+        // авто-вращение (как было)
         var last = performance.now();
         scene.preRender.addEventListener(function () {
             var now = performance.now();
@@ -74,15 +78,15 @@
             camera.rotate(Cesium.Cartesian3.UNIT_Z, dt * 0.12);
         });
 
-        // Клик по мини-глобусу → полная карта
+        // клик по глобусу → space.html
         el.addEventListener("click", function () {
             window.location.href = "space.html";
         });
 
-        // Прячем кредиты Cesium
+        // спрятать кредиты Cesium
         try {
             viewer._cesiumWidget._creditContainer.style.display = "none";
-        } catch (e) {}
+        } catch (e) { /* пофиг */ }
     }
 
     if (document.readyState === "loading") {
