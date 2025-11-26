@@ -5,12 +5,12 @@
     <title>LVS – Autonomous Value Layer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- CesiumJS только один раз -->
+    <!-- CesiumJS для мини-глобуса -->
     <link rel="stylesheet"
           href="https://unpkg.com/cesium@1.123.0/Build/Cesium/Widgets/widgets.css">
     <script src="https://unpkg.com/cesium@1.123.0/Build/Cesium/Cesium.js"></script>
 
-    <!-- Наши стили -->
+    <!-- Стили сайта -->
     <link rel="stylesheet" href="assets/lvs.css">
 </head>
 <body>
@@ -18,7 +18,7 @@
 <header class="lvs-navtop">
     <div class="lvs-navtop-left">
         <img class="lvs-navtop-logo"
-             src="https://raw.githubusercontent.com/VOVAN1980/lvs.network/main/assets/logo/lvs-logo.png"
+             src="assets/img/lvs-logo.png"
              alt="LVS logo">
         <span>Living Value System</span>
     </div>
@@ -28,13 +28,12 @@
         <a href="me.html" class="lvs-navtop-btn">Мой кабинет</a>
         <a href="market.html" class="lvs-navtop-btn">Работа и задания</a>
         <a href="about.html" class="lvs-navtop-btn">О LVS</a>
-        <a href="/docs" class="lvs-navtop-btn">Документы</a>
         <a href="space.html" class="lvs-navtop-btn">Full world map</a>
     </nav>
 </header>
 
 <main class="lvs-layout">
-    <section class="lvs-hero-globe">
+    <section class="lvs-hero-globe" id="work">
         <!-- LEFT -->
         <div class="lvs-hero-left">
             <div class="lvs-pill">LVS / GLOBAL WORK MAP</div>
@@ -67,7 +66,7 @@
             </div>
         </div>
 
-        <!-- RIGHT: MINI GLOBE В КРУГЕ -->
+        <!-- RIGHT: мини-глобус в круге -->
         <div class="lvs-hero-right">
             <div class="lvs-globe-wrapper">
                 <div id="miniGlobe" class="lvs-globe-canvas"></div>
@@ -92,11 +91,12 @@
         <a href="#">Terms of use</a>
         <a href="#">Legal</a>
         <a href="#">Contacts</a>
-        <a href="https://github.com/VOVAN1980/lvs.network" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://github.com/VOVAN1980" target="_blank" rel="noopener">GitHub</a>
     </div>
 </footer>
 
-<!-- Лёгкий мини-глобус -->
+<!-- Мини-глобус -->
 <script src="assets/lvs-hero-globe.js"></script>
+
 </body>
 </html>
