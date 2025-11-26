@@ -242,32 +242,27 @@ button {
     gap: 24px;
 }
 
+/* ОДИН круг-контейнер, в него кладём Землю */
 .lvs-globe-wrapper {
     position: relative;
-    width: 460px;       /* диаметр чёрного круга */
+    width: 460px;        /* размер мини-глобуса */
     max-width: 100%;
     aspect-ratio: 1 / 1;
     border-radius: 50%;
-    background: radial-gradient(circle at 30% 20%, #050814, #000 72%);
-    box-shadow:
-        0 0 0 40px #000,                          /* толстая чёрная рамка */
-        0 0 90px rgba(0, 0, 0, 0.9);             /* мягкое свечение */
-    display: flex;
-    align-items: center;
-    justify-content: center;
     overflow: hidden;
+
+    /* один чёрный диск + лёгкое свечение */
+    background: #000;
+    box-shadow: 0 0 90px rgba(0, 0, 0, 0.9);
 }
 
-/* внутренняя область для шарика */
+/* сам div с id="miniGlobe" занимает ВСЮ область контейнера */
 .lvs-globe-canvas {
-    width: 88%;
-    height: 88%;
-    border-radius: 50%;
-    overflow: hidden;
-    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
-/* сам canvas от Cesium — жестко в круг */
+/* канвас Cesium плотно в круге */
 .lvs-globe-canvas canvas {
     width: 100% !important;
     height: 100% !important;
@@ -275,7 +270,7 @@ button {
     display: block;
 }
 
-/* остальное можно оставить как было */
+/* остальное оставляем */
 .lvs-card-globe-note {
     margin-top: 32px;
     padding: 14px 16px 12px;
@@ -371,4 +366,5 @@ button {
         gap: 6px;
     }
 }
+
 
