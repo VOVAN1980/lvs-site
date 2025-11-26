@@ -1,8 +1,9 @@
+// assets/space/space.js
+
 (async function () {
     if (typeof Cesium === "undefined") return;
-    }
 
-    // Твой токен Ion
+    // Твой Ion-токен
     Cesium.Ion.defaultAccessToken =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxNGJlYzY3MS0wNzg0LTRhMTYtYTg4ZS0wZDk2Njk4MmJkODAiLCJpZCI6MzYzOTE1LCJpYXQiOjE3NjQxMTY4MTd9.mB7rmSUqh2vbP7RDT5B2nQMtOOoRNX0U1e3Z09v5ILM";
 
@@ -11,12 +12,9 @@
     function goBack() {
         window.location.href = "index.html#work";
     }
-    if (backBtn) {
-        backBtn.addEventListener("click", goBack);
-    }
+    if (backBtn) backBtn.addEventListener("click", goBack);
 
-    // ==== НОРМАЛЬНАЯ ЗЕМЛЯ ЧЕРЕЗ ION ====
-        // --- создаём viewer БЕЗ начального слоя ---
+    // ==== СОЗДАЁМ VIEWER БЕЗ СЛОЁВ ====
     var viewer = new Cesium.Viewer("cesiumContainer", {
         imageryProvider: false,
         terrain: undefined,
@@ -33,12 +31,15 @@
         selectionIndicator: false
     });
 
-    // прячем копирайт как было
+    // Прячем кредиты
     try {
         viewer._cesiumWidget._creditContainer.style.display = "none";
     } catch (e) {}
 
-    // --- ВОТ ТУТ реально грузим Землю через твой токен ---
+    var scene  = viewer.scene;
+    var camera = viewer.camera;
+
+    // ==== ПОДКЛЮЧАЕМ ЗЕМЛЮ ИЗ ION (assetId = 2) ====
     try {
         const worldImagery = await Cesium.IonImageryProvider.fromAssetId(2);
         const layers = viewer.imageryLayers;
@@ -48,41 +49,14 @@
         console.error("Ion imagery load error", e);
     }
 
-    var scene = viewer.scene;
-    scene.globe.enableLighting = true;
-    scene.skyAtmosphere.show = true;
-    scene.skyBox.show = true;
-
-    viewer.camera.flyTo({
-        destination: Cesium.Cartesian3.fromDegrees(10, 50, 15000000),
-        duration: 0
-    });
-
-// ЯВНО навешиваем слой Земли из Ion (assetId: 2)
-var layers = viewer.imageryLayers;
-layers.removeAll();
-layers.addImageryProvider(
-    new Cesium.IonImageryProvider({ assetId: 2 })
-);
-
-    // убираем кредиты
-    try {
-        viewer._cesiumWidget._creditContainer.style.display = "none";
-    } catch (e) {}
-
-    var scene = viewer.scene;
-    var camera = viewer.camera;
-
     // Немного красоты
     scene.globe.enableLighting = true;
-    scene.skyAtmosphere.show = true;
-    scene.skyBox.show = true;
-    scene.backgroundColor = Cesium.Color.BLACK;
+    scene.skyAtmosphere.show   = true;
+    scene.skyBox.show          = true;
+    scene.backgroundColor      = Cesium.Color.BLACK;
 
-    // Ограничения по зуму, чтобы не улетать в ад
-    var controller = scene.screenSpaceCameraController;
-    controller.minimumZoomDistance = 200000;      // 200 км
-    controller.maximumZoomDistance = 30000000;    // 30 000 км
+    // БЕЗ ограничений по зуму — вернул свободу
+    // (если захочешь – добавим min/max отдельно)
 
     // Стартовый обзор Европы
     camera.flyTo({
@@ -90,7 +64,7 @@ layers.addImageryProvider(
         duration: 0
     });
 
-    // Отключаем дефолтный double-click зум
+    // Отключаем дефолтный double-click
     viewer.screenSpaceEventHandler.removeInputAction(
         Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK
     );
