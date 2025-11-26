@@ -1,80 +1,81 @@
-// MINI-GLOBE — версия для старого Cesium (GitHub Pages)
-
+// assets/lvs-hero-globe.js
 (function () {
-    if (typeof Cesium === "undefined") return;
+  // Cesium ещё не загрузился – тихо выходим
+  if (!window.Cesium) return;
 
-    const container = document.getElementById("miniGlobe");
-    if (!container) return;
+  // Твой токен Cesium Ion
+  Cesium.Ion.defaultAccessToken =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxNGJlYzY3MS0wNzg0LTRhMTYtYTg4ZS0wZDk2Njk4MmJkODAiLCJpZCI6MzYzOTE1LCJpYXQiOjE3NjQxMTY4MTd9.mB7rmSUqh2vbP7RDT5B2nQMtOOoRNX0U1e3Z09v5ILM";
 
-    Cesium.Ion.defaultAccessToken =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxNGJlYzY3MS0wNzg0LTRhMTYtYTg4ZS0wZDk2Njk4MmJkODAiLCJpZCI6MzYzOTE1LCJpYXQiOjE3NjQxMTY4MTd9.mB7rmSUqh2vbP7RDT5B2nQMtOOoRNX0U1e3Z09v5ILM";
+  const container = document.getElementById("hero-globe");
+  if (!container) return;
 
+  const viewer = new Cesium.Viewer(container, {
+    animation: false,
+    timeline: false,
+    homeButton: false,
+    geocoder: false,
+    baseLayerPicker: false,
+    sceneModePicker: false,
+    navigationHelpButton: false,
+    fullscreenButton: false,
+    selectionIndicator: false,
+    infoBox: false,
+    // меньше жрём ресурсов
+    requestRenderMode: true,
+    maximumRenderTimeChange: Number.POSITIVE_INFINITY,
+  });
 
-    // === ВАЖНО ===
-    // Никаких createWorldTerrain и createWorldImagery.
-    // Используем стандартный ProviderViewModel, который есть даже в самых старых сборках.
-    const viewer = new Cesium.Viewer(container, {
-        imageryProvider: new Cesium.IonImageryProvider({
-            assetId: 2  // Стандартное спутниковое изображение
-        }),
+  // Прозрачный фон – чтобы был только шар
+  viewer.scene.backgroundColor = Cesium.Color.TRANSPARENT;
 
-        // Terrain отключаем полностью (старый Cesium не поддерживает новый API)
-        terrainProvider: new Cesium.EllipsoidTerrainProvider(),
+  const globe = viewer.scene.globe;
+  globe.enableLighting = true;
+  globe.showGroundAtmosphere = true;
 
-        animation: false,
-        timeline: false,
-        baseLayerPicker: false,
-        geocoder: false,
-        homeButton: false,
-        sceneModePicker: false,
-        navigationHelpButton: false,
-        fullscreenButton: false,
-        infoBox: false,
-        selectionIndicator: false,
-        shouldAnimate: true
-    });
+  // ✅ Главное: включаем настоящую Землю, а не синий шар
+  const layers = viewer.imageryLayers;
+  layers.removeAll();
+  layers.addImageryProvider(
+    new Cesium.IonImageryProvider({
+      assetId: 3, // стандартный глобус Bing от Cesium
+    })
+  );
 
-    const scene = viewer.scene;
+  // Камера – чтобы шар ровно сидел в круге
+  const R = globe.ellipsoid.maximumRadius;
+  const distance = 2.1 * R;
 
-    // скрыть кредиты
-    viewer._cesiumWidget._creditContainer.style.display = "none";
+  viewer.camera.setView({
+    destination: new Cesium.Cartesian3(0.0, 0.0, distance),
+    orientation: {
+      heading: Cesium.Math.toRadians(-35.0),
+      pitch: Cesium.Math.toRadians(-20.0),
+      roll: 0.0,
+    },
+  });
 
-    // включить свет
-    scene.globe.enableLighting = true;
+  // Отключаем зум/пан – только красивое авто-вращение
+  const ssc = viewer.scene.screenSpaceCameraController;
+  ssc.enableZoom = false;
+  ssc.enableTranslate = false;
+  ssc.enableTilt = false;
+  ssc.enableLook = false;
+  ssc.rotateEventTypes = [];
+  ssc.tiltEventTypes = [];
 
-    // ограничиваем управление камерой — ГЛОБУС СТОИТ ЧЁТКО В КРУГЕ
-    const ctrl = scene.screenSpaceCameraController;
-    ctrl.enableRotate = false;
-    ctrl.enableZoom = false;
-    ctrl.enableTilt = false;
-    ctrl.enableTranslate = false;
-    ctrl.enableLook = false;
+  // Плавное вращение Земли
+  const spinPerSecond = Cesium.Math.toRadians(5.0);
 
-    // фиксируем камеру
-    viewer.camera.setView({
-        destination: Cesium.Cartesian3.fromDegrees(20.0, 10.0, 11000000.0)
-    });
+  viewer.clock.shouldAnimate = true;
+  viewer.clock.multiplier = 1.0;
 
-    // отключаем двойной клик
-    viewer.screenSpaceEventHandler.removeInputAction(
-        Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK
-    );
+  viewer.scene.postRender.addEventListener(function () {
+    const dt = viewer.clock.deltaTime; // секунды
+    viewer.camera.rotate(Cesium.Cartesian3.UNIT_Z, -spinPerSecond * dt);
+    viewer.scene.requestRender();
+  });
 
-    // авто-вращение
-    let last = viewer.clock.currentTime.clone();
-    const rate = 0.02;
-
-    viewer.clock.onTick.addEventListener((clock) => {
-        let now = clock.currentTime;
-        let delta = Cesium.JulianDate.secondsDifference(now, last);
-        last = now;
-
-        viewer.camera.rotate(Cesium.Cartesian3.UNIT_Z, -rate * delta);
-    });
-
-    // по клику → space.html
-    container.style.cursor = "pointer";
-    container.addEventListener("click", () => {
-        window.location.href = "space.html";
-    });
+  // Первый рендер
+  viewer.scene.requestRender();
 })();
