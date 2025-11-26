@@ -18,25 +18,29 @@
     }
 
     // ==== НОРМАЛЬНАЯ ЗЕМЛЯ ЧЕРЕЗ ION ====
-    var imagery = new Cesium.IonImageryProvider({
-        assetId: 2     // стандартная текстура Земли
-    });
-
     var viewer = new Cesium.Viewer("cesiumContainer", {
-        imageryProvider: imagery,
-        terrainProvider: new Cesium.EllipsoidTerrainProvider(),
+    // сначала без базового слоя, просто голый шар
+    imageryProvider: false,
+    terrain: undefined,
 
-        animation: false,
-        timeline: false,
-        fullscreenButton: false,
-        geocoder: false,
-        homeButton: false,
-        sceneModePicker: false,
-        baseLayerPicker: false,
-        navigationHelpButton: false,
-        infoBox: false,
-        selectionIndicator: false
-    });
+    animation: false,
+    timeline: false,
+    fullscreenButton: false,
+    geocoder: false,
+    homeButton: false,
+    sceneModePicker: false,
+    baseLayerPicker: false,
+    navigationHelpButton: false,
+    infoBox: false,
+    selectionIndicator: false
+});
+
+// ЯВНО навешиваем слой Земли из Ion (assetId: 2)
+var layers = viewer.imageryLayers;
+layers.removeAll();
+layers.addImageryProvider(
+    new Cesium.IonImageryProvider({ assetId: 2 })
+);
 
     // убираем кредиты
     try {
