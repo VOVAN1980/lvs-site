@@ -4,7 +4,6 @@
         return;
     }
 
-    // Токен пусть остаётся — на него похуй сейчас
     Cesium.Ion.defaultAccessToken =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxNGJlYzY3MS0wNzg0LTRhMTYtYTg4ZS0wZDk2Njk4MmJkODAiLCJpZCI6MzYzOTE1LCJpYXQiOjE3NjQxMTY4MTd9.mB7rmSUqh2vbP7RDT5B2nQMtOOoRNX0U1e3Z09v5ILM";
 
@@ -14,11 +13,10 @@
         if (el.dataset.ready) return;
         el.dataset.ready = "1";
 
-        // === ВОТ ЭТО ГЛАВНОЕ: даём НОРМАЛЬНУЮ ЗЕМЛЮ ===
-        var imagery = Cesium.createWorldImagery({
-            style: Cesium.IonWorldImageryStyle.AERIAL
+        // <<<=== ЭТО ЕДИНСТВЕННАЯ ВАЖНАЯ ЧАСТЬ ===>>>
+        var imagery = new Cesium.IonImageryProvider({
+            assetId: 3   // Natural Earth II — идеальная текстура Земли
         });
-        // ==================================================
 
         var viewer = new Cesium.Viewer(el, {
             imageryProvider: imagery,
@@ -40,14 +38,12 @@
         var scene = viewer.scene;
         var camera = viewer.camera;
 
-        // Фон и атмосфера
         scene.skyBox = null;
         scene.skyAtmosphere.show = false;
         scene.fog.enabled = false;
         scene.globe.enableLighting = true;
         scene.backgroundColor = Cesium.Color.TRANSPARENT;
 
-        // Размер шара — НЕ ТРОГАЕМ
         camera.frustum.fov = Cesium.Math.toRadians(24);
         camera.frustum.near = 1.0;
         camera.frustum.far = 1e8;
@@ -64,7 +60,6 @@
         controller.minimumZoomDistance = distance;
         controller.maximumZoomDistance = distance;
 
-        // Автовращение
         var last = performance.now();
         scene.preRender.addEventListener(function () {
             var now = performance.now();
@@ -73,12 +68,10 @@
             camera.rotate(Cesium.Cartesian3.UNIT_Z, dt * 0.12);
         });
 
-        // Клик → полная карта
         el.addEventListener("click", function () {
             window.location.href = "space.html";
         });
 
-        // Прячем кредиты
         try {
             viewer._cesiumWidget._creditContainer.style.display = "none";
         } catch (e) {}
