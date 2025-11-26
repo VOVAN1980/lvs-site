@@ -49,7 +49,7 @@
         camera.frustum.near = 1.0;
         camera.frustum.far  = 1e8;
 
-        const distance = 9000000.0;
+        const distance = 18 500 000
 
         camera.setView({
             destination: Cesium.Cartesian3.fromDegrees(10.0, 15.0, distance)
