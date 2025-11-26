@@ -24,7 +24,7 @@ body {
     padding: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden; /* чистый экран без прокрутки */
+    overflow: hidden; /* чистый экран */
 }
 
 body {
@@ -32,17 +32,17 @@ body {
     display: flex;
     flex-direction: column;
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI",
-                 Roboto, system-ui, sans-serif;
+    Roboto, system-ui, sans-serif;
     color: var(--text-main);
     background:
-        radial-gradient(circle at 10% 0%, rgba(60, 114, 255, 0.25), transparent 55%),
-        radial-gradient(circle at 90% 100%, rgba(72, 224, 155, 0.25), transparent 55%),
-        radial-gradient(circle at 50% 120%, #05060d, #02030a);
+            radial-gradient(circle at 10% 0%, rgba(60, 114, 255, 0.25), transparent 55%),
+            radial-gradient(circle at 90% 100%, rgba(72, 224, 155, 0.25), transparent 55%),
+            radial-gradient(circle at 50% 120%, #05060d, #02030a);
     background-color: var(--bg-main);
     position: relative;
 }
 
-/* космический слой звёзд */
+/* звёзды */
 
 body::before {
     content: "";
@@ -50,12 +50,12 @@ body::before {
     inset: 0;
     pointer-events: none;
     background-image:
-        radial-gradient(1px 1px at 14% 22%, rgba(255,255,255,0.55), transparent),
-        radial-gradient(1px 1px at 80% 30%, rgba(255,255,255,0.65), transparent),
-        radial-gradient(1px 1px at 30% 78%, rgba(255,255,255,0.40), transparent),
-        radial-gradient(2px 2px at 60% 60%, rgba(255,255,255,0.45), transparent),
-        radial-gradient(1px 1px at 92% 70%, rgba(255,255,255,0.80), transparent),
-        radial-gradient(1px 1px at 50% 10%, rgba(255,255,255,0.25), transparent);
+            radial-gradient(1px 1px at 14% 22%, rgba(255,255,255,0.55), transparent),
+            radial-gradient(1px 1px at 80% 30%, rgba(255,255,255,0.65), transparent),
+            radial-gradient(1px 1px at 30% 78%, rgba(255,255,255,0.40), transparent),
+            radial-gradient(2px 2px at 60% 60%, rgba(255,255,255,0.45), transparent),
+            radial-gradient(1px 1px at 92% 70%, rgba(255,255,255,0.80), transparent),
+            radial-gradient(1px 1px at 50% 10%, rgba(255,255,255,0.25), transparent);
     opacity: 0.45;
     animation: lvs-stars-move 68s linear infinite;
     z-index: -1;
@@ -137,9 +137,9 @@ button {
     max-width: 1240px;
     margin: 0 auto;
     padding: 32px 24px 40px;
-    flex: 1; /* между хедером и футером */
+    flex: 1;
     display: flex;
-    align-items: center; /* вертикально центрируем hero */
+    align-items: center;
 }
 
 /* ========= HERO ========= */
@@ -221,8 +221,6 @@ button {
     color: var(--text-main);
 }
 
-/* Hero stats */
-
 .lvs-hero-stats {
     margin-top: 18px;
     display: flex;
@@ -248,7 +246,6 @@ button {
     align-items: center;
 }
 
-/* круг-контейнер под глобус */
 .lvs-globe-wrapper {
     position: relative;
     width: 100%;
@@ -257,17 +254,15 @@ button {
     border-radius: 999px;
     background: radial-gradient(circle at 50% 35%, rgba(0,0,0,0.3), rgba(0,0,0,1));
     box-shadow:
-        0 0 80px rgba(0, 0, 0, 0.95),
-        0 0 80px rgba(62, 166, 255, 0.25);
-    overflow: hidden; /* Cesium остаётся строго в круге */
+            0 0 80px rgba(0, 0, 0, 0.95),
+            0 0 80px rgba(62, 166, 255, 0.25);
+    overflow: hidden; /* Cesium строго в круге */
 }
 
 .lvs-globe-canvas {
     width: 100%;
     height: 100%;
 }
-
-/* карточка под глобусом */
 
 .lvs-card-globe-note {
     margin-top: 32px;
@@ -319,20 +314,6 @@ button {
 .lvs-footer a:hover {
     color: var(--text-main);
     opacity: 1;
-}
-
-/* ========= MINI GLOBE CESIUM UI ========= */
-
-#miniGlobe .cesium-viewer-toolbar,
-#miniGlobe .cesium-viewer-animationContainer,
-#miniGlobe .cesium-viewer-timelineContainer,
-#miniGlobe .cesium-viewer-fullscreenContainer {
-    display: none !important;
-}
-
-#miniGlobe .cesium-widget,
-#miniGlobe .cesium-viewer {
-    background: transparent !important;
 }
 
 /* ========= RESPONSIVE ========= */
