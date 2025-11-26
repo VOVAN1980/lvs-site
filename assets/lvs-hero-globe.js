@@ -1,94 +1,71 @@
 // assets/lvs-hero-globe.js
-
 (function () {
-  // 1) Проверяем, что Cesium есть
-  if (typeof Cesium === "undefined") {
-    console.warn("Cesium is not available for mini globe");
-    return;
-  }
-
-  // 2) Твой ion-токен (который ты дал выше)
-  Cesium.Ion.defaultAccessToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxNGJlYzY3MS0wNzg0LTRhMTYtYTg4ZS0wZDk2Njk4MmJkODAiLCJpZCI6MzYzOTE1LCJpYXQiOjE3NjQxMTY4MTd9.mB7rmSUqh2vbP7RDT5B2nQMtOOoRNX0U1e3Z09v5ILM";
-
-  function initMiniGlobe() {
-    var container = document.getElementById("miniGlobe");
-    if (!container) return;
-
-    // Чтобы не создавать viewer по 10 раз
-    if (container.dataset.lvsGlobeInit === "1") return;
-    container.dataset.lvsGlobeInit = "1";
-
-    // На всякий случай задаём размеры, если браузер решит, что это 0x0
-    var rect = container.getBoundingClientRect();
-    if (rect.width < 10 || rect.height < 10) {
-      container.style.minWidth = "260px";
-      container.style.minHeight = "260px";
-    }
-
-    // 3) Создаём мини-viewer только с текстурой Земли
-    var viewer = new Cesium.Viewer(container, {
-      imageryProvider: new Cesium.IonImageryProvider({ assetId: 2 }), // World imagery
-      terrain: false,                 // Никакого террейна — меньше шансов на баг
-      animation: false,
-      timeline: false,
-      geocoder: false,
-      baseLayerPicker: false,
-      homeButton: false,
-      sceneModePicker: false,
-      navigationHelpButton: false,
-      fullscreenButton: false,
-      infoBox: false,
-      selectionIndicator: false,
-      shouldAnimate: true
-    });
-
-    container._lvsViewer = viewer;
-
-    var scene = viewer.scene;
-    scene.backgroundColor = Cesium.Color.TRANSPARENT;
-    scene.globe.enableLighting = true;
-    scene.highDynamicRange = false;
-
-    // Убираем кредиты Cesium
-    try {
-      viewer._cesiumWidget._creditContainer.style.display = "none";
-    } catch (e) {
-      /* не страшно */
-    }
-
-    // Камера — так, чтобы шар ровно сидел в круге
-    viewer.camera.setView({
-      destination: Cesium.Cartesian3.fromDegrees(15.0, 20.0, 6.2e7)
-    });
-
-    // Лёгкое автоворощение вокруг оси Z
-    var lastTime;
-    var spinRate = Cesium.Math.toRadians(5.0) / 60.0; // ~5° в сек
-
-    scene.preRender.addEventListener(function (_scene, time) {
-      if (!Cesium.defined(lastTime)) {
-        lastTime = time.secondsOfDay;
+    if (typeof Cesium === "undefined") {
+        console.warn("Cesium not loaded");
         return;
-      }
+    }
 
-      var delta = time.secondsOfDay - lastTime;
-      lastTime = time.secondsOfDay;
+    Cesium.Ion.defaultAccessToken =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxNGJlYzY3MS0wNzg0LTRhMTYtYTg4ZS0wZDk2Njk4MmJkODAiLCJpZCI6MzYzOTE1LCJpYXQiOjE3NjQxMTY4MTd9.mB7rmSUqh2vbP7RDT5B2nQMtOOoRNX0U1e3Z09v5ILM";
 
-      if (delta <= 0 || delta > 10) return; // защита от скачков времени
+    function init() {
+        const el = document.getElementById("miniGlobe");
+        if (!el) return;
+        if (el.dataset.init) return;
+        el.dataset.init = "1";
 
-      viewer.camera.rotate(Cesium.Cartesian3.UNIT_Z, spinRate * delta);
-    });
+        // 1 — создаём минимальный viewer БЕЗ лишних параметров
+        const viewer = new Cesium.Viewer(el, {
+            imageryProvider: Cesium.createWorldImagery({
+                style: Cesium.IonWorldImageryStyle.AERIAL_WITH_LABELS
+            }),
+            baseLayerPicker: false,
+            geocoder: false,
+            homeButton: false,
+            sceneModePicker: false,
+            navigationHelpButton: false,
+            animation: false,
+            timeline: false,
+            fullscreenButton: false,
+            infoBox: false,
+            selectionIndicator: false
+        });
 
-    // Клик по мини-глобусу -> полная карта
-    container.addEventListener("click", function () {
-      window.location.href = "space.html";
-    });
-  }
+        el._viewer = viewer;
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initMiniGlobe);
-  } else {
-    initMiniGlobe();
-  }
+        // 2 — отключаем атмосферу, туман, всё что даёт ошибки
+        viewer.scene.globe.enableLighting = true;
+        viewer.scene.skyAtmosphere.show = false;
+        viewer.scene.fog.enabled = false;
+        viewer.scene.light = new Cesium.SunLight();
+
+        // 3 — центрируем земной шар
+        viewer.camera.setView({
+            destination: Cesium.Cartesian3.fromDegrees(10, 20, 60000000)
+        });
+
+        // 4 — авто-вращение (стабильно работает)
+        let last = performance.now();
+        viewer.scene.preRender.addEventListener(() => {
+            const now = performance.now();
+            const dt = (now - last) / 1000;
+            last = now;
+            viewer.camera.rotate(Cesium.Cartesian3.UNIT_Z, dt * 0.1);
+        });
+
+        // 5 — клик → space.html
+        el.addEventListener("click", () => {
+            location.href = "space.html";
+        });
+
+        // 6 — прячем кредиты
+        try {
+            viewer._cesiumWidget._creditContainer.style.display = "none";
+        } catch (e) {}
+    }
+
+    if (document.readyState === "loading")
+        document.addEventListener("DOMContentLoaded", init);
+    else
+        init();
 })();
