@@ -13,9 +13,9 @@
         if (el.dataset.ready) return;
         el.dataset.ready = "1";
 
-        // ТОЛЬКО ЭТО ИЗМЕНИЛИ: берём готовую текстуру Земли
-        var imagery = Cesium.createWorldImagery({
-            style: Cesium.IonWorldImageryStyle.AERIAL
+        // Картинка Земли из Ion
+        var imagery = new Cesium.IonImageryProvider({
+            assetId: 2
         });
 
         var viewer = new Cesium.Viewer(el, {
@@ -37,17 +37,21 @@
         var scene = viewer.scene;
         var camera = viewer.camera;
 
+        // Фон и атмосфера
         scene.skyBox = null;
         scene.skyAtmosphere.show = false;
         scene.fog.enabled = false;
         scene.globe.enableLighting = true;
         scene.backgroundColor = Cesium.Color.TRANSPARENT;
 
-        camera.frustum.fov = Cesium.Math.toRadians(24);
+        // Делаем шар большим и фиксированным в рамке
+        // — маленький FOV, близкая камера, без зума пользователем
+        camera.frustum.fov = Cesium.Math.toRadians(24); // уже "телевик"
         camera.frustum.near = 1.0;
         camera.frustum.far = 1e8;
 
-        var distance = 9000000.0;
+        // Позиция камеры: немного над экватором, близко к Земле
+        var distance = 9000000.0; // подогнанная дистанция, чтобы шар почти упирался в края
         camera.setView({
             destination: Cesium.Cartesian3.fromDegrees(10.0, 15.0, distance)
         });
@@ -55,10 +59,11 @@
         var controller = scene.screenSpaceCameraController;
         controller.enableZoom = false;
         controller.enableTilt = false;
-        controller.enableRotate = true;
+        controller.enableRotate = true; // но будем крутить сами
         controller.minimumZoomDistance = distance;
         controller.maximumZoomDistance = distance;
 
+        // Авто-вращение
         var last = performance.now();
         scene.preRender.addEventListener(function () {
             var now = performance.now();
@@ -67,10 +72,12 @@
             camera.rotate(Cesium.Cartesian3.UNIT_Z, dt * 0.12);
         });
 
+        // Клик по мини-глобусу → полная карта
         el.addEventListener("click", function () {
             window.location.href = "space.html";
         });
 
+        // Прячем кредиты Cesium
         try {
             viewer._cesiumWidget._creditContainer.style.display = "none";
         } catch (e) {}
