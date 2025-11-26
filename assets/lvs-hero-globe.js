@@ -1,5 +1,4 @@
-// assets/lvs-hero-globe.js
-// MINI-GLOBE (работает на старой версии Cesium)
+// MINI-GLOBE — версия для старого Cesium (GitHub Pages)
 
 (function () {
     if (typeof Cesium === "undefined") return;
@@ -11,14 +10,16 @@
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxNGJlYzY3MS0wNzg0LTRhMTYtYTg4ZS0wZDk2Njk4MmJkODAiLCJpZCI6MzYzOTE1LCJpYXQiOjE3NjQxMTY4MTd9.mB7rmSUqh2vbP7RDT5B2nQMtOOoRNX0U1e3Z09v5ILM";
 
 
-    // ВАЖНО: старый Cesium не поддерживает createWorldImagery()
-    // поэтому используем Ion Imagery из официального ассета
+    // === ВАЖНО ===
+    // Никаких createWorldTerrain и createWorldImagery.
+    // Используем стандартный ProviderViewModel, который есть даже в самых старых сборках.
     const viewer = new Cesium.Viewer(container, {
         imageryProvider: new Cesium.IonImageryProvider({
-            assetId: 2   // Ion Satellite (Default)
+            assetId: 2  // Стандартное спутниковое изображение
         }),
 
-        terrainProvider: Cesium.createWorldTerrain(),
+        // Terrain отключаем полностью (старый Cesium не поддерживает новый API)
+        terrainProvider: new Cesium.EllipsoidTerrainProvider(),
 
         animation: false,
         timeline: false,
@@ -30,29 +31,28 @@
         fullscreenButton: false,
         infoBox: false,
         selectionIndicator: false,
-        shouldAnimate: true,
+        shouldAnimate: true
     });
 
     const scene = viewer.scene;
 
-    // скрыть кредиты Cesium
+    // скрыть кредиты
     viewer._cesiumWidget._creditContainer.style.display = "none";
 
-    // красивое освещение
+    // включить свет
     scene.globe.enableLighting = true;
 
-    // фиксируем камеру, чтобы шар всегда был в круге
+    // ограничиваем управление камерой — ГЛОБУС СТОИТ ЧЁТКО В КРУГЕ
     const ctrl = scene.screenSpaceCameraController;
+    ctrl.enableRotate = false;
     ctrl.enableZoom = false;
     ctrl.enableTilt = false;
     ctrl.enableTranslate = false;
     ctrl.enableLook = false;
 
-    ctrl.minimumZoomDistance = 11000000.0;
-    ctrl.maximumZoomDistance = 11000000.0;
-
+    // фиксируем камеру
     viewer.camera.setView({
-        destination: Cesium.Cartesian3.fromDegrees(15.0, 20.0, 11000000.0)
+        destination: Cesium.Cartesian3.fromDegrees(20.0, 10.0, 11000000.0)
     });
 
     // отключаем двойной клик
@@ -62,16 +62,17 @@
 
     // авто-вращение
     let last = viewer.clock.currentTime.clone();
-    const rate = 0.03;
+    const rate = 0.02;
 
     viewer.clock.onTick.addEventListener((clock) => {
         let now = clock.currentTime;
         let delta = Cesium.JulianDate.secondsDifference(now, last);
         last = now;
+
         viewer.camera.rotate(Cesium.Cartesian3.UNIT_Z, -rate * delta);
     });
 
-    // кликаем → space.html
+    // по клику → space.html
     container.style.cursor = "pointer";
     container.addEventListener("click", () => {
         window.location.href = "space.html";
