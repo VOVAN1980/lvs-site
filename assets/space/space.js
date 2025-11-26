@@ -1,7 +1,6 @@
 (function () {
     if (typeof Cesium === "undefined") return;
 
-    // ТВОЙ Cesium Ion токен
     Cesium.Ion.defaultAccessToken =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxNGJlYzY3MS0wNzg0LTRhMTYtYTg4ZS0wZDk2Njk4MmJkODAiLCJpZCI6MzYzOTE1LCJpYXQiOjE3NjQxMTY4MTd9.mB7rmSUqh2vbP7RDT5B2nQMtOOoRNX0U1e3Z09v5ILM";
 
@@ -15,10 +14,9 @@
         backBtn.addEventListener("click", goBack);
     }
 
-    // VIEWER
     var viewer = new Cesium.Viewer("cesiumContainer", {
         imageryProvider: new Cesium.IonImageryProvider({ assetId: 2 }),
-        terrain: undefined, // без terrain, чтобы не висло
+        terrain: undefined,
 
         animation: false,
         timeline: false,
@@ -46,12 +44,10 @@
         duration: 0
     });
 
-    // отключаем стандартный даблклик-зум
     viewer.screenSpaceEventHandler.removeInputAction(
         Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK
     );
 
-    // Города
     var CITY_DATA = [
         { name: "Bad Kreuznach", lat: 49.8454, lon: 7.8670 },
         { name: "Mainz",        lat: 49.9929, lon: 8.2473 },
@@ -99,7 +95,6 @@
         });
     });
 
-    // Двойной клик по городу — фокус камеры
     var handler = new Cesium.ScreenSpaceEventHandler(viewer.canvas);
 
     handler.setInputAction(function (click) {
@@ -119,7 +114,6 @@
             return;
         }
 
-        // клик в "пустоту"
         var ellipsoid = scene.globe.ellipsoid;
         var cartesian = viewer.camera.pickEllipsoid(click.position, ellipsoid);
         if (!cartesian) return;
@@ -134,5 +128,7 @@
         });
     }, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
 
-    // ESC → назад
-    window.addEventListener("keydow
+    window.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") goBack();
+    });
+})();
