@@ -270,7 +270,7 @@ button {
     display: block;
 
     /* уменьшаем сам шар внутри круга */
-    transform: scale(0.50);          /* можешь играться: 0.70–0.85 */
+    transform: scale(0.99);          /* можешь играться: 0.70–0.85 */
     transform-origin: center center; /* центрирование */
 }
 
@@ -370,6 +370,7 @@ button {
         gap: 6px;
     }
 }
+
 
 
 
