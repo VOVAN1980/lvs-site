@@ -1,5 +1,3 @@
-// Мини-глобус на главной (#miniGlobe)
-
 (function () {
     window.addEventListener("load", function () {
         if (typeof Cesium === "undefined") return;
@@ -7,13 +5,12 @@
         var container = document.getElementById("miniGlobe");
         if (!container) return;
 
-        // ТВОЙ Cesium Ion токен
         Cesium.Ion.defaultAccessToken =
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxNGJlYzY3MS0wNzg0LTRhMTYtYTg4ZS0wZDk2Njk4MmJkODAiLCJpZCI6MzYzOTE1LCJpYXQiOjE3NjQxMTY4MTd9.mB7rmSUqh2vbP7RDT5B2nQMtOOoRNX0U1e3Z09v5ILM";
 
         var viewer = new Cesium.Viewer(container, {
             imageryProvider: new Cesium.IonImageryProvider({ assetId: 2 }),
-            terrain: undefined, // без terrain, чтобы не душить браузер
+            terrain: undefined, // без terrain, чтобы не душило память
 
             animation: false,
             timeline: false,
@@ -34,17 +31,14 @@
         scene.skyBox.show = false;
         scene.backgroundColor = Cesium.Color.TRANSPARENT;
 
-        // стартовая позиция камеры
         viewer.camera.setView({
             destination: Cesium.Cartesian3.fromDegrees(10.0, 20.0, 15000000.0)
         });
 
-        // выключаем даблклик-зум
         viewer.screenSpaceEventHandler.removeInputAction(
             Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK
         );
 
-        // лёгкое авто-вращение
         var lastTime = viewer.clock.currentTime.clone();
         var spinRate = 0.03;
 
@@ -62,7 +56,6 @@
             );
         });
 
-        // по клику → полная карта
         container.style.cursor = "pointer";
         container.addEventListener("click", function () {
             window.location.href = "space.html";
