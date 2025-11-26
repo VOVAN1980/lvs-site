@@ -54,24 +54,24 @@
             });
         // =====================================
 
-        // ДЕЛАЕМ ГЛОБУС ПОМЕНЬШЕ ВНУТРИ ТОГО ЖЕ КРУГА
-        camera.frustum.fov  = Cesium.Math.toRadians(18);  // уже, шар меньше
-        camera.frustum.near = 1.0;
-        camera.frustum.far  = 2e8;
+        // ДЕЛАЕМ ГЛОБУС ЕЩЁ МЕНЬШЕ В ТОМ ЖЕ КРУГЕ
+camera.frustum.fov  = Cesium.Math.toRadians(14);  // уже — глобус визуально меньше
+camera.frustum.near = 1.0;
+camera.frustum.far  = 2e8;
 
-        // расстояние до центра Земли – больше = шар меньше
-        var distance = 20000000.0;
+// расстояние до центра — увеличиваем = глобус меньше
+var distance = 32000000.0;
 
-        camera.setView({
-            destination: Cesium.Cartesian3.fromDegrees(0.0, 20.0, distance)
-        });
+camera.setView({
+    destination: Cesium.Cartesian3.fromDegrees(0.0, 20.0, distance)
+});
 
-        var controller = scene.screenSpaceCameraController;
-        controller.enableZoom = false;
-        controller.enableTilt = false;
-        controller.enableRotate = true;
-        controller.minimumZoomDistance = distance;
-        controller.maximumZoomDistance = distance;
+var controller = scene.screenSpaceCameraController;
+controller.enableZoom = false;
+controller.enableTilt = false;
+controller.enableRotate = true;
+controller.minimumZoomDistance = distance;
+controller.maximumZoomDistance = distance;
 
         // авто-вращение
         var last = performance.now();
