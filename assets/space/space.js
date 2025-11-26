@@ -1,7 +1,5 @@
-(function () {
-    if (typeof Cesium === "undefined") {
-        console.error("Cesium not loaded");
-        return;
+(async function () {
+    if (typeof Cesium === "undefined") return;
     }
 
     // Твой токен Ion
@@ -18,22 +16,47 @@
     }
 
     // ==== НОРМАЛЬНАЯ ЗЕМЛЯ ЧЕРЕЗ ION ====
+        // --- создаём viewer БЕЗ начального слоя ---
     var viewer = new Cesium.Viewer("cesiumContainer", {
-    // сначала без базового слоя, просто голый шар
-    imageryProvider: false,
-    terrain: undefined,
+        imageryProvider: false,
+        terrain: undefined,
 
-    animation: false,
-    timeline: false,
-    fullscreenButton: false,
-    geocoder: false,
-    homeButton: false,
-    sceneModePicker: false,
-    baseLayerPicker: false,
-    navigationHelpButton: false,
-    infoBox: false,
-    selectionIndicator: false
-});
+        animation: false,
+        timeline: false,
+        fullscreenButton: false,
+        geocoder: false,
+        homeButton: false,
+        sceneModePicker: false,
+        baseLayerPicker: false,
+        navigationHelpButton: false,
+        infoBox: false,
+        selectionIndicator: false
+    });
+
+    // прячем копирайт как было
+    try {
+        viewer._cesiumWidget._creditContainer.style.display = "none";
+    } catch (e) {}
+
+    // --- ВОТ ТУТ реально грузим Землю через твой токен ---
+    try {
+        const worldImagery = await Cesium.IonImageryProvider.fromAssetId(2);
+        const layers = viewer.imageryLayers;
+        layers.removeAll();
+        layers.addImageryProvider(worldImagery);
+    } catch (e) {
+        console.error("Ion imagery load error", e);
+    }
+
+    var scene = viewer.scene;
+    scene.globe.enableLighting = true;
+    scene.skyAtmosphere.show = true;
+    scene.skyBox.show = true;
+
+    viewer.camera.flyTo({
+        destination: Cesium.Cartesian3.fromDegrees(10, 50, 15000000),
+        duration: 0
+    });
 
 // ЯВНО навешиваем слой Земли из Ion (assetId: 2)
 var layers = viewer.imageryLayers;
