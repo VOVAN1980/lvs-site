@@ -4,7 +4,6 @@
         return;
     }
 
-    // Твой токен
     Cesium.Ion.defaultAccessToken =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxNGJlYzY3MS0wNzg0LTRhMTYtYTg4ZS0wZDk2Njk4MmJkODAiLCJpZCI6MzYzOTE1LCJpYXQiOjE3NjQxMTY4MTd9.mB7rmSUqh2vbP7RDT5B2nQMtOOoRNX0U1e3Z09v5ILM";
 
@@ -14,9 +13,13 @@
         if (el.dataset.ready) return;
         el.dataset.ready = "1";
 
-        // === ИНИЦИАЛИЗАЦИЯ VIEWER БЕЗ ЛАЗАНИЯ В КОНТЕЙНЕРЫ ===
+        // ТОЛЬКО ЭТО ИЗМЕНИЛИ: берём готовую текстуру Земли
+        var imagery = Cesium.createWorldImagery({
+            style: Cesium.IonWorldImageryStyle.AERIAL
+        });
+
         var viewer = new Cesium.Viewer(el, {
-            // imageryProvider НЕ трогаем здесь, добавим ниже
+            imageryProvider: imagery,
             baseLayerPicker: false,
             geocoder: false,
             homeButton: false,
@@ -34,27 +37,12 @@
         var scene = viewer.scene;
         var camera = viewer.camera;
 
-        // === ПОДКЛЮЧАЕМ НОРМАЛЬНУЮ ТЕКСТУРУ ЗЕМЛИ ===
-        // Сносим дефолтные слои и вешаем Ion-имагери
-        viewer.imageryLayers.removeAll();
-        viewer.imageryLayers.addImageryProvider(
-            new Cesium.IonImageryProvider({
-                // стандартный глобальный imagery в ion
-                assetId: 3      // если вдруг будет опять синий шар – можно попробовать 2
-            })
-        );
-
-        // Фон и атмосфера
         scene.skyBox = null;
         scene.skyAtmosphere.show = false;
         scene.fog.enabled = false;
         scene.globe.enableLighting = true;
-        scene.globe.show = true;
         scene.backgroundColor = Cesium.Color.TRANSPARENT;
-        // на всякий случай база не синяя
-        scene.globe.baseColor = Cesium.Color.BLACK;
 
-        // === КАМЕРА / РАЗМЕРЫ — КАК У ТЕБЯ БЫЛО ===
         camera.frustum.fov = Cesium.Math.toRadians(24);
         camera.frustum.near = 1.0;
         camera.frustum.far = 1e8;
@@ -71,7 +59,6 @@
         controller.minimumZoomDistance = distance;
         controller.maximumZoomDistance = distance;
 
-        // авто-вращение
         var last = performance.now();
         scene.preRender.addEventListener(function () {
             var now = performance.now();
@@ -80,12 +67,10 @@
             camera.rotate(Cesium.Cartesian3.UNIT_Z, dt * 0.12);
         });
 
-        // клик по мини-глобусу → space.html
         el.addEventListener("click", function () {
             window.location.href = "space.html";
         });
 
-        // скрыть кредиты Cesium
         try {
             viewer._cesiumWidget._creditContainer.style.display = "none";
         } catch (e) {}
