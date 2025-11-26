@@ -4,6 +4,7 @@
         return;
     }
 
+    // Токен пусть остаётся — пригодится, если потом захочешь Ion-ассеты
     Cesium.Ion.defaultAccessToken =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxNGJlYzY3MS0wNzg0LTRhMTYtYTg4ZS0wZDk2Njk4MmJkODAiLCJpZCI6MzYzOTE1LCJpYXQiOjE3NjQxMTY4MTd9.mB7rmSUqh2vbP7RDT5B2nQMtOOoRNX0U1e3Z09v5ILM";
 
@@ -13,13 +14,16 @@
         if (el.dataset.ready) return;
         el.dataset.ready = "1";
 
-        // Картинка Земли из Ion
-        var imagery = new Cesium.IonImageryProvider({
-            assetId: 2
+        // ===== ТОЛЬКО ЭТО ГЛАВНОЕ: даём нормальную карту =====
+        // Берём обычные тайлы OpenStreetMap — без Ion, без createWorldImagery
+        var imagery = new Cesium.UrlTemplateImageryProvider({
+            url: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+            credit: ""
         });
 
         var viewer = new Cesium.Viewer(el, {
             imageryProvider: imagery,
+            terrainProvider: new Cesium.EllipsoidTerrainProvider(), // без world terrain
             baseLayerPicker: false,
             geocoder: false,
             homeButton: false,
@@ -44,14 +48,12 @@
         scene.globe.enableLighting = true;
         scene.backgroundColor = Cesium.Color.TRANSPARENT;
 
-        // Делаем шар большим и фиксированным в рамке
-        // — маленький FOV, близкая камера, без зума пользователем
-        camera.frustum.fov = Cesium.Math.toRadians(24); // уже "телевик"
+        // НИЧЕГО НЕ МЕНЯЕМ в логике размера шара
+        camera.frustum.fov = Cesium.Math.toRadians(24);
         camera.frustum.near = 1.0;
         camera.frustum.far = 1e8;
 
-        // Позиция камеры: немного над экватором, близко к Земле
-        var distance = 9000000.0; // подогнанная дистанция, чтобы шар почти упирался в края
+        var distance = 9000000.0;
         camera.setView({
             destination: Cesium.Cartesian3.fromDegrees(10.0, 15.0, distance)
         });
@@ -59,7 +61,7 @@
         var controller = scene.screenSpaceCameraController;
         controller.enableZoom = false;
         controller.enableTilt = false;
-        controller.enableRotate = true; // но будем крутить сами
+        controller.enableRotate = true;
         controller.minimumZoomDistance = distance;
         controller.maximumZoomDistance = distance;
 
