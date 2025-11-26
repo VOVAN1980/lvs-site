@@ -1,7 +1,6 @@
-// assets/lvs-hero-globe.js
 (function () {
     if (typeof Cesium === "undefined") {
-        console.warn("Cesium not loaded");
+        console.error("Cesium is not loaded.");
         return;
     }
 
@@ -11,14 +10,16 @@
     function init() {
         const el = document.getElementById("miniGlobe");
         if (!el) return;
-        if (el.dataset.init) return;
-        el.dataset.init = "1";
+        if (el.dataset.ready) return;
+        el.dataset.ready = "1";
 
-        // 1 — создаём минимальный viewer БЕЗ лишних параметров
+        // === ПРАВИЛЬНЫЙ СПОСОБ ДЛЯ CDN CESIUM ===
+        const imagery = new Cesium.IonImageryProvider({
+            assetId: 2 // Aerial with labels
+        });
+
         const viewer = new Cesium.Viewer(el, {
-            imageryProvider: Cesium.createWorldImagery({
-                style: Cesium.IonWorldImageryStyle.AERIAL_WITH_LABELS
-            }),
+            imageryProvider: imagery,
             baseLayerPicker: false,
             geocoder: false,
             homeButton: false,
@@ -33,18 +34,17 @@
 
         el._viewer = viewer;
 
-        // 2 — отключаем атмосферу, туман, всё что даёт ошибки
-        viewer.scene.globe.enableLighting = true;
+        // Отключаем атмосферу, оставляем чистую Землю
         viewer.scene.skyAtmosphere.show = false;
         viewer.scene.fog.enabled = false;
-        viewer.scene.light = new Cesium.SunLight();
+        viewer.scene.globe.enableLighting = true;
 
-        // 3 — центрируем земной шар
+        // Центровка камеры
         viewer.camera.setView({
             destination: Cesium.Cartesian3.fromDegrees(10, 20, 60000000)
         });
 
-        // 4 — авто-вращение (стабильно работает)
+        // Авто-вращение
         let last = performance.now();
         viewer.scene.preRender.addEventListener(() => {
             const now = performance.now();
@@ -53,12 +53,12 @@
             viewer.camera.rotate(Cesium.Cartesian3.UNIT_Z, dt * 0.1);
         });
 
-        // 5 — клик → space.html
+        // Клик → space.html
         el.addEventListener("click", () => {
             location.href = "space.html";
         });
 
-        // 6 — прячем кредиты
+        // Прячем кредиты
         try {
             viewer._cesiumWidget._creditContainer.style.display = "none";
         } catch (e) {}
