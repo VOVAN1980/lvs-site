@@ -1,14 +1,17 @@
-/* ===== Базовый layout профиля ===== */
+/* =========================================================
+   ПРОФИЛЬ LVS — ЧИСТЫЙ, ЗАЩИЩЁННЫЙ, БЕЗ КОНФЛИКТОВ
+   ========================================================= */
 
+/* ===== Контейнер всей страницы ===== */
 .profile-page {
-    max-width: 1160px;
+    max-width: 1180px;
     margin: 0 auto;
     padding: 80px 24px 64px;
+    font-family: "Inter", system-ui, sans-serif;
     color: #f5f7ff;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
 }
 
-/* подстраиваемся под твой общий тёмный градиент из lvs.css */
+/* ===== Ссылки ===== */
 .profile-page a {
     color: #5fd3ff;
     text-decoration: none;
@@ -17,31 +20,32 @@
     text-decoration: underline;
 }
 
-/* ===== Хедер (настройка только под профиль) ===== */
-
+/* =========================================================
+   ХЕДЕР ПРОФИЛЯ (НЕ ЛЕЗЕТ В ДРУГИЕ СТРАНИЦЫ)
+   ========================================================= */
 .lvs-header {
     position: sticky;
     top: 0;
-    z-index: 20;
-    backdrop-filter: blur(14px);
-    background: linear-gradient(90deg, rgba(4, 9, 24, 0.9), rgba(6, 17, 40, 0.9));
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    z-index: 30;
+    backdrop-filter: blur(16px);
+    background: rgba(4, 9, 24, 0.86);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .lvs-header__inner {
-    max-width: 1160px;
+    max-width: 1180px;
     margin: 0 auto;
-    padding: 16px 24px;
+    padding: 14px 24px;
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
 }
 
+/* Лого */
 .lvs-logo {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: 8px;
-    text-decoration: none;
 }
 .lvs-logo__dot {
     width: 10px;
@@ -50,113 +54,119 @@
     background: radial-gradient(circle at 30% 30%, #6bffb7, #16a085);
 }
 .lvs-logo__text {
+    color: #fff;
     font-weight: 600;
     font-size: 14px;
     letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: #f5f7ff;
 }
 
+/* Навигация */
 .lvs-nav--profile {
     display: flex;
+    gap: 20px;
     align-items: center;
-    gap: 16px;
 }
+
 .lvs-nav__link {
     font-size: 14px;
-    opacity: 0.8;
+    color: #fff;
+    opacity: 0.75;
+}
+.lvs-nav__link:hover {
+    opacity: 1;
 }
 .lvs-nav__link--active {
     opacity: 1;
     font-weight: 600;
 }
-.lvs-nav__link:hover {
-    opacity: 1;
-}
 
 .lvs-nav__separator {
     width: 1px;
-    height: 24px;
-    background: rgba(255, 255, 255, 0.12);
+    height: 22px;
+    background: rgba(255,255,255,0.15);
 }
 
-/* ===== Меню в аватаре (профиль) ===== */
-
+/* =========================================================
+   МЕНЮ ПРОФИЛЯ (аватар справа)
+   ========================================================= */
 .profile-menu {
     position: relative;
+    user-select: none;
 }
 .profile-menu__trigger {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: 8px;
-    padding: 6px 10px;
+    padding: 6px 12px;
     border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(4, 11, 30, 0.7);
-    color: #f5f7ff;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
     cursor: pointer;
-    font-size: 13px;
+    transition: 0.25s;
 }
 .profile-menu__trigger:hover {
-    border-color: rgba(255, 255, 255, 0.25);
+    background: rgba(255,255,255,0.10);
 }
+
 .profile-menu__avatar {
-    width: 22px;
-    height: 22px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     background: radial-gradient(circle at 30% 20%, #ffe66b, #ff8a3d);
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     overflow: hidden;
 }
 .profile-menu__avatar-inner {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 600;
 }
 .profile-menu__name {
-    max-width: 140px;
+    max-width: 150px;
     white-space: nowrap;
-    text-overflow: ellipsis;
     overflow: hidden;
+    text-overflow: ellipsis;
 }
 .profile-menu__arrow {
-    font-size: 10px;
     opacity: 0.7;
+    font-size: 10px;
 }
 
+/* Дропдаун */
 .profile-menu__dropdown {
     position: absolute;
-    right: 0;
     top: calc(100% + 8px);
-    min-width: 220px;
+    right: 0;
     padding: 8px;
+    min-width: 240px;
     border-radius: 12px;
-    background: rgba(4, 11, 30, 0.98);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
+    background: rgba(4, 11, 30, 0.97);
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.55);
     display: none;
 }
 .profile-menu--open .profile-menu__dropdown {
     display: block;
 }
+
 .profile-menu__item {
     display: block;
-    padding: 8px 10px;
-    border-radius: 8px;
+    padding: 10px 12px;
     font-size: 13px;
-    color: #f5f7ff;
-    text-decoration: none;
+    color: #fff;
+    border-radius: 8px;
 }
 .profile-menu__item:hover {
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(255,255,255,0.06);
 }
 .profile-menu__item--danger {
     color: #ff8a8a;
 }
 
-/* ===== Hero-зона: аватар + имя + статы ===== */
-
+/* =========================================================
+   ГЕРО-СЕКЦИЯ (аватар, имя, кнопки, статы)
+   ========================================================= */
 .profile-hero {
     display: grid;
     grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
@@ -164,325 +174,19 @@
     margin-bottom: 48px;
 }
 
-.profile-hero__left {
-    display: flex;
-    gap: 24px;
-}
-
+/* ===== Аватар квадратный ===== */
 .profile-avatar {
-    flex-shrink: 0;
-}
-.profile-avatar__img {
-    width: 112px;
-    height: 112px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 16px 50px rgba(0, 0, 0, 0.6);
-}
-
-/* если нет картинки – можно повесить фоновую заглушку */
-.profile-avatar:not(:has(img)) {
-    width: 112px;
-    height: 112px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 20% 0, #6bffb7, #0074ff);
-}
-
-.profile-identity {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.profile-name {
-    font-size: 26px;
-    font-weight: 600;
-    margin: 0;
-}
-
-.profile-role {
-    font-size: 14px;
-    opacity: 0.85;
-}
-
-.profile-location {
-    font-size: 13px;
-    opacity: 0.7;
-}
-
-.profile-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 4px;
-}
-
-.profile-tag {
-    font-size: 11px;
-    padding: 4px 8px;
-    border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    opacity: 0.9;
-}
-
-.profile-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 12px;
-}
-
-/* кнопки */
-
-.btn {
-    border-radius: 999px;
-    padding: 8px 14px;
-    border: 1px solid transparent;
-    background: transparent;
-    color: #f5f7ff;
-    font-size: 13px;
-    cursor: pointer;
-}
-.btn-primary {
-    background: linear-gradient(135deg, #00c6ff, #0072ff);
-    border-color: transparent;
-}
-.btn-primary:hover {
-    filter: brightness(1.07);
-}
-.btn-ghost {
-    border-color: rgba(255, 255, 255, 0.2);
-    background: rgba(4, 11, 30, 0.6);
-}
-.btn-ghost:hover {
-    border-color: rgba(255, 255, 255, 0.4);
-}
-
-/* ===== Статистика справа ===== */
-
-.profile-hero__right {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-}
-
-.profile-stats {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding-left: 16px;
-    border-left: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.profile-stat {
-    display: flex;
-    justify-content: space-between;
-    gap: 16px;
-    font-size: 13px;
-}
-.profile-stat__label {
-    opacity: 0.7;
-}
-.profile-stat__value {
-    font-weight: 600;
-}
-
-/* ===== Секции профиля ===== */
-
-.profile-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.3fr);
-    gap: 32px 48px;
-}
-
-.profile-section {
-    padding-bottom: 24px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-}
-.profile-section--wide {
-    grid-column: 1 / -1;
-}
-
-.profile-section__title {
-    font-size: 16px;
-    margin: 0 0 10px;
-    font-weight: 600;
-}
-
-.profile-text {
-    margin: 0;
-    font-size: 14px;
-    line-height: 1.6;
-    opacity: 0.9;
-}
-
-.profile-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    font-size: 14px;
-}
-.profile-list li + li {
-    margin-top: 4px;
-}
-.profile-list--two-columns {
-    columns: 2;
-    column-gap: 32px;
-}
-.profile-list--two-columns li {
-    break-inside: avoid;
-}
-
-/* ===== Таймлайн активности ===== */
-
-.profile-timeline {
-    list-style: none;
-    margin: 8px 0 0;
-    padding: 0;
-    font-size: 14px;
-}
-.profile-timeline__item {
-    position: relative;
-    padding-left: 16px;
-    margin-bottom: 10px;
-}
-.profile-timeline__item::before {
-    content: "";
-    position: absolute;
-    left: 4px;
-    top: 6px;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: #00c6ff;
-}
-.profile-timeline__time {
-    font-size: 12px;
-    opacity: 0.6;
-}
-.profile-timeline__text {
-    opacity: 0.92;
-}
-
-/* ===== Отзывы ===== */
-
-.profile-feedback {
-    margin-top: 12px;
-    padding: 10px 0;
-    border-top: 1px dashed rgba(255, 255, 255, 0.12);
-}
-.profile-feedback:first-of-type {
-    border-top: none;
-}
-.profile-feedback__source {
-    font-size: 13px;
-    font-weight: 500;
-    opacity: 0.9;
-}
-.profile-feedback__text {
-    margin: 4px 0 2px;
-    font-size: 14px;
-    opacity: 0.9;
-}
-.profile-feedback__rating {
-    font-size: 13px;
-    color: #ffd76b;
-}
-
-/* ===== Футер ===== */
-
-.lvs-footer {
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
-    padding: 18px 0 24px;
-    margin-top: 32px;
-}
-.lvs-footer__inner {
-    max-width: 1160px;
-    margin: 0 auto;
-    padding: 0 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 12px;
-    opacity: 0.7;
-}
-.lvs-footer__nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-}
-.lvs-footer__nav a {
-    opacity: 0.8;
-}
-.lvs-footer__nav a:hover {
-    opacity: 1;
-}
-
-/* ===== Адаптив ===== */
-
-@media (max-width: 960px) {
-    .profile-hero {
-        grid-template-columns: 1fr;
-        gap: 32px;
-    }
-    .profile-hero__right {
-        justify-content: flex-start;
-    }
-    .profile-stats {
-        border-left: none;
-        border-top: 1px solid rgba(255, 255, 255, 0.08);
-        padding-left: 0;
-        padding-top: 14px;
-        flex-direction: row;
-        flex-wrap: wrap;
-    }
-    .profile-grid {
-        grid-template-columns: 1fr;
-    }
-    .lvs-header__inner {
-        padding-inline: 16px;
-    }
-    .profile-page {
-        padding-inline: 16px;
-    }
-}
-
-@media (max-width: 720px) {
-    .lvs-nav--profile {
-        gap: 10px;
-    }
-    .lvs-nav__link:nth-child(2) {
-        display: none; /* при необходимости можно убрать "Мой профиль" на очень узких экранах */
-    }
-    .profile-hero__left {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    .profile-avatar__img,
-    .profile-avatar:not(:has(img)) {
-        width: 96px;
-        height: 96px;
-    }
-    .profile-name {
-        font-size: 22px;
-    }
-    .profile-list--two-columns {
-        columns: 1;
-    }
-    /* ===== Квадратный контейнер для аватара ===== */
-
-.profile-avatar {
-    position: relative;
     width: 140px;
     height: 140px;
-    border-radius: 12px; /* квадрат с лёгким скруглением */
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.14);
     overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+    background: rgba(255,255,255,0.03);
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.02);
 }
 
 .profile-avatar__img {
@@ -491,43 +195,267 @@
     object-fit: cover;
 }
 
-/* если нет изображения – фоновая заглушка */
-.profile-avatar:not(:has(img)) {
-    background: linear-gradient(135deg, #1e2746, #0d1529);
-}
-
-/* ===== Кнопка “Изменить” поверх аватара ===== */
-
+/* Кнопка "Изменить" поверх аватара */
 .avatar-upload {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 42px;
-    background: rgba(0, 0, 0, 0.45);
+    height: 44px;
+    background: rgba(0,0,0,0.45);
     display: flex;
-    align-items: center;
     justify-content: center;
-    cursor: pointer;
-    transition: 0.25s ease;
+    align-items: center;
     opacity: 0;
+    transition: 0.2s ease;
 }
-
 .profile-avatar:hover .avatar-upload {
     opacity: 1;
 }
-
-.avatar-upload input {
-    display: none;
-}
-
+.avatar-upload input { display: none; }
 .avatar-upload span {
     font-size: 13px;
     color: #fff;
     font-weight: 500;
 }
 
-/* плавная рамка при наведении */
-.profile-avatar:hover {
-    border-color: rgba(255, 255, 255, 0.28);
-  }
+/* =========================================================
+   ИМЯ + ТЕГИ + КНОПКИ
+   ========================================================= */
+.profile-identity {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.profile-name {
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.profile-role {
+    font-size: 14px;
+    opacity: 0.85;
+}
+.profile-location {
+    font-size: 13px;
+    opacity: 0.75;
+}
+
+.profile-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.profile-tag {
+    padding: 4px 8px;
+    font-size: 11px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.16);
+}
+
+/* Кнопки */
+.btn {
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    font-size: 13px;
+    transition: 0.25s;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    color: #fff;
+}
+.btn-primary:hover {
+    filter: brightness(1.1);
+}
+
+.btn-ghost {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.22);
+}
+.btn-ghost:hover {
+    border-color: rgba(255,255,255,0.36);
+}
+
+/* =========================================================
+   ПРАВАЯ ЧАСТЬ — СТАТЫ
+   ========================================================= */
+.profile-stats {
+    border-left: 1px solid rgba(255,255,255,0.08);
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.profile-stat {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+}
+.profile-stat__label {
+    opacity: 0.7;
+}
+.profile-stat__value {
+    font-weight: 600;
+}
+
+/* =========================================================
+   СЕТКА КОНТЕНТА
+   ========================================================= */
+.profile-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 40px 60px;
+}
+
+.profile-section {
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.profile-section--wide {
+    grid-column: 1 / -1;
+}
+
+.profile-section__title {
+    font-size: 16px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.profile-text {
+    font-size: 14px;
+    opacity: 0.92;
+    line-height: 1.6;
+}
+
+/* списки */
+.profile-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.profile-list li + li {
+    margin-top: 4px;
+}
+.profile-list--two-columns {
+    columns: 2;
+    column-gap: 40px;
+}
+.profile-list--two-columns li {
+    break-inside: avoid;
+}
+
+/* =========================================================
+   ТАЙМЛАЙН
+   ========================================================= */
+.profile-timeline {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+.profile-timeline__item {
+    padding-left: 16px;
+    margin-bottom: 12px;
+    position: relative;
+}
+.profile-timeline__item::before {
+    content: "";
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #00c6ff;
+    position: absolute;
+    left: 4px;
+    top: 6px;
+}
+.profile-timeline__time {
+    font-size: 12px;
+    opacity: 0.6;
+}
+.profile-timeline__text {
+    opacity: 0.9;
+}
+
+/* =========================================================
+   ОТЗЫВЫ
+   ========================================================= */
+.profile-feedback {
+    padding: 10px 0;
+    border-top: 1px dashed rgba(255,255,255,0.15);
+}
+.profile-feedback:first-of-type {
+    border-top: none;
+}
+.profile-feedback__source {
+    font-size: 13px;
+    opacity: 0.9;
+    font-weight: 500;
+}
+.profile-feedback__text {
+    font-size: 14px;
+    opacity: 0.9;
+}
+.profile-feedback__rating {
+    color: #ffd76b;
+    font-size: 13px;
+}
+
+/* =========================================================
+   ФУТЕР
+   ========================================================= */
+.lvs-footer {
+    margin-top: 40px;
+    padding: 20px 0;
+    border-top: 1px solid rgba(255,255,255,0.06);
+}
+.lvs-footer__inner {
+    max-width: 1180px;
+    padding: 0 24px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    opacity: 0.75;
+}
+.lvs-footer__nav {
+    display: flex;
+    gap: 12px;
+}
+
+/* =========================================================
+   АДАПТИВ
+   ========================================================= */
+@media (max-width: 960px) {
+    .profile-hero {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+    .profile-stats {
+        border-left: none;
+        border-top: 1px solid rgba(255,255,255,0.08);
+        padding-top: 16px;
+        padding-left: 0;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 760px) {
+    .profile-avatar {
+        width: 110px;
+        height: 110px;
+    }
+    .profile-name {
+        font-size: 23px;
+    }
+    .profile-list--two-columns {
+        columns: 1;
+    }
 }
