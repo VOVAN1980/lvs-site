@@ -2,12 +2,12 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8" />
-    <title>LVS – Мой кабинет</title>
+    <title>LVS – Мой профиль</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Базовые стили сайта -->
     <link rel="stylesheet" href="assets/lvs.css" />
-    <!-- Стили профиля поверх базовых -->
+    <!-- Стили профиля -->
     <link rel="stylesheet" href="assets/css/profile.css" />
 </head>
 <body>
@@ -21,14 +21,7 @@
 
         <nav class="lvs-nav lvs-nav--profile">
             <a href="market.html" class="lvs-nav__link">Работа и задания</a>
-
-            <a href="me.html" class="lvs-nav__link lvs-nav__link--active">
-                Мой профиль
-            </a>
-
-            <!-- при необходимости позже сделаем отдельную страницу компаний -->
-            <!-- <a href="companies.html" class="lvs-nav__link">Мои компании</a> -->
-
+            <a href="me.html" class="lvs-nav__link lvs-nav__link--active">Мой профиль</a>
             <div class="lvs-nav__separator"></div>
 
             <div class="profile-menu">
@@ -44,9 +37,7 @@
                     <a href="#settings" class="profile-menu__item">Настройки аккаунта</a>
                     <a href="documents.html" class="profile-menu__item">Документы</a>
                     <a href="space.html" class="profile-menu__item">Глобальная карта</a>
-                    <a href="index.html" class="profile-menu__item profile-menu__item--danger">
-                        Выйти в главное меню
-                    </a>
+                    <a href="index.html" class="profile-menu__item profile-menu__item--danger">Выйти в главное меню</a>
                 </div>
             </div>
         </nav>
@@ -56,23 +47,19 @@
 <main class="profile-page">
     <section class="profile-hero">
         <div class="profile-hero__left">
-            <div class="profile-avatar uploadable">
-    <img src="assets/img/avatar-demo.png" alt="Avatar" class="profile-avatar__img" />
 
-    <label class="avatar-upload">
-        <input type="file" accept="image/*" />
-        <span>Изменить</span>
-         </label>
-            </div
+            <div class="profile-avatar">
+                <img src="assets/img/avatar-demo.png" alt="Avatar" class="profile-avatar__img" />
+                <label class="avatar-upload">
+                    <input type="file" accept="image/*" />
+                    <span>Изменить</span>
+                </label>
+            </div>
 
             <div class="profile-identity">
                 <h1 class="profile-name">Volodymyr Podkorytov</h1>
-                <div class="profile-role">
-                    Основатель • LVS / IBITI
-                </div>
-                <div class="profile-location">
-                    Виндесхайм, Германия
-                </div>
+                <div class="profile-role">Основатель • LVS / IBITI</div>
+                <div class="profile-location">Виндесхайм, Германия</div>
 
                 <div class="profile-tags">
                     <span class="profile-tag">Человек</span>
@@ -137,41 +124,30 @@
             <ul class="profile-timeline">
                 <li class="profile-timeline__item">
                     <div class="profile-timeline__time">2025-11-26 • 22:31</div>
-                    <div class="profile-timeline__text">
-                        Присоединился к глобальной карте LVS (Виндесхайм).
-                    </div>
+                    <div class="profile-timeline__text">Присоединился к глобальной карте LVS (Виндесхайм).</div>
                 </li>
                 <li class="profile-timeline__item">
                     <div class="profile-timeline__time">2025-11-26 • 21:10</div>
-                    <div class="profile-timeline__text">
-                        Подключён узел браузера к публичному шлюзу.
-                    </div>
+                    <div class="profile-timeline__text">Подключён узел браузера к публичному шлюзу.</div>
                 </li>
                 <li class="profile-timeline__item">
                     <div class="profile-timeline__time">2025-11-25 • 19:44</div>
-                    <div class="profile-timeline__text">
-                        Завершён сеанс моделирования дрейфа.
-                    </div>
+                    <div class="profile-timeline__text">Завершён сеанс моделирования дрейфа.</div>
                 </li>
             </ul>
         </section>
 
         <section class="profile-section profile-section--wide">
             <h2 class="profile-section__title">Отзывы и комментарии</h2>
-
             <article class="profile-feedback">
                 <div class="profile-feedback__source">Система LVS</div>
-                <p class="profile-feedback__text">
-                    Стабильное поведение и высокий рейтинг доверия.
-                </p>
+                <p class="profile-feedback__text">Стабильное поведение и высокий рейтинг доверия.</p>
                 <div class="profile-feedback__rating">★★★★★</div>
             </article>
 
             <article class="profile-feedback">
                 <div class="profile-feedback__source">Участник тестовой сети</div>
-                <p class="profile-feedback__text">
-                    Быстрые ответы, чёткая коммуникация.
-                </p>
+                <p class="profile-feedback__text">Быстрые ответы, чёткая коммуникация.</p>
                 <div class="profile-feedback__rating">★★★★★</div>
             </article>
         </section>
@@ -192,26 +168,17 @@
 </footer>
 
 <script>
-    // простое открытие/закрытие дропдауна профиля
-    (function () {
-        var menu = document.querySelector('.profile-menu');
-        if (!menu) return;
+(function () {
+    const menu = document.querySelector('.profile-menu');
+    if (!menu) return;
 
-        var trigger = menu.querySelector('.profile-menu__trigger');
-
-        trigger.addEventListener('click', function () {
-            menu.classList.toggle('profile-menu--open');
-        });
-
-        document.addEventListener('click', function (e) {
-            if (!menu.contains(e.target)) {
-                menu.classList.remove('profile-menu--open');
-            }
-        });
-    })();
+    const trigger = menu.querySelector('.profile-menu__trigger');
+    trigger.addEventListener('click', () => menu.classList.toggle('profile-menu--open'));
+    document.addEventListener('click', (e) => {
+        if (!menu.contains(e.target)) menu.classList.remove('profile-menu--open');
+    });
+})();
 </script>
 
 </body>
 </html>
-
-
