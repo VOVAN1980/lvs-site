@@ -1,0 +1,147 @@
+.lvs-profile {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 24px 80px;
+}
+
+.lvs-profile-header {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.lvs-profile-avatar img {
+  width: 96px;
+  height: 96px;
+  border-radius: 999px;
+  object-fit: cover;
+  border: 2px solid rgba(0,255,170,0.5);
+}
+
+.lvs-profile-main h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.lvs-profile-role {
+  margin: 4px 0;
+  opacity: 0.8;
+}
+
+.lvs-profile-location {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.lvs-profile-stats {
+  margin-left: auto;
+  display: flex;
+  gap: 16px;
+}
+
+.lvs-stat-card {
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(15, 25, 40, 0.95);
+  border: 1px solid rgba(0, 255, 170, 0.1);
+}
+
+.lvs-stat-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.lvs-stat-value {
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+.lvs-profile-body {
+  display: grid;
+  grid-template-columns: 1.1fr 1.2fr;
+  gap: 24px;
+}
+
+.lvs-card {
+  background: rgba(10, 15, 25, 0.96);
+  border-radius: 16px;
+  padding: 18px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+}
+
+.lvs-card h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.lvs-tag {
+  display: inline-block;
+  padding: 3px 8px;
+  margin-right: 6px;
+  margin-top: 6px;
+  border-radius: 999px;
+  font-size: 11px;
+  background: rgba(0, 255, 170, 0.08);
+  border: 1px solid rgba(0, 255, 170, 0.25);
+}
+
+.lvs-activity-list,
+.lvs-review-list,
+.lvs-profile-left ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.lvs-activity-item {
+  display: flex;
+  gap: 8px;
+  font-size: 13px;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.lvs-activity-ts {
+  min-width: 150px;
+  opacity: 0.6;
+  font-family: monospace;
+}
+
+.lvs-activity-text {
+  flex: 1;
+}
+
+.lvs-review-item {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.lvs-review-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.lvs-review-score {
+  color: #ffd66b;
+}
+
+@media (max-width: 900px) {
+  .lvs-profile-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .lvs-profile-stats {
+    margin-left: 0;
+  }
+  .lvs-profile-body {
+    grid-template-columns: 1fr;
+  }
+}
