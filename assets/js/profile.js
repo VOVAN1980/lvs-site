@@ -1,105 +1,105 @@
-// demo-профиль, потом заменим на ответ от backend
-const demoProfile = {
-  id: "acc_vovan1980",
-  username: "Volodymyr Podkorytov",
-  role: "Founder · LVS / IBITI",
-  location: "Windesheim, Germany",
-  avatar: "assets/img/default-avatar.png",
-  tags: ["Human", "Builder", "Early LVS participant"],
-  tc: 0.87,
-  vu: 4200,
-  stability: 0.93,
-  bio: "Early participant of Living Value System. Building autonomous value layer, IBITI ecosystem and real-world services.",
-  skills: ["Distributed systems", "Crypto / DeFi", "Rust / TS", "Product strategy"],
-  nodes: [
-    { id: "node1", label: "Home gateway node" },
-    { id: "node2", label: "Mobile browser node" }
-  ],
-  activity: [
-    { ts: "2025-11-26 22:31", text: "Joined LVS global map (Windesheim)" },
-    { ts: "2025-11-26 21:10", text: "Connected browser node to public gateway" },
-    { ts: "2025-11-25 19:44", text: "Completed drift simulation session" }
-  ],
-  reviews: [
-    { author: "LVS System", text: "Stable behaviour and high trust score.", score: 5 },
-    { author: "Testnet participant", text: "Fast responses, clear communication.", score: 5 }
-  ]
-};
+// Простой JS для кабинета.
+// 1) Выпадающее меню пользователя
+// 2) Переключение вкладок (Лента / О профиле)
+// 3) Загрузка аватара (через localStorage как прототип)
 
-function byId(id) {
-  return document.getElementById(id);
-}
+(function () {
+    const userBtn = document.getElementById("profileUserMenuBtn");
+    const userMenu = document.getElementById("profileUserMenu");
 
-function renderProfile(p) {
-  // header
-  if (p.avatar) byId("profile-avatar").src = p.avatar;
-  byId("profile-name").textContent = p.username;
-  byId("profile-role").textContent = p.role || "";
-  byId("profile-location").textContent = p.location || "";
+    if (userBtn && userMenu) {
+        userBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            userMenu.classList.toggle("profile-user-menu-open");
+        });
 
-  const tagsEl = byId("profile-tags");
-  tagsEl.innerHTML = "";
-  (p.tags || []).forEach(t => {
-    const span = document.createElement("span");
-    span.className = "lvs-tag";
-    span.textContent = t;
-    tagsEl.appendChild(span);
-  });
+        document.addEventListener("click", function () {
+            userMenu.classList.remove("profile-user-menu-open");
+        });
 
-  // stats
-  byId("profile-tc").textContent = `${Math.round(p.tc * 100)}%`;
-  byId("profile-vu").textContent = p.vu.toLocaleString("en-US");
-  byId("profile-stability").textContent = `${Math.round(p.stability * 100)}%`;
+        userMenu.addEventListener("click", function (e) {
+            e.stopPropagation();
+        });
 
-  // about
-  byId("profile-bio").textContent = p.bio || "";
+        // фейковый "выход"
+        const logoutBtn = userMenu.querySelector("[data-action='logout']");
+        if (logoutBtn) {
+            logoutBtn.addEventListener("click", function () {
+                alert("Здесь позже будет логика выхода из аккаунта.\nПока это просто заглушка.");
+            });
+        }
+    }
 
-  // skills
-  const skillsEl = byId("profile-skills");
-  skillsEl.innerHTML = "";
-  (p.skills || []).forEach(s => {
-    const li = document.createElement("li");
-    li.textContent = s;
-    skillsEl.appendChild(li);
-  });
+    // Вкладки
+    const tabs = document.querySelectorAll(".profile-tab");
+    const sections = document.querySelectorAll(".profile-columns");
 
-  // nodes
-  const nodesEl = byId("profile-nodes");
-  nodesEl.innerHTML = "";
-  (p.nodes || []).forEach(n => {
-    const li = document.createElement("li");
-    li.textContent = `${n.id} — ${n.label}`;
-    nodesEl.appendChild(li);
-  });
+    if (tabs.length && sections.length) {
+        tabs.forEach(tab => {
+            tab.addEventListener("click", () => {
+                const target = tab.getAttribute("data-tab");
 
-  // activity
-  const actEl = byId("profile-activity");
-  actEl.innerHTML = "";
-  (p.activity || []).forEach(a => {
-    const li = document.createElement("li");
-    li.className = "lvs-activity-item";
-    li.innerHTML = `<span class="lvs-activity-ts">${a.ts}</span><span class="lvs-activity-text">${a.text}</span>`;
-    actEl.appendChild(li);
-  });
+                tabs.forEach(t => t.classList.remove("profile-tab-active"));
+                tab.classList.add("profile-tab-active");
 
-  // reviews
-  const revEl = byId("profile-reviews");
-  revEl.innerHTML = "";
-  (p.reviews || []).forEach(r => {
-    const li = document.createElement("li");
-    li.className = "lvs-review-item";
-    li.innerHTML = `
-      <div class="lvs-review-header">
-        <span class="lvs-review-author">${r.author}</span>
-        <span class="lvs-review-score">${"★".repeat(r.score || 5)}</span>
-      </div>
-      <p class="lvs-review-text">${r.text}</p>
-    `;
-    revEl.appendChild(li);
-  });
-}
+                sections.forEach(sec => {
+                    const secName = sec.getAttribute("data-section");
+                    if (secName === target) {
+                        sec.classList.remove("profile-columns-hidden");
+                    } else {
+                        sec.classList.add("profile-columns-hidden");
+                    }
+                });
+            });
+        });
+    }
 
-document.addEventListener("DOMContentLoaded", () => {
-  // пока жёстко демо-профиль
-  renderProfile(demoProfile);
-});
+    // Аватар (прототип: хранение в localStorage)
+    const avatar = document.getElementById("profileAvatar");
+    const avatarImg = document.getElementById("profileAvatarImg");
+    const avatarEdit = document.getElementById("profileAvatarEdit");
+    const avatarInput = document.getElementById("profileAvatarInput");
+    const avatarSmall = document.getElementById("profileAvatarSmall");
+
+    const AVATAR_KEY = "lvs_profile_avatar_dataurl";
+
+    function applyAvatarFromStorage() {
+        try {
+            const data = window.localStorage.getItem(AVATAR_KEY);
+            if (!data) return;
+
+            avatarImg.src = data;
+            avatarImg.hidden = false;
+        } catch (e) {
+            // молча игнорируем
+        }
+    }
+
+    applyAvatarFromStorage();
+
+    if (avatarEdit && avatarInput && avatarImg) {
+        avatarEdit.addEventListener("click", function () {
+            avatarInput.click();
+        });
+
+        avatarInput.addEventListener("change", function () {
+            const file = avatarInput.files && avatarInput.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function (ev) {
+                const dataUrl = ev.target.result;
+                avatarImg.src = dataUrl;
+                avatarImg.hidden = false;
+
+                try {
+                    window.localStorage.setItem(AVATAR_KEY, dataUrl);
+                } catch (e) {
+                    console.warn("Cannot store avatar in localStorage", e);
+                }
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+})();
