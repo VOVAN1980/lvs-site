@@ -1,58 +1,113 @@
-<main class="lvs-profile">
-  <section class="lvs-profile-header">
-    <div class="lvs-profile-avatar">
-      <img id="profile-avatar" src="assets/img/default-avatar.png" alt="Avatar">
-    </div>
-    <div class="lvs-profile-main">
-      <h1 id="profile-name"></h1>
-      <p id="profile-role" class="lvs-profile-role"></p>
-      <p id="profile-location" class="lvs-profile-location"></p>
-      <div class="lvs-profile-tags" id="profile-tags"></div>
-    </div>
-    <div class="lvs-profile-stats">
-      <div class="lvs-stat-card">
-        <div class="lvs-stat-label">Trust (TC)</div>
-        <div class="lvs-stat-value" id="profile-tc"></div>
-      </div>
-      <div class="lvs-stat-card">
-        <div class="lvs-stat-label">Value (VU)</div>
-        <div class="lvs-stat-value" id="profile-vu"></div>
-      </div>
-      <div class="lvs-stat-card">
-        <div class="lvs-stat-label">Stability</div>
-        <div class="lvs-stat-value" id="profile-stability"></div>
-      </div>
-    </div>
-  </section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>LVS – User profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <section class="lvs-profile-body">
-    <div class="lvs-profile-left">
-      <div class="lvs-card">
-        <h2>About</h2>
-        <p id="profile-bio"></p>
-      </div>
+  <!-- твой общий стиль сайта -->
+  <link rel="stylesheet" href="assets/css/lvs.css" />
 
-      <div class="lvs-card">
-        <h2>Skills & Focus</h2>
-        <ul id="profile-skills"></ul>
-      </div>
+  <!-- космос тут не нужен, так что убрал -->
+  <!-- <link rel="stylesheet" href="assets/space/space.css" /> -->
 
-      <div class="lvs-card">
-        <h2>Nodes</h2>
-        <ul id="profile-nodes"></ul>
-      </div>
+  <!-- новый стиль именно для профиля -->
+  <link rel="stylesheet" href="assets/css/profile.css" />
+
+  <!-- логика профиля -->
+  <script defer src="assets/js/profile.js"></script>
+</head>
+<body class="lvs-body">
+  <!-- верхнее меню возьми из index.html, если нужно то же самое -->
+  <header class="lvs-topbar">
+    <div class="lvs-topbar-left">
+      <a href="index.html" class="lvs-logo">LVS</a>
+      <nav class="lvs-nav">
+        <a href="index.html#work">Работа и задания</a>
+        <a href="space.html">Карта мира</a>
+        <a href="about.html">О LVS</a>
+        <a href="market.html">Marketplace</a>
+      </nav>
     </div>
+    <div class="lvs-topbar-right">
+      <a href="profile.html" class="lvs-topbar-link">Демо-профиль</a>
+      <a href="me.html" class="lvs-topbar-button">Мой кабинет</a>
+    </div>
+  </header>
 
-    <div class="lvs-profile-right">
-      <div class="lvs-card">
-        <h2>Activity</h2>
-        <ul id="profile-activity" class="lvs-activity-list"></ul>
+  <main class="lvs-profile">
+    <section class="lvs-profile-header">
+      <div class="lvs-profile-avatar">
+        <img id="profile-avatar" src="assets/img/default-avatar.png" alt="Avatar" />
       </div>
 
-      <div class="lvs-card">
-        <h2>Reviews & Comments</h2>
-        <ul id="profile-reviews" class="lvs-review-list"></ul>
+      <div class="lvs-profile-main">
+        <h1 id="profile-name">User name</h1>
+        <p id="profile-role" class="lvs-profile-role"></p>
+        <p id="profile-location" class="lvs-profile-location"></p>
+        <div class="lvs-profile-tags" id="profile-tags"></div>
       </div>
+
+      <div class="lvs-profile-stats">
+        <div class="lvs-stat-card">
+          <div class="lvs-stat-label">Trust (TC)</div>
+          <div class="lvs-stat-value" id="profile-tc">–</div>
+        </div>
+        <div class="lvs-stat-card">
+          <div class="lvs-stat-label">Value (VU)</div>
+          <div class="lvs-stat-value" id="profile-vu">–</div>
+        </div>
+        <div class="lvs-stat-card">
+          <div class="lvs-stat-label">Stability</div>
+          <div class="lvs-stat-value" id="profile-stability">–</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="lvs-profile-body">
+      <div class="lvs-profile-left">
+        <div class="lvs-card">
+          <h2>О пользователе</h2>
+          <p id="profile-bio">
+            Здесь будет краткое описание человека, компании или сервиса в LVS.
+          </p>
+        </div>
+
+        <div class="lvs-card">
+          <h2>Навыки и фокус</h2>
+          <ul id="profile-skills"></ul>
+        </div>
+
+        <div class="lvs-card">
+          <h2>Ноды LVS</h2>
+          <ul id="profile-nodes"></ul>
+        </div>
+      </div>
+
+      <div class="lvs-profile-right">
+        <div class="lvs-card">
+          <h2>Активность</h2>
+          <ul id="profile-activity" class="lvs-activity-list"></ul>
+        </div>
+
+        <div class="lvs-card">
+          <h2>Отзывы и комментарии</h2>
+          <ul id="profile-reviews" class="lvs-review-list"></ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="lvs-footer">
+    <div class="lvs-footer-inner">
+      <span>© 2025 Living Value System (LVS)</span>
+      <nav>
+        <a href="legal.html">Legal</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="docs.html">Docs</a>
+        <a href="https://github.com/VOVAN1980/lvs-site" target="_blank">GitHub</a>
+      </nav>
     </div>
-  </section>
-</main>
+  </footer>
+</body>
+</html>
