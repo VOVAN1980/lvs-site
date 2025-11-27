@@ -5,231 +5,277 @@
     <title>LVS – Мой кабинет</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- твой общий стиль -->
-    <link rel="stylesheet" href="assets/main.css">
-    <!-- стиль кабинета (см. блок ниже) -->
-    <link rel="stylesheet" href="assets/account.css">
-</head>
-<body class="lvs-account-body">
-<div class="lvs-account-root">
+    <!-- Общие стили сайта -->
+    <link rel="stylesheet" href="assets/lvs.css">
 
-    <!-- ===== ШАПКА КАБИНЕТА ===== -->
-    <header class="lvs-account-header">
-        <div class="lvs-account-logo">
-            <a href="index.html" class="lvs-account-logo-link">
-                <!-- логотип подставь свой -->
-                <div class="lvs-account-logo-mark"></div>
-                <span class="lvs-account-logo-text">Living Value System</span>
+    <!-- Стили профиля -->
+    <link rel="stylesheet" href="assets/css/profile.css">
+</head>
+<body>
+
+<div class="profile-root">
+
+    <!-- Верхняя панель кабинета -->
+    <header class="profile-header">
+        <div class="profile-header-left">
+            <a href="index.html" class="profile-logo">
+                <span class="profile-logo-mark">LVS</span>
+                <span class="profile-logo-text">Living Value System</span>
             </a>
         </div>
 
-        <nav class="lvs-account-nav">
-            <a href="tasks.html" class="lvs-account-nav-link">
-                Работа и задания
-            </a>
-
-            <!-- блок профиля справа -->
-            <div class="lvs-account-user">
-                <button class="lvs-account-user-btn" id="accountMenuToggle">
-                    <div class="lvs-account-user-avatar lvs-account-user-avatar--small">
-                        <!-- если будет фото — сюда <img> -->
-                        <span class="lvs-account-user-avatar-placeholder">VP</span>
-                    </div>
-                    <span class="lvs-account-user-name">Volodymyr Podkorytov</span>
-                    <span class="lvs-account-user-caret">▾</span>
-                </button>
-
-                <div class="lvs-account-menu" id="accountMenu">
-                    <a href="me.html" class="lvs-account-menu-item">Мой профиль</a>
-                    <a href="index.html" class="lvs-account-menu-item">Главная страница</a>
-                    <a href="space.html" class="lvs-account-menu-item">Глобальная карта</a>
-                    <a href="me-settings.html" class="lvs-account-menu-item">
-                        Настройки профиля
-                    </a>
-                    <button class="lvs-account-menu-item lvs-account-menu-item--danger" type="button">
-                        Выйти из аккаунта
-                    </button>
-                </div>
-            </div>
+        <nav class="profile-header-center">
+            <a href="market.html" class="profile-nav-link">Работа и задания</a>
         </nav>
+
+        <div class="profile-header-right">
+            <button class="profile-user-toggle" id="profileUserMenuBtn" type="button">
+                <div class="profile-avatar-small" id="profileAvatarSmall">VP</div>
+                <span class="profile-user-name">Volodymyr Podkorytov</span>
+                <span class="profile-user-caret">▾</span>
+            </button>
+
+            <div class="profile-user-menu" id="profileUserMenu">
+                <a href="me.html" class="profile-user-menu-item">Мой профиль</a>
+                <a href="settings.html" class="profile-user-menu-item">Настройки</a>
+                <div class="profile-user-menu-separator"></div>
+                <a href="index.html" class="profile-user-menu-item">Главная</a>
+                <a href="space.html" class="profile-user-menu-item">Глобус LVS</a>
+                <a href="market.html" class="profile-user-menu-item">Работа и задания</a>
+                <div class="profile-user-menu-separator"></div>
+                <button class="profile-user-menu-item profile-user-menu-logout"
+                        type="button"
+                        data-action="logout">
+                    Выйти из кабинета
+                </button>
+            </div>
+        </div>
     </header>
 
-    <!-- ===== ОСНОВНОЙ КОНТЕНТ КАБИНЕТА ===== -->
-    <main class="lvs-account-layout">
+    <!-- Основной контент -->
+    <main class="profile-layout">
 
-        <!-- ЛЕВАЯ КОЛОНКА: профиль -->
-        <section class="lvs-account-col-left">
+        <!-- Верхний блок: аватар + базовая инфа + метрики -->
+        <section class="profile-main-card">
 
-            <!-- карточка профиля -->
-            <div class="lvs-account-card lvs-account-card--profile">
-                <div class="lvs-account-profile-head">
-                    <div class="lvs-account-user-avatar lvs-account-user-avatar--big">
-                        <!-- старт: пустая рамка для аватара -->
-                        <!-- позже сюда придёт <img src="..." alt=""> -->
-                        <div class="lvs-account-avatar-empty">
-                            <span class="lvs-account-avatar-plus">＋</span>
-                            <span class="lvs-account-avatar-text">Добавить фото</span>
-                        </div>
+            <div class="profile-main-left">
+                <div class="profile-avatar-wrapper">
+                    <div class="profile-avatar" id="profileAvatar">
+                        <span class="profile-avatar-initials">VP</span>
+                        <img src="" alt="" id="profileAvatarImg" hidden>
                     </div>
-
-                    <div class="lvs-account-profile-main">
-                        <div class="lvs-account-profile-row">
-                            <h1 class="lvs-account-name">Volodymyr Podkorytov</h1>
-                            <span class="lvs-account-badge lvs-account-badge--green">
-                                Основатель LVS
-                            </span>
-                            <span class="lvs-account-badge">Ранний участник</span>
-                        </div>
-
-                        <div class="lvs-account-profile-sub">
-                            <span>Виндельсхайм, Германия</span>
-                            <span class="lvs-account-dot">•</span>
-                            <span>LVS / IBITI</span>
-                        </div>
-
-                        <div class="lvs-account-metrics">
-                            <div class="lvs-account-metric">
-                                <div class="lvs-account-metric-label">Доверие (TC)</div>
-                                <div class="lvs-account-metric-value">87%</div>
-                            </div>
-                            <div class="lvs-account-metric">
-                                <div class="lvs-account-metric-label">Стоимость (VU)</div>
-                                <div class="lvs-account-metric-value">4 200</div>
-                            </div>
-                            <div class="lvs-account-metric">
-                                <div class="lvs-account-metric-label">Стабильность</div>
-                                <div class="lvs-account-metric-value">93%</div>
-                            </div>
-                        </div>
-                    </div>
+                    <button class="profile-avatar-edit" id="profileAvatarEdit" type="button">
+                        Изменить фото
+                    </button>
+                    <input type="file" id="profileAvatarInput" accept="image/*" hidden>
                 </div>
 
-                <div class="lvs-account-profile-tags">
-                    <span class="lvs-account-tag">Человек</span>
-                    <span class="lvs-account-tag">Строитель</span>
-                    <span class="lvs-account-tag">Ранний участник LVS</span>
+                <div class="profile-main-info">
+                    <div class="profile-main-name-row">
+                        <h1 class="profile-name">Volodymyr Podkorytov</h1>
+                        <span class="profile-tag">Ранний участник LVS</span>
+                    </div>
+                    <div class="profile-main-title">Основатель · LVS / IBITI</div>
+                    <div class="profile-main-meta">
+                        <span>Виндесхайм, Германия</span>
+                        <span>·</span>
+                        <span>Человек · Строитель · Ранний участник LVS</span>
+                    </div>
+
+                    <div class="profile-main-actions">
+                        <button class="profile-btn profile-btn-primary" type="button">
+                            Отправить сообщение
+                        </button>
+                        <button class="profile-btn profile-btn-ghost" type="button">
+                            Добавить в контакты
+                        </button>
+                    </div>
                 </div>
-
-                <p class="lvs-account-profile-about">
-                    Ранний участник экосистемы Living Value System. Создание автономного уровня
-                    ценности, сети IBITI и реальных сервисов вокруг неё. Позже здесь будет
-                    короткое резюме, которое заполняет сам пользователь.
-                </p>
             </div>
 
-            <!-- навыки -->
-            <div class="lvs-account-card">
-                <h2 class="lvs-account-card-title">Навыки и фокус</h2>
-                <ul class="lvs-account-list">
-                    <li>Распределённые системы</li>
-                    <li>Крипто / DeFi</li>
-                    <li>Rust / TypeScript / Solidity</li>
-                    <li>Стратегия продукта и токен-экономика</li>
-                </ul>
-            </div>
-
-            <!-- ноды LVS -->
-            <div class="lvs-account-card">
-                <h2 class="lvs-account-card-title">Мои ноды LVS</h2>
-                <ul class="lvs-account-list">
-                    <li>node1 — узел домашнего шлюза</li>
-                    <li>node2 — узел мобильного браузера</li>
-                </ul>
-            </div>
-        </section>
-
-        <!-- ПРАВАЯ КОЛОНКА: активность, отзывы и т.п. -->
-        <section class="lvs-account-col-right">
-
-            <div class="lvs-account-card">
-                <h2 class="lvs-account-card-title">Активность</h2>
-                <ul class="lvs-account-timeline">
-                    <li>
-                        <span class="lvs-account-timeline-date">26.11.2025</span>
-                        <span class="lvs-account-timeline-text">
-                            Присоединился к глобальной карте LVS (Виндесхайм)
-                        </span>
-                    </li>
-                    <li>
-                        <span class="lvs-account-timeline-date">25.11.2025</span>
-                        <span class="lvs-account-timeline-text">
-                            Подключён узел браузера к публичному шлюзу
-                        </span>
-                    </li>
-                    <li>
-                        <span class="lvs-account-timeline-date">25.11.2025</span>
-                        <span class="lvs-account-timeline-text">
-                            Завершён сеанс моделирования дрейфа доверия
-                        </span>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="lvs-account-card">
-                <h2 class="lvs-account-card-title">Отзывы и комментарии</h2>
-
-                <article class="lvs-account-review">
-                    <header class="lvs-account-review-head">
-                        <div>
-                            <div class="lvs-account-review-source">Система LVS</div>
-                            <div class="lvs-account-review-meta">Автоматический отзыв</div>
-                        </div>
-                        <div class="lvs-account-stars">★★★★★</div>
-                    </header>
-                    <p class="lvs-account-review-text">
-                        Стабильное поведение и высокий рейтинг доверия.
-                    </p>
-                </article>
-
-                <article class="lvs-account-review">
-                    <header class="lvs-account-review-head">
-                        <div>
-                            <div class="lvs-account-review-source">Участник тестовой сети</div>
-                            <div class="lvs-account-review-meta">Полевые испытания</div>
-                        </div>
-                        <div class="lvs-account-stars">★★★★★</div>
-                    </header>
-                    <p class="lvs-account-review-text">
-                        Быстрые ответы, чёткая коммуникация. Готовность брать ответственность
-                        за задачи на карте LVS.
-                    </p>
-                </article>
+            <div class="profile-main-right">
+                <div class="profile-metric">
+                    <div class="profile-metric-label">Доверие (TC)</div>
+                    <div class="profile-metric-value">87%</div>
+                    <div class="profile-metric-sub">на основе репутации и активности</div>
+                </div>
+                <div class="profile-metric">
+                    <div class="profile-metric-label">Стоимость (VU)</div>
+                    <div class="profile-metric-value">4 200</div>
+                    <div class="profile-metric-sub">активных единиц ценности</div>
+                </div>
+                <div class="profile-metric">
+                    <div class="profile-metric-label">Стабильность</div>
+                    <div class="profile-metric-value">93%</div>
+                    <div class="profile-metric-sub">динамика вклада в систему</div>
+                </div>
             </div>
 
         </section>
+
+        <!-- Вкладки (на будущее) -->
+        <section class="profile-tabs">
+            <button class="profile-tab profile-tab-active" data-tab="timeline" type="button">
+                Лента активности
+            </button>
+            <button class="profile-tab" data-tab="about" type="button">
+                О профиле
+            </button>
+        </section>
+
+        <!-- Две колонки с картами -->
+        <section class="profile-columns" data-section="timeline">
+
+            <div class="profile-column">
+
+                <article class="profile-card">
+                    <h2 class="profile-card-title">Обо мне</h2>
+                    <p class="profile-card-text">
+                        Ранний участник системы Living Value System. Создание автономного уровня ценности,
+                        экосистемы IBITI и реальных услуг. Работа с распределёнными системами, DeFi и
+                        экспериментальными протоколами ценности.
+                    </p>
+                </article>
+
+                <article class="profile-card">
+                    <h2 class="profile-card-title">Навыки и фокус</h2>
+                    <div class="profile-tags-grid">
+                        <span class="profile-skill-tag">Распределённые системы</span>
+                        <span class="profile-skill-tag">Крипто / DeFi</span>
+                        <span class="profile-skill-tag">Rust / TS</span>
+                        <span class="profile-skill-tag">Архитектура протоколов</span>
+                        <span class="profile-skill-tag">Стратегия продукта</span>
+                        <span class="profile-skill-tag">Tokenomics</span>
+                    </div>
+                </article>
+
+                <article class="profile-card">
+                    <h2 class="profile-card-title">Контактная информация</h2>
+                    <dl class="profile-info-list">
+                        <div class="profile-info-row">
+                            <dt>Город</dt>
+                            <dd>Виндесхайм / Бад-Кройцнах, Германия</dd>
+                        </div>
+                        <div class="profile-info-row">
+                            <dt>Связь</dt>
+                            <dd>Будет доступна после входа в систему</dd>
+                        </div>
+                        <div class="profile-info-row">
+                            <dt>Режим участия</dt>
+                            <dd>LVS / IBITI · фаундерский контур</dd>
+                        </div>
+                    </dl>
+                </article>
+
+                <article class="profile-card">
+                    <h2 class="profile-card-title">Мои ноды LVS</h2>
+                    <ul class="profile-nodes-list">
+                        <li>
+                            <div class="profile-node-name">node1 — узел домашнего шлюза</div>
+                            <div class="profile-node-sub">Статус: онлайн · подключён к публичному шлюзу</div>
+                        </li>
+                        <li>
+                            <div class="profile-node-name">node2 — узел мобильного браузера</div>
+                            <div class="profile-node-sub">Статус: тестовый стенд для браузер-ноды</div>
+                        </li>
+                    </ul>
+                </article>
+
+            </div>
+
+            <div class="profile-column">
+
+                <article class="profile-card">
+                    <h2 class="profile-card-title">Активность</h2>
+                    <ul class="profile-activity-list">
+                        <li>
+                            <div class="profile-activity-time">26.11.2025 · 22:31</div>
+                            <div class="profile-activity-text">
+                                Присоединение к глобальной карте LVS (Виндесхайм).
+                            </div>
+                        </li>
+                        <li>
+                            <div class="profile-activity-time">26.11.2025 · 21:10</div>
+                            <div class="profile-activity-text">
+                                Подключён узел браузера к публичному шлюзу.
+                            </div>
+                        </li>
+                        <li>
+                            <div class="profile-activity-time">25.11.2025 · 19:44</div>
+                            <div class="profile-activity-text">
+                                Завершён сеанс моделирования дрейфа ценности в тестовой сети.
+                            </div>
+                        </li>
+                    </ul>
+                </article>
+
+                <article class="profile-card">
+                    <h2 class="profile-card-title">Отзывы и комментарии</h2>
+
+                    <div class="profile-review">
+                        <div class="profile-review-header">
+                            <div class="profile-review-source">Система LVS</div>
+                            <div class="profile-review-stars">★★★★★</div>
+                        </div>
+                        <p class="profile-review-text">
+                            Стабильное поведение и высокий рейтинг доверия. Участник, на которого можно
+                            опираться при запуске новых модулей.
+                        </p>
+                    </div>
+
+                    <div class="profile-review">
+                        <div class="profile-review-header">
+                            <div class="profile-review-source">Участник тестовой сети</div>
+                            <div class="profile-review-stars">★★★★★</div>
+                        </div>
+                        <p class="profile-review-text">
+                            Быстрые ответы, чёткая коммуникация. Готовность разбираться в сложных сценариях
+                            и доводить фичи до рабочего состояния.
+                        </p>
+                    </div>
+                </article>
+
+            </div>
+
+        </section>
+
+        <!-- Секция "О профиле" (вторая вкладка, пока просто текст) -->
+        <section class="profile-columns profile-columns-hidden" data-section="about">
+            <div class="profile-column profile-column-wide">
+                <article class="profile-card">
+                    <h2 class="profile-card-title">О профиле LVS</h2>
+                    <p class="profile-card-text">
+                        Этот кабинет — прототип личного пространства участника Living Value System.
+                        Здесь будет собираться всё, что связано с твоей ценностью в системе:
+                        VU, TC, история задач, отзывы, ноды, подключённые кошельки и бизнес-профили.
+                    </p>
+                    <p class="profile-card-text">
+                        Основная логика редактирования (документы, логотипы, компании, KYC, кошельки)
+                        будет вынесена в отдельный раздел <strong>Настройки</strong>, чтобы профиль
+                        оставался лёгким и читаемым.
+                    </p>
+                </article>
+            </div>
+        </section>
+
     </main>
 
-    <!-- ===== ФУТЕР ТОЛЬКО ДЛЯ КАБИНЕТА ===== -->
-    <footer class="lvs-account-footer">
-        <div class="lvs-account-footer-left">
-            © 2025 Living Value System (LVS)
-        </div>
-        <div class="lvs-account-footer-right">
-            <a href="privacy.html">Политика конфиденциальности</a>
-            <a href="terms.html">Условия эксплуатации</a>
-            <a href="legal.html">Юридический</a>
-            <a href="contacts.html">Контакты</a>
-            <a href="https://github.com/vovan1980" target="_blank" rel="noreferrer">GitHub</a>
+    <!-- Футер такой же по смыслу, как на главной -->
+    <footer class="lvs-footer">
+        <div>© 2025 Living Value System (LVS)</div>
+        <div class="lvs-footer-links">
+            <a href="privacy.html">Privacy policy</a>
+            <a href="terms.html">Terms of use</a>
+            <a href="legal.html">Legal</a>
+            <a href="contacts.html">Contacts</a>
+            <a href="https://github.com/VOVAN1980/lvs-site" target="_blank" rel="noopener">
+                GitHub
+            </a>
         </div>
     </footer>
+
 </div>
 
-<script>
-    // простое выпадающее меню профиля
-    (function () {
-        var toggle = document.getElementById('accountMenuToggle');
-        var menu   = document.getElementById('accountMenu');
-        if (!toggle || !menu) return;
-
-        toggle.addEventListener('click', function (e) {
-            e.stopPropagation();
-            menu.classList.toggle('lvs-account-menu--open');
-        });
-
-        document.addEventListener('click', function () {
-            menu.classList.remove('lvs-account-menu--open');
-        });
-    })();
-</script>
+<script src="assets/js/profile.js"></script>
 </body>
 </html>
