@@ -1,20 +1,23 @@
-// assets/space/space.js
+(function () {
+    if (typeof Cesium === "undefined") {
+        console.error("Cesium is not loaded");
+        return;
+    }
 
-(async function () {
-    if (typeof Cesium === "undefined") return;
-
-    // токен Ion
+    // твой Ion-токен
     Cesium.Ion.defaultAccessToken =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxNGJlYzY3MS0wNzg0LTRhMTYtYTg4ZS0wZDk2Njk4MmJkODAiLCJpZCI6MzYzOTE1LCJpYXQiOjE3NjQxMTY4MTd9.mB7rmSUqh2vbP7RDT5B2nQMtOOoRNX0U1e3Z09v5ILM";
 
-    // ==== КНОПКА НАЗАД ====
+    // ===== КНОПКА НАЗАД ======================================================
     var backBtn = document.getElementById("space-back-btn");
     function goBack() {
         window.location.href = "index.html#work";
     }
-    if (backBtn) backBtn.addEventListener("click", goBack);
+    if (backBtn) {
+        backBtn.addEventListener("click", goBack);
+    }
 
-    // ==== VIEWER БЕЗ ДЕФОЛТНОГО СЛОЯ ====
+    // ===== VIEWER БЕЗ ДЕФОЛТНОГО СЛОЯ =======================================
     var viewer = new Cesium.Viewer("cesiumContainer", {
         imageryProvider: false,
         terrain: undefined,
@@ -36,71 +39,38 @@
         viewer._cesiumWidget._creditContainer.style.display = "none";
     } catch (e) {}
 
-    // ==== ПОДКЛЮЧАЕМ НАСТОЯЩУЮ КАРТУ С ПОДПИСЯМИ ====
-    try {
-        const worldImagery = await Cesium.createWorldImageryAsync({
-            style: Cesium.IonWorldImageryStyle.AERIAL_WITH_LABELS
-            // варианты:
-            // Cesium.IonWorldImageryStyle.AERIAL
-            // Cesium.IonWorldImageryStyle.AERIAL_WITH_LABELS
-            // Cesium.IonWorldImageryStyle.ROAD
-        });
-
-        const layers = viewer.imageryLayers;
-        layers.removeAll();
-        layers.addImageryProvider(worldImagery);
-    } catch (e) {
-        console.error("Ion imagery load error", e);
-    }
-
     var scene  = viewer.scene;
     var camera = viewer.camera;
 
-    // атмосфера / свет, чтобы выглядело “дорого”
+    // оформление сцены
     scene.globe.enableLighting = true;
     scene.skyAtmosphere.show   = true;
     scene.skyBox.show          = true;
     scene.backgroundColor      = Cesium.Color.BLACK;
 
-    // лёгкая пост-обработка: чуть ярче и контрастнее
-    try {
-        const stages = scene.postProcessStages;
-        const brightness = stages.add(
-            Cesium.PostProcessStageLibrary.createBrightnessStage()
-        );
-        brightness.enabled = true;
-        brightness.uniforms.brightness = 1.12;
+    // ===== ПОДКЛЮЧАЕМ НОРМАЛЬНУЮ ЗЕМЛЮ ЧЕРЕЗ ION ============================
+    Cesium.IonImageryProvider
+        .fromAssetId(2)          // World Imagery (Bing с подписями)
+        .then(function (provider) {
+            var layers = viewer.imageryLayers;
+            layers.removeAll();
+            layers.addImageryProvider(provider);
+        })
+        .catch(function (err) {
+            console.error("Ion imagery error:", err);
+        });
 
-        const contrast = stages.add(
-            Cesium.PostProcessStageLibrary.createContrastStage()
-        );
-        contrast.enabled = true;
-        contrast.uniforms.contrast = 1.08;
-    } catch (e) {
-        // если вдруг нет пост-обработки — просто пропускаем
-    }
-
-    // Ограничения по зуму (чтобы не улетать в сингулярность)
-    var controller = scene.screenSpaceCameraController;
-    controller.minimumZoomDistance = 150000;     // 150 км
-    controller.maximumZoomDistance = 45000000;   // 45 000 км
-
-    // Стартовый ракурс — "инновационный" угол на полушарие
+    // стартовый вид – слегка отдалённая Европа/Африка
     camera.setView({
-        destination: Cesium.Cartesian3.fromDegrees(10, 35, 26000000),
-        orientation: {
-            heading: Cesium.Math.toRadians(25),
-            pitch:   Cesium.Math.toRadians(-35),
-            roll:    0.0
-        }
+        destination: Cesium.Cartesian3.fromDegrees(10, 30, 18000000)
     });
 
-    // вырубаем стандартный double-click зум
+    // Отключаем стандартный дабл-клик зума Cesium
     viewer.screenSpaceEventHandler.removeInputAction(
         Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK
     );
 
-    // ==== НАШИ ГОРОДА (ЖЁЛТЫЕ ТОЧКИ) ====
+    // ===== ГОРОДА (как были) ================================================
     var CITY_DATA = [
         { name: "Bad Kreuznach", lat: 49.8454, lon: 7.8670 },
         { name: "Mainz",        lat: 49.9929, lon: 8.2473 },
@@ -148,18 +118,18 @@
         });
     });
 
-    // ==== ДВОЙНОЙ КЛИК: ФОКУС НА ГОРОД / ТЧК ====
+    // ===== ДВОЙНОЙ КЛИК: ГОРОД / ЛЮБАЯ ТОЧКА ================================
     var handler = new Cesium.ScreenSpaceEventHandler(viewer.canvas);
 
     handler.setInputAction(function (click) {
         var picked = scene.pick(click.position);
 
-        // клик по нашему городу
+        // клик по городу
         if (picked && picked.id && picked.id.position) {
-            var pos = picked.id.position.getValue(Cesium.JulianDate.now());
+            var pos         = picked.id.position.getValue(Cesium.JulianDate.now());
             var cartographic = Cesium.Cartographic.fromCartesian(pos);
-            var lat = Cesium.Math.toDegrees(cartographic.latitude);
-            var lon = Cesium.Math.toDegrees(cartographic.longitude);
+            var lat         = Cesium.Math.toDegrees(cartographic.latitude);
+            var lon         = Cesium.Math.toDegrees(cartographic.longitude);
 
             camera.flyTo({
                 destination: Cesium.Cartesian3.fromDegrees(lon, lat, 450000),
@@ -168,7 +138,7 @@
             return;
         }
 
-        // клик по любой точке Земли
+        // клик по произвольной точке Земли
         var ellipsoid = scene.globe.ellipsoid;
         var cartesian = camera.pickEllipsoid(click.position, ellipsoid);
         if (!cartesian) return;
