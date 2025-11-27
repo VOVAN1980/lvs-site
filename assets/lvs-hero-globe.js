@@ -43,15 +43,17 @@
         scene.backgroundColor = Cesium.Color.TRANSPARENT;
 
         // === ПОДКЛЮЧАЕМ ТВОЙ ASSET ИЗ ION ===
-        Cesium.IonImageryProvider.fromAssetId(3830186)
-            .then(function (provider) {
-                var layers = viewer.imageryLayers;
-                layers.removeAll();
-                layers.addImageryProvider(provider);
-            })
-            .catch(function (err) {
-                console.error("Ion imagery error:", err);
-            });
+        // === ПРАВИЛЬНАЯ ЗЕМЛЯ для мини-глобуса ===
+Cesium.IonImageryProvider.fromAssetId(2)
+    .then(function (provider) {
+        var layers = viewer.imageryLayers;
+        layers.removeAll();
+        layers.addImageryProvider(provider);
+    })
+    .catch(function (err) {
+        console.error("Ion imagery error:", err);
+    });
+        
         // =====================================
 
         // ДЕЛАЕМ ГЛОБУС ЕЩЁ МЕНЬШЕ В ТОМ ЖЕ КРУГЕ
