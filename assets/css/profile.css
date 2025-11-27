@@ -1,13 +1,22 @@
-/* ===== Базовый layout страницы профиля ===== */
+/* ===== Page layout only for profile page ===== */
 
+body.profile-body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* main content grows, footer прижимается вниз */
 .profile-page {
-    max-width: 1160px;
-    margin: 0 auto;
-    padding: 56px 24px 40px;
+    flex: 1;
+    max-width: 1040px;
+    margin: 48px auto 40px;
+    padding: 0 24px;
     color: #f5f7ff;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
 }
 
+/* общие ссылки внутри профиля */
 .profile-page a {
     color: #5fd3ff;
     text-decoration: none;
@@ -16,69 +25,325 @@
     text-decoration: underline;
 }
 
-/* ===== Шапка именно для кабинета ===== */
+/* маленький крумб над профилем, как на главной */
+.profile-breadcrumb {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 18px;
+}
 
-.lvs-header {
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    backdrop-filter: blur(14px);
-    background: linear-gradient(90deg, rgba(4, 9, 24, 0.94), rgba(6, 17, 40, 0.94));
+/* ===== HERO: avatar + main info ===== */
+
+.profile-hero {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 32px;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+/* квадратный контейнер под аватар */
+
+.profile-avatar {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #1e2746, #0b1426);
+    box-shadow: 0 26px 70px rgba(0, 0, 0, 0.7);
+}
+
+.profile-avatar__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* если нет картинки – стильная заглушка */
+.profile-avatar:not(:has(img)) {
+    background: radial-gradient(circle at 20% 0, #6bffb7, #0074ff);
+}
+
+/* overlay для загрузки аватара */
+
+.avatar-upload {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 46px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: opacity 0.25s ease;
+    opacity: 0;
+}
+
+.profile-avatar:hover .avatar-upload {
+    opacity: 1;
+}
+
+.avatar-upload input {
+    display: none;
+}
+
+.avatar-upload span {
+    font-size: 13px;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+/* лёгкий ховер рамки */
+.profile-avatar:hover {
+    border-color: rgba(255, 255, 255, 0.32);
+}
+
+/* ===== identity block (right to avatar) ===== */
+
+.profile-identity {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.profile-name {
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.profile-role {
+    font-size: 14px;
+    opacity: 0.85;
+}
+
+.profile-location {
+    font-size: 13px;
+    opacity: 0.7;
+}
+
+.profile-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.profile-tag {
+    font-size: 11px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    opacity: 0.9;
+}
+
+/* buttons */
+
+.profile-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.btn {
+    border-radius: 999px;
+    padding: 8px 16px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: #f5f7ff;
+    font-size: 13px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    border-color: transparent;
+}
+.btn-primary:hover {
+    filter: brightness(1.07);
+}
+
+.btn-ghost {
+    border-color: rgba(255, 255, 255, 0.22);
+    background: rgba(4, 11, 30, 0.6);
+}
+.btn-ghost:hover {
+    border-color: rgba(255, 255, 255, 0.42);
+}
+
+/* ===== stats под блоком имени ===== */
+
+.profile-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 32px;
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.profile-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 13px;
+    min-width: 120px;
+}
+
+.profile-stat__label {
+    opacity: 0.7;
+}
+
+.profile-stat__value {
+    font-weight: 600;
+}
+
+/* ===== content grid ===== */
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.2fr);
+    gap: 32px 48px;
+}
+
+.profile-section {
+    padding-bottom: 24px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.lvs-header__inner {
-    max-width: 1160px;
-    margin: 0 auto;
-    padding: 14px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.profile-section--wide {
+    grid-column: 1 / -1;
 }
 
-.lvs-logo {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-}
-.lvs-logo__dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #6bffb7, #16a085);
-}
-.lvs-logo__text {
-    font-size: 13px;
+.profile-section__title {
+    font-size: 16px;
+    margin: 0 0 10px;
     font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
 }
 
-.lvs-nav--profile {
-    display: flex;
-    align-items: center;
-    gap: 16px;
+.profile-text {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    opacity: 0.9;
+}
+
+.profile-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
     font-size: 14px;
 }
+.profile-list li + li {
+    margin-top: 4px;
+}
 
-.lvs-nav__link {
+.profile-list--two-columns {
+    columns: 2;
+    column-gap: 32px;
+}
+.profile-list--two-columns li {
+    break-inside: avoid;
+}
+
+/* ===== activity timeline ===== */
+
+.profile-timeline {
+    list-style: none;
+    margin: 6px 0 0;
+    padding: 0;
+    font-size: 14px;
+}
+.profile-timeline__item {
+    position: relative;
+    padding-left: 16px;
+    margin-bottom: 10px;
+}
+.profile-timeline__item::before {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 6px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #00c6ff;
+}
+.profile-timeline__time {
+    font-size: 12px;
+    opacity: 0.6;
+}
+.profile-timeline__text {
+    opacity: 0.92;
+}
+
+/* ===== feedback ===== */
+
+.profile-feedback {
+    margin-top: 10px;
+    padding: 10px 0;
+    border-top: 1px dashed rgba(255, 255, 255, 0.12);
+}
+.profile-feedback:first-of-type {
+    border-top: none;
+}
+
+.profile-feedback__source {
+    font-size: 13px;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.profile-feedback__text {
+    margin: 4px 0 2px;
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.profile-feedback__rating {
+    font-size: 13px;
+    color: #ffd76b;
+}
+
+/* ===== footer (same style, но прижат к низу) ===== */
+
+.lvs-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 18px 0 24px;
+}
+.lvs-footer__inner {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    opacity: 0.7;
+}
+.lvs-footer__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.lvs-footer__nav a {
     opacity: 0.8;
 }
-.lvs-nav__link:hover {
+.lvs-footer__nav a:hover {
     opacity: 1;
 }
-.lvs-nav__link--active {
-    opacity: 1;
-    font-weight: 600;
-}
 
-.lvs-nav__separator {
-    width: 1px;
-    height: 24px;
-    background: rgba(255, 255, 255, 0.16);
-}
-
-/* ===== Меню профиля в правом верхнем углу ===== */
+/* ===== profile dropdown in header ===== */
 
 .profile-menu {
     position: relative;
@@ -89,16 +354,15 @@
     gap: 8px;
     padding: 6px 10px;
     border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     background: rgba(4, 11, 30, 0.7);
-    cursor: pointer;
     color: #f5f7ff;
+    cursor: pointer;
     font-size: 13px;
 }
 .profile-menu__trigger:hover {
-    border-color: rgba(255, 255, 255, 0.32);
+    border-color: rgba(255, 255, 255, 0.25);
 }
-
 .profile-menu__avatar {
     width: 22px;
     height: 22px;
@@ -107,6 +371,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+}
+.profile-menu__avatar-inner {
     font-size: 11px;
     font-weight: 600;
 }
@@ -142,355 +409,55 @@
     border-radius: 8px;
     font-size: 13px;
     color: #f5f7ff;
+    text-decoration: none;
 }
 .profile-menu__item:hover {
-    background: rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.04);
 }
 .profile-menu__item--danger {
     color: #ff8a8a;
 }
 
-/* ===== Hero-зона: аватар + данные + статы ===== */
+/* ===== responsive ===== */
 
-.profile-hero {
-    max-width: 1160px;
-    margin: 0 auto 56px;
-    display: grid;
-    grid-template-columns: 180px minmax(0, 1.6fr) minmax(0, 0.9fr);
-    gap: 40px;
-    align-items: flex-start;
-}
+@media (max-width: 960px) {
+    .profile-page {
+        padding: 0 16px;
+        margin-top: 32px;
+    }
 
-/* --- аватар --- */
-
-.profile-avatar {
-    width: 180px;
-    height: 180px;
-    border-radius: 14px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    overflow: hidden;
-    position: relative;
-    background: rgba(255, 255, 255, 0.03);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.profile-avatar__img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* заглушка, если картинка не подгружена */
-.profile-avatar--empty {
-    background: linear-gradient(135deg, #1e2746, #0d1529);
-}
-
-/* upload overlay */
-
-.avatar-upload {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 44px;
-    background: rgba(0, 0, 0, 0.52);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: 0.25s ease;
-    cursor: pointer;
-}
-
-.avatar-upload span {
-    font-size: 13px;
-    font-weight: 500;
-}
-
-.avatar-upload input {
-    display: none;
-}
-
-.profile-avatar:hover .avatar-upload {
-    opacity: 1;
-}
-
-.profile-avatar:hover {
-    border-color: rgba(255, 255, 255, 0.28);
-}
-
-/* --- правая часть с именем и инфой --- */
-
-.profile-main {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.profile-name {
-    margin: 0;
-    font-size: 28px;
-    font-weight: 600;
-}
-
-.profile-role {
-    font-size: 14px;
-    opacity: 0.85;
-}
-
-.profile-location {
-    font-size: 13px;
-    opacity: 0.7;
-}
-
-.profile-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 6px;
-}
-
-.profile-tag {
-    font-size: 11px;
-    padding: 4px 8px;
-    border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    opacity: 0.9;
-}
-
-.profile-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 10px;
-}
-
-/* кнопки */
-
-.btn {
-    border-radius: 999px;
-    padding: 8px 14px;
-    border: 1px solid transparent;
-    background: transparent;
-    color: #f5f7ff;
-    font-size: 13px;
-    cursor: pointer;
-    white-space: nowrap;
-}
-.btn-primary {
-    background: linear-gradient(135deg, #00c6ff, #0072ff);
-}
-.btn-primary:hover {
-    filter: brightness(1.07);
-}
-.btn-ghost {
-    border-color: rgba(255, 255, 255, 0.24);
-    background: rgba(4, 11, 30, 0.7);
-}
-.btn-ghost:hover {
-    border-color: rgba(255, 255, 255, 0.4);
-}
-
-/* --- статы справа --- */
-
-.profile-stats {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    font-size: 13px;
-    border-left: 1px solid rgba(255, 255, 255, 0.1);
-    padding-left: 16px;
-}
-
-.profile-stat {
-    display: flex;
-    justify-content: space-between;
-    gap: 16px;
-}
-
-.profile-stat__label {
-    opacity: 0.7;
-}
-
-.profile-stat__value {
-    font-weight: 600;
-}
-
-/* ===== Секции профиля (текст, навыки, ноды, активность) ===== */
-
-.profile-grid {
-    max-width: 1160px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.2fr);
-    gap: 32px 48px;
-}
-
-.profile-section {
-    padding-bottom: 24px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.profile-section--wide {
-    grid-column: 1 / -1;
-}
-
-.profile-section__title {
-    margin: 0 0 10px;
-    font-size: 16px;
-    font-weight: 600;
-}
-
-.profile-text {
-    margin: 0;
-    font-size: 14px;
-    line-height: 1.6;
-    opacity: 0.9;
-}
-
-/* списки */
-
-.profile-list {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    font-size: 14px;
-}
-.profile-list li + li {
-    margin-top: 4px;
-}
-
-/* ===== Таймлайн активности ===== */
-
-.profile-timeline {
-    margin: 6px 0 0;
-    padding: 0;
-    list-style: none;
-    font-size: 14px;
-}
-
-.profile-timeline__item {
-    position: relative;
-    padding-left: 16px;
-    margin-bottom: 10px;
-}
-
-.profile-timeline__item::before {
-    content: "";
-    position: absolute;
-    left: 4px;
-    top: 7px;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: #00c6ff;
-}
-
-.profile-timeline__time {
-    font-size: 12px;
-    opacity: 0.6;
-}
-
-.profile-timeline__text {
-    opacity: 0.92;
-}
-
-/* ===== Отзывы ===== */
-
-.profile-feedback {
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px dashed rgba(255, 255, 255, 0.14);
-}
-.profile-feedback:first-of-type {
-    border-top: none;
-}
-
-.profile-feedback__source {
-    font-size: 13px;
-    font-weight: 500;
-}
-.profile-feedback__text {
-    margin: 4px 0 2px;
-    font-size: 14px;
-    opacity: 0.9;
-}
-.profile-feedback__rating {
-    font-size: 13px;
-    color: #ffd76b;
-}
-
-/* ===== Футер ===== */
-
-.lvs-footer {
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
-    margin-top: 40px;
-    padding: 18px 0 24px;
-}
-.lvs-footer__inner {
-    max-width: 1160px;
-    margin: 0 auto;
-    padding: 0 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 12px;
-    opacity: 0.78;
-}
-.lvs-footer__nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-}
-.lvs-footer__nav a {
-    opacity: 0.8;
-}
-.lvs-footer__nav a:hover {
-    opacity: 1;
-}
-
-/* ===== Адаптив ===== */
-
-@media (max-width: 1024px) {
     .profile-hero {
-        grid-template-columns: 180px minmax(0, 1.6fr);
-        grid-template-rows: auto auto;
-        gap: 28px 32px;
+        grid-template-columns: 1fr;
+        align-items: flex-start;
     }
+
+    .profile-avatar {
+        width: 180px;
+        height: 180px;
+    }
+
     .profile-stats {
-        grid-column: 1 / -1;
-        border-left: none;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        padding-left: 0;
-        padding-top: 14px;
-        flex-direction: row;
-        flex-wrap: wrap;
+        gap: 10px 24px;
     }
+
     .profile-grid {
-        grid-template-columns: minmax(0, 1fr);
+        grid-template-columns: 1fr;
+    }
+
+    .lvs-footer__inner {
+        padding-inline: 16px;
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
     }
 }
 
 @media (max-width: 720px) {
-    .lvs-header__inner {
-        padding-inline: 16px;
+    .profile-name {
+        font-size: 24px;
     }
-    .profile-page {
-        padding-inline: 16px;
-    }
-    .profile-hero {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-    .profile-avatar {
-        width: 150px;
-        height: 150px;
-    }
-    .profile-stats {
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        border-left: none;
-        padding-top: 14px;
+
+    .profile-list--two-columns {
+        columns: 1;
     }
 }
