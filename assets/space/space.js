@@ -36,13 +36,7 @@
     var scene   = viewer.scene;
     var camera  = viewer.camera;
     var layers  = viewer.imageryLayers;
-
-    // ==== ФОТОКАРТА ЗЕМЛИ ЧЕРЕЗ ION (assetId: 2) ====
-    layers.removeAll();
-    layers.addImageryProvider(
-        new Cesium.IonImageryProvider({ assetId: 2 })
-    );
-
+    
     // ==== ВИЗУАЛЬНАЯ НАСТРОЙКА БЕЗ ОБЛАКОВ ====
     scene.globe.enableLighting = true;                // день/ночь
     scene.globe.depthTestAgainstTerrain = true;
