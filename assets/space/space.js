@@ -59,7 +59,7 @@
     // === ВИЗУАЛ И БЕЗ НОЧИ ===
     scene.globe.enableLighting = false;     // всегда светлая карта
     scene.skyAtmosphere.show = true;        // лёгкая атмосфера по краю
-    scene.skyBox.show = false;              // оставляем твой фон-космос
+    scene.skyBox.show = true;              // оставляем твой фон-космос
     scene.sun.show = false;                 // без яркого солнца-точки
     scene.backgroundColor = Cesium.Color.BLACK;
 
