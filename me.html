@@ -1,17 +1,18 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>LVS – Мой кабинет</title>
+    <title>LVS – My profile</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Базовые стили сайта -->
+    <!-- base styles of the site -->
     <link rel="stylesheet" href="assets/lvs.css" />
-    <!-- Стили профиля поверх базовых -->
+    <!-- profile styles on top -->
     <link rel="stylesheet" href="assets/css/profile.css" />
 </head>
-<body>
+<body class="profile-body">
 
+<!-- ===== Header: берём общий, только добавляем выпадающее меню ===== -->
 <header class="lvs-header">
     <div class="lvs-header__inner">
         <a href="index.html" class="lvs-logo">
@@ -20,24 +21,29 @@
         </a>
 
         <nav class="lvs-nav lvs-nav--profile">
-            <a href="market.html" class="lvs-nav__link">Работа и задания</a>
-            <a href="me.html" class="lvs-nav__link lvs-nav__link--active">Мой профиль</a>
+            <a href="market.html" class="lvs-nav__link">Jobs & tasks</a>
+
+            <a href="me.html" class="lvs-nav__link lvs-nav__link--active">
+                My profile
+            </a>
 
             <div class="lvs-nav__separator"></div>
 
             <div class="profile-menu">
                 <button class="profile-menu__trigger" type="button">
-                    <span class="profile-menu__avatar">V</span>
+                    <span class="profile-menu__avatar">
+                        <span class="profile-menu__avatar-inner">V</span>
+                    </span>
                     <span class="profile-menu__name">Volodymyr Podkorytov</span>
                     <span class="profile-menu__arrow">▾</span>
                 </button>
 
                 <div class="profile-menu__dropdown">
-                    <a href="#settings" class="profile-menu__item">Настройки аккаунта</a>
-                    <a href="documents.html" class="profile-menu__item">Документы</a>
-                    <a href="space.html" class="profile-menu__item">Глобальная карта</a>
+                    <a href="#settings" class="profile-menu__item">Account settings</a>
+                    <a href="documents.html" class="profile-menu__item">Documents</a>
+                    <a href="space.html" class="profile-menu__item">Global map</a>
                     <a href="index.html" class="profile-menu__item profile-menu__item--danger">
-                        Выйти в главное меню
+                        Back to main page
                     </a>
                 </div>
             </div>
@@ -46,129 +52,133 @@
 </header>
 
 <main class="profile-page">
+    <div class="profile-breadcrumb">
+        LVS / Account
+    </div>
 
-    <!-- HERO: аватар + основная инфа + статы -->
     <section class="profile-hero">
+        <!-- avatar block -->
+        <div class="profile-avatar uploadable">
+            <!-- твоя текущая аватарка -->
+            <img src="assets/img/avatar-demo.png" alt="Avatar" class="profile-avatar__img" />
 
-        <!-- аватар -->
-        <div class="profile-avatar" id="avatar-box">
-            <img src="assets/img/avatar-demo.png" alt="Avatar" class="profile-avatar__img" id="avatar-img" />
             <label class="avatar-upload">
-                <input type="file" accept="image/*" id="avatar-input" />
-                <span>Изменить</span>
+                <input type="file" accept="image/*" />
+                <span>Change avatar</span>
             </label>
         </div>
 
-        <!-- основная инфа -->
-        <div class="profile-main">
+        <!-- main identity block -->
+        <div class="profile-identity">
             <h1 class="profile-name">Volodymyr Podkorytov</h1>
 
-            <div class="profile-role">Основатель • LVS / IBITI</div>
-            <div class="profile-location">Виндесхайм, Германия</div>
+            <div class="profile-role">
+                Founder • LVS / IBITI
+            </div>
+
+            <div class="profile-location">
+                Windesheim, Germany
+            </div>
 
             <div class="profile-tags">
-                <span class="profile-tag">Человек</span>
-                <span class="profile-tag">Строитель</span>
-                <span class="profile-tag">Ранний участник LVS</span>
+                <span class="profile-tag">Human</span>
+                <span class="profile-tag">Builder</span>
+                <span class="profile-tag">Early LVS participant</span>
             </div>
 
             <div class="profile-actions">
-                <button class="btn btn-primary">Отправить сообщение</button>
-                <button class="btn btn-ghost">Редактировать профиль</button>
+                <button class="btn btn-primary">Send message</button>
+                <button class="btn btn-ghost">Edit profile</button>
+            </div>
+
+            <div class="profile-stats">
+                <div class="profile-stat">
+                    <span class="profile-stat__label">Trust (TC)</span>
+                    <span class="profile-stat__value">87%</span>
+                </div>
+                <div class="profile-stat">
+                    <span class="profile-stat__label">Value (VU)</span>
+                    <span class="profile-stat__value">4 200</span>
+                </div>
+                <div class="profile-stat">
+                    <span class="profile-stat__label">Stability</span>
+                    <span class="profile-stat__value">93%</span>
+                </div>
             </div>
         </div>
-
-        <!-- статы справа -->
-        <div class="profile-stats">
-            <div class="profile-stat">
-                <span class="profile-stat__label">Доверие (TC)</span>
-                <span class="profile-stat__value">87%</span>
-            </div>
-            <div class="profile-stat">
-                <span class="profile-stat__label">Стоимость (VU)</span>
-                <span class="profile-stat__value">4 200</span>
-            </div>
-            <div class="profile-stat">
-                <span class="profile-stat__label">Стабильность</span>
-                <span class="profile-stat__value">93%</span>
-            </div>
-        </div>
-
     </section>
 
-    <!-- Основные секции профиля -->
+    <!-- ===== main content grid ===== -->
     <section class="profile-grid">
-
         <section class="profile-section">
-            <h2 class="profile-section__title">Обо мне</h2>
+            <h2 class="profile-section__title">About</h2>
             <p class="profile-text">
-                Ранний участник системы Living Value System. Создание автономного уровня ценности,
-                экосистемы IBITI и реальных услуг.
+                Early participant of the Living Value System. Building an autonomous value
+                layer, the IBITI ecosystem, and real-world services around it.
             </p>
         </section>
 
         <section class="profile-section">
-            <h2 class="profile-section__title">Навыки и фокус</h2>
-            <ul class="profile-list">
-                <li>Распределённые системы</li>
-                <li>Крипто / DeFi</li>
+            <h2 class="profile-section__title">Skills & focus</h2>
+            <ul class="profile-list profile-list--two-columns">
+                <li>Distributed systems</li>
+                <li>Crypto / DeFi</li>
                 <li>Rust / TypeScript</li>
-                <li>Стратегия продукта</li>
+                <li>Product strategy</li>
             </ul>
         </section>
 
         <section class="profile-section">
-            <h2 class="profile-section__title">Мои ноды LVS</h2>
+            <h2 class="profile-section__title">My LVS nodes</h2>
             <ul class="profile-list">
-                <li>node1 — узел домашнего шлюза</li>
-                <li>node2 — узел мобильного браузера</li>
+                <li>node1 — home gateway node</li>
+                <li>node2 — mobile browser node</li>
             </ul>
         </section>
 
         <section class="profile-section profile-section--wide">
-            <h2 class="profile-section__title">Активность</h2>
+            <h2 class="profile-section__title">Activity</h2>
             <ul class="profile-timeline">
                 <li class="profile-timeline__item">
                     <div class="profile-timeline__time">2025-11-26 • 22:31</div>
                     <div class="profile-timeline__text">
-                        Присоединился к глобальной карте LVS (Виндесхайм).
+                        Joined the global LVS map (Windesheim).
                     </div>
                 </li>
                 <li class="profile-timeline__item">
                     <div class="profile-timeline__time">2025-11-26 • 21:10</div>
                     <div class="profile-timeline__text">
-                        Подключён узел браузера к публичному шлюзу.
+                        Connected browser node to the public gateway.
                     </div>
                 </li>
                 <li class="profile-timeline__item">
                     <div class="profile-timeline__time">2025-11-25 • 19:44</div>
                     <div class="profile-timeline__text">
-                        Завершён сеанс моделирования дрейфа.
+                        Finished drift modelling session.
                     </div>
                 </li>
             </ul>
         </section>
 
         <section class="profile-section profile-section--wide">
-            <h2 class="profile-section__title">Отзывы и комментарии</h2>
+            <h2 class="profile-section__title">Feedback & comments</h2>
 
             <article class="profile-feedback">
-                <div class="profile-feedback__source">Система LVS</div>
+                <div class="profile-feedback__source">LVS system</div>
                 <p class="profile-feedback__text">
-                    Стабильное поведение и высокий рейтинг доверия.
+                    Stable behaviour and high trust rating.
                 </p>
                 <div class="profile-feedback__rating">★★★★★</div>
             </article>
 
             <article class="profile-feedback">
-                <div class="profile-feedback__source">Участник тестовой сети</div>
+                <div class="profile-feedback__source">Test-net participant</div>
                 <p class="profile-feedback__text">
-                    Быстрые ответы, чёткая коммуникация.
+                    Fast responses and clear communication.
                 </p>
                 <div class="profile-feedback__rating">★★★★★</div>
             </article>
         </section>
-
     </section>
 </main>
 
@@ -186,38 +196,21 @@
 </footer>
 
 <script>
-    // Дропдаун в правом верхнем углу
+    // simple profile dropdown
     (function () {
-        var menu = document.querySelector(".profile-menu");
+        var menu = document.querySelector('.profile-menu');
         if (!menu) return;
 
-        var trigger = menu.querySelector(".profile-menu__trigger");
-        trigger.addEventListener("click", function (e) {
-            e.stopPropagation();
-            menu.classList.toggle("profile-menu--open");
+        var trigger = menu.querySelector('.profile-menu__trigger');
+
+        trigger.addEventListener('click', function () {
+            menu.classList.toggle('profile-menu--open');
         });
 
-        document.addEventListener("click", function (e) {
+        document.addEventListener('click', function (e) {
             if (!menu.contains(e.target)) {
-                menu.classList.remove("profile-menu--open");
+                menu.classList.remove('profile-menu--open');
             }
-        });
-    })();
-
-    // Загрузка аватара (локальный preview)
-    (function () {
-        var input = document.getElementById("avatar-input");
-        var img   = document.getElementById("avatar-img");
-        var box   = document.getElementById("avatar-box");
-        if (!input || !img || !box) return;
-
-        input.addEventListener("change", function (e) {
-            var file = e.target.files && e.target.files[0];
-            if (!file) return;
-
-            var url = URL.createObjectURL(file);
-            img.src = url;
-            box.classList.remove("profile-avatar--empty");
         });
     })();
 </script>
