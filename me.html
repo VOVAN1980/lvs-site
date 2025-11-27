@@ -3,211 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <title>LVS – Мой кабинет</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Общие стили сайта -->
+    <!-- общий стиль сайта -->
     <link rel="stylesheet" href="assets/lvs.css">
-    <!-- Стили только для кабинета -->
+
+    <!-- стили именно кабинета/профиля -->
     <link rel="stylesheet" href="assets/css/profile.css">
+
+    <!-- логика кабинета (демо-профиль) -->
+    <script defer src="assets/js/profile.js"></script>
 </head>
-<body>
-<div class="profile-root">
+<body class="lvs-body">
 
-    <!-- ВЕРХНЕЕ МЕНЮ КАБИНЕТА -->
-    <header class="lvs-navtop profile-nav">
-        <div class="profile-nav-left">
-            <a href="index.html" class="profile-logo">
-                <span class="profile-logo-mark"></span>
-                <span class="profile-logo-text">Living Value System</span>
-            </a>
-            <span class="profile-section-label">/ Мой кабинет</span>
+<header class="lvs-navtop">
+    <div class="lvs-navtop-left">
+        <img class="lvs-navtop-logo"
+             src="assets/img/lvs-logo.png"
+             alt="LVS logo">
+        <span>Living Value System</span>
+    </div>
+
+    <nav class="lvs-navtop-right">
+        <a href="profile.html" class="lvs-navtop-btn">Демо-профиль</a>
+        <a href="me.html" class="lvs-navtop-btn lvs-navtop-btn-active">Мой кабинет</a>
+        <a href="market.html" class="lvs-navtop-btn">Работа и задания</a>
+        <a href="about.html" class="lvs-navtop-btn">О LVS</a>
+        <a href="/docs" class="lvs-navtop-btn">Документы</a>
+        <a href="space.html" class="lvs-navtop-btn">Full world map</a>
+    </nav>
+</header>
+
+<main class="lvs-profile">
+    <section class="lvs-profile-header">
+        <div class="lvs-profile-avatar">
+            <img id="profile-avatar" src="assets/img/default-avatar.png" alt="Avatar">
         </div>
 
-        <nav class="profile-nav-right">
-            <a href="market.html" class="profile-nav-link">Работа и задания</a>
+        <div class="lvs-profile-main">
+            <div class="lvs-pill">LVS / ACCOUNT</div>
+            <h1 id="profile-name">Мой кабинет</h1>
+            <p id="profile-role" class="lvs-profile-role"></p>
+            <p id="profile-location" class="lvs-profile-location"></p>
+            <div class="lvs-profile-tags" id="profile-tags"></div>
+        </div>
 
-            <div class="profile-user-menu">
-                <button class="profile-user-trigger" type="button">
-                    <div class="profile-avatar-mini"></div>
-                    <span class="profile-user-name">Volodymyr Podkorytov</span>
-                    <span class="profile-user-caret">▾</span>
-                </button>
-
-                <div class="profile-user-dropdown">
-                    <a href="me.html">Профиль</a>
-                    <a href="settings.html">Настройки</a>
-                    <hr>
-                    <a href="index.html">Главная страница</a>
-                    <a href="space.html">Глобальная карта</a>
-                    <hr>
-                    <button type="button" data-action="logout">Выйти из аккаунта</button>
-                </div>
+        <div class="lvs-profile-stats">
+            <div class="lvs-stat-card">
+                <div class="lvs-stat-label">Trust (TC)</div>
+                <div class="lvs-stat-value" id="profile-tc">–</div>
             </div>
-        </nav>
-    </header>
+            <div class="lvs-stat-card">
+                <div class="lvs-stat-label">Value (VU)</div>
+                <div class="lvs-stat-value" id="profile-vu">–</div>
+            </div>
+            <div class="lvs-stat-card">
+                <div class="lvs-stat-label">Stability</div>
+                <div class="lvs-stat-value" id="profile-stability">–</div>
+            </div>
+        </div>
+    </section>
 
-    <!-- ОСНОВНОЙ КОНТЕНТ КАБИНЕТА -->
-    <main class="profile-layout">
-        <!-- ЛЕВАЯ КОЛОНКА -->
-        <section class="profile-col-left">
-
-            <!-- Главная карточка пользователя -->
-            <article class="profile-card profile-main-card">
-                <div class="profile-main-top">
-                    <div class="profile-avatar-wrap">
-                        <div class="profile-avatar-image"></div>
-                        <button type="button" class="profile-avatar-edit">Изменить фото</button>
-                        <input type="file" id="profile-avatar-input" accept="image/*" hidden>
-                    </div>
-
-                    <div class="profile-main-meta">
-                        <div class="profile-name-row">
-                            <h1 class="profile-name">Volodymyr Podkorytov</h1>
-                            <span class="profile-badge profile-badge-primary">Ранний участник LVS</span>
-                        </div>
-
-                        <div class="profile-role">Основатель • LVS / IBITI</div>
-                        <div class="profile-location">Виндесхайм, Германия</div>
-
-                        <div class="profile-chips-row">
-                            <span class="profile-chip">Человек</span>
-                            <span class="profile-chip">Строитель</span>
-                            <span class="profile-chip">Ранний участник LVS</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="profile-main-bottom">
-                    <div class="profile-stat-row">
-                        <div class="profile-stat">
-                            <div class="profile-stat-label">Доверие (TC)</div>
-                            <div class="profile-stat-value">87%</div>
-                        </div>
-                        <div class="profile-stat">
-                            <div class="profile-stat-label">Стоимость (VU)</div>
-                            <div class="profile-stat-value">4 200</div>
-                        </div>
-                        <div class="profile-stat">
-                            <div class="profile-stat-label">Стабильность</div>
-                            <div class="profile-stat-value">93%</div>
-                        </div>
-                    </div>
-
-                    <div class="profile-main-actions">
-                        <button type="button" class="profile-btn profile-btn-primary">
-                            Отправить сообщение
-                        </button>
-                        <button type="button" class="profile-btn profile-btn-ghost">
-                            Редактировать профиль
-                        </button>
-                    </div>
-                </div>
-            </article>
-
-            <!-- Обо мне -->
-            <article class="profile-card">
-                <h2 class="profile-card-title">Обо мне</h2>
-                <p class="profile-card-text">
-                    Ранний участник системы Living Value System. Создание автономного уровня ценности,
-                    экосистемы IBITI и реальных услуг.
+    <section class="lvs-profile-body">
+        <div class="lvs-profile-left">
+            <div class="lvs-card">
+                <h2>Обо мне</h2>
+                <p id="profile-bio">
+                    Здесь будет твой личный профиль LVS: кто ты, чем занимаешься, где работаешь,
+                    какие проекты ведёшь и как участвуешь в LVS.
                 </p>
-            </article>
-
-            <!-- Навыки и фокус + Мои ноды LVS -->
-            <div class="profile-grid-2">
-                <article class="profile-card">
-                    <h2 class="profile-card-title">Навыки и фокус</h2>
-                    <ul class="profile-list">
-                        <li>Распределённые системы</li>
-                        <li>Крипто / DeFi</li>
-                        <li>Rust / TypeScript</li>
-                        <li>Стратегия продукта</li>
-                    </ul>
-                </article>
-
-                <article class="profile-card">
-                    <h2 class="profile-card-title">Мои ноды LVS</h2>
-                    <ul class="profile-list">
-                        <li>node1 — узел домашнего шлюза</li>
-                        <li>node2 — узел мобильного браузера</li>
-                    </ul>
-                </article>
             </div>
-        </section>
 
-        <!-- ПРАВАЯ КОЛОНКА -->
-        <section class="profile-col-right">
+            <div class="lvs-card">
+                <h2>Навыки и фокус</h2>
+                <ul id="profile-skills"></ul>
+            </div>
 
-            <!-- Активность -->
-            <article class="profile-card">
-                <div class="profile-card-header">
-                    <h2 class="profile-card-title">Активность</h2>
-                </div>
-
-                <ul class="profile-activity-list">
-                    <li>
-                        <div class="profile-activity-time">2025-11-26 • 22:31</div>
-                        <div class="profile-activity-text">
-                            Присоединился к глобальной карте LVS (Виндесхайм)
-                        </div>
-                    </li>
-                    <li>
-                        <div class="profile-activity-time">2025-11-26 • 21:10</div>
-                        <div class="profile-activity-text">
-                            Подключён узел браузера к публичному шлюзу
-                        </div>
-                    </li>
-                    <li>
-                        <div class="profile-activity-time">2025-11-25 • 19:44</div>
-                        <div class="profile-activity-text">
-                            Завершён сеанс моделирования дрейфа
-                        </div>
-                    </li>
-                </ul>
-            </article>
-
-            <!-- Отзывы и комментарии -->
-            <article class="profile-card">
-                <div class="profile-card-header">
-                    <h2 class="profile-card-title">Отзывы и комментарии</h2>
-                </div>
-
-                <div class="profile-review">
-                    <div class="profile-review-header">
-                        <div class="profile-review-source">Система LVS</div>
-                        <div class="profile-review-stars">★★★★★</div>
-                    </div>
-                    <p class="profile-review-text">
-                        Стабильное поведение и высокий рейтинг доверия.
-                    </p>
-                </div>
-
-                <div class="profile-review">
-                    <div class="profile-review-header">
-                        <div class="profile-review-source">Участник тестовой сети</div>
-                        <div class="profile-review-stars">★★★★★</div>
-                    </div>
-                    <p class="profile-review-text">
-                        Быстрые ответы, чёткая коммуникация.
-                    </p>
-                </div>
-            </article>
-        </section>
-    </main>
-
-    <!-- ФУТЕР КАК НА ДРУГИХ СТРАНИЦАХ -->
-    <footer class="lvs-footer">
-        <div>© 2025 Living Value System (LVS)</div>
-        <div class="lvs-footer-links">
-            <a href="#">Privacy policy</a>
-            <a href="#">Terms of use</a>
-            <a href="#">Legal</a>
-            <a href="#">Contacts</a>
-            <a href="https://github.com/VOVAN1980/lvs-site" target="_blank">GitHub</a>
+            <div class="lvs-card">
+                <h2>Мои ноды LVS</h2>
+                <ul id="profile-nodes"></ul>
+            </div>
         </div>
-    </footer>
-</div>
 
-<script src="assets/js/profile.js"></script>
+        <div class="lvs-profile-right">
+            <div class="lvs-card">
+                <h2>Активность</h2>
+                <ul id="profile-activity" class="lvs-activity-list"></ul>
+            </div>
+
+            <div class="lvs-card">
+                <h2>Отзывы и комментарии</h2>
+                <ul id="profile-reviews" class="lvs-review-list"></ul>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="lvs-footer">
+    <div class="lvs-footer-left">© 2025 Living Value System (LVS)</div>
+
+    <div class="lvs-footer-links">
+        <a href="#">Privacy policy</a>
+        <a href="#">Terms of use</a>
+        <a href="#">Legal</a>
+        <a href="#">Contacts</a>
+        <a href="https://github.com/VOVAN1980" target="_blank" rel="noopener">GitHub</a>
+    </div>
+</footer>
+
 </body>
 </html>
