@@ -1,39 +1,58 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>LVS – Демо-профиль</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="assets/lvs.css">
-</head>
-<body>
-<header class="lvs-navtop">
-    <div class="lvs-navtop-left">
-        <img class="lvs-navtop-logo" src="assets/img/lvs-logo.png" alt="LVS logo">
-        <span>Living Value System</span>
+<main class="lvs-profile">
+  <section class="lvs-profile-header">
+    <div class="lvs-profile-avatar">
+      <img id="profile-avatar" src="assets/img/default-avatar.png" alt="Avatar">
     </div>
-    <nav class="lvs-navtop-right">
-        <a href="profile.html" class="lvs-navtop-btn">Демо-профиль</a>
-        <a href="me.html" class="lvs-navtop-btn">Мой кабинет</a>
-        <a href="market.html" class="lvs-navtop-btn">Работа и задания</a>
-        <a href="about.html" class="lvs-navtop-btn">О LVS</a>
-        <a href="space.html" class="lvs-navtop-btn">Full world map</a>
-    </nav>
-</header>
+    <div class="lvs-profile-main">
+      <h1 id="profile-name"></h1>
+      <p id="profile-role" class="lvs-profile-role"></p>
+      <p id="profile-location" class="lvs-profile-location"></p>
+      <div class="lvs-profile-tags" id="profile-tags"></div>
+    </div>
+    <div class="lvs-profile-stats">
+      <div class="lvs-stat-card">
+        <div class="lvs-stat-label">Trust (TC)</div>
+        <div class="lvs-stat-value" id="profile-tc"></div>
+      </div>
+      <div class="lvs-stat-card">
+        <div class="lvs-stat-label">Value (VU)</div>
+        <div class="lvs-stat-value" id="profile-vu"></div>
+      </div>
+      <div class="lvs-stat-card">
+        <div class="lvs-stat-label">Stability</div>
+        <div class="lvs-stat-value" id="profile-stability"></div>
+      </div>
+    </div>
+  </section>
 
-<main class="lvs-layout">
-    <section class="lvs-hero-left">
-        <div class="lvs-pill">LVS / DEMO PROFILE</div>
-        <h1 class="lvs-hero-title">Демо-профиль участника</h1>
-        <p class="lvs-hero-text">
-            Здесь будет пример публичной страницы работника/компании:
-            релевантные навыки, выполненные задания, доверие (TC) и доход в VU.
-        </p>
-    </section>
+  <section class="lvs-profile-body">
+    <div class="lvs-profile-left">
+      <div class="lvs-card">
+        <h2>About</h2>
+        <p id="profile-bio"></p>
+      </div>
+
+      <div class="lvs-card">
+        <h2>Skills & Focus</h2>
+        <ul id="profile-skills"></ul>
+      </div>
+
+      <div class="lvs-card">
+        <h2>Nodes</h2>
+        <ul id="profile-nodes"></ul>
+      </div>
+    </div>
+
+    <div class="lvs-profile-right">
+      <div class="lvs-card">
+        <h2>Activity</h2>
+        <ul id="profile-activity" class="lvs-activity-list"></ul>
+      </div>
+
+      <div class="lvs-card">
+        <h2>Reviews & Comments</h2>
+        <ul id="profile-reviews" class="lvs-review-list"></ul>
+      </div>
+    </div>
+  </section>
 </main>
-
-<footer class="lvs-footer">
-    <div class="lvs-footer-left">© 2025 Living Value System (LVS)</div>
-</footer>
-</body>
-</html>
