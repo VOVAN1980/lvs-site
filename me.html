@@ -56,10 +56,14 @@
 <main class="profile-page">
     <section class="profile-hero">
         <div class="profile-hero__left">
-            <div class="profile-avatar">
-                <img src="assets/img/avatar-demo.png" alt="Avatar" class="profile-avatar__img" />
-                <!-- если нет фото – можно удалить img, тогда отрисуется заглушка -->
-            </div>
+            <div class="profile-avatar uploadable">
+    <img src="assets/img/avatar-demo.png" alt="Avatar" class="profile-avatar__img" />
+
+    <label class="avatar-upload">
+        <input type="file" accept="image/*" />
+        <span>Изменить</span>
+        </label>
+           </div>
 
             <div class="profile-identity">
                 <h1 class="profile-name">Volodymyr Podkorytov</h1>
@@ -209,3 +213,4 @@
 
 </body>
 </html>
+
