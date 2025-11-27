@@ -35,12 +35,18 @@
         var scene  = viewer.scene;
         var camera = viewer.camera;
 
-        // фон
-        scene.skyBox = null;
-        scene.skyAtmosphere.show = false;
-        scene.fog.enabled = false;
-        scene.globe.enableLighting = true;
-        scene.backgroundColor = Cesium.Color.TRANSPARENT;
+// фон
+scene.skyBox = null;
+scene.skyAtmosphere.show = false;
+scene.fog.enabled = false;
+
+// Отключаем автоматическую ночь
+scene.globe.enableLighting = false;
+
+// Добавляем искусственное "Солнце" — яркое дневное освещение
+scene.light = new Cesium.DirectionalLight({
+    direction: new Cesium.Cartesian3(1.0, 0.3, 0.15)
+});
 
         // === ПОДКЛЮЧАЕМ ТВОЙ ASSET ИЗ ION ===
         // === ПРАВИЛЬНАЯ ЗЕМЛЯ для мини-глобуса ===
