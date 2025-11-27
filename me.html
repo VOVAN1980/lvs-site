@@ -2,12 +2,12 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8" />
-    <title>LVS – Мой профиль</title>
+    <title>LVS – Мой кабинет</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Базовые стили сайта -->
     <link rel="stylesheet" href="assets/lvs.css" />
-    <!-- Стили профиля -->
+    <!-- Стили профиля поверх базовых -->
     <link rel="stylesheet" href="assets/css/profile.css" />
 </head>
 <body>
@@ -22,13 +22,12 @@
         <nav class="lvs-nav lvs-nav--profile">
             <a href="market.html" class="lvs-nav__link">Работа и задания</a>
             <a href="me.html" class="lvs-nav__link lvs-nav__link--active">Мой профиль</a>
+
             <div class="lvs-nav__separator"></div>
 
             <div class="profile-menu">
                 <button class="profile-menu__trigger" type="button">
-                    <span class="profile-menu__avatar">
-                        <span class="profile-menu__avatar-inner">V</span>
-                    </span>
+                    <span class="profile-menu__avatar">V</span>
                     <span class="profile-menu__name">Volodymyr Podkorytov</span>
                     <span class="profile-menu__arrow">▾</span>
                 </button>
@@ -37,7 +36,9 @@
                     <a href="#settings" class="profile-menu__item">Настройки аккаунта</a>
                     <a href="documents.html" class="profile-menu__item">Документы</a>
                     <a href="space.html" class="profile-menu__item">Глобальная карта</a>
-                    <a href="index.html" class="profile-menu__item profile-menu__item--danger">Выйти в главное меню</a>
+                    <a href="index.html" class="profile-menu__item profile-menu__item--danger">
+                        Выйти в главное меню
+                    </a>
                 </div>
             </div>
         </nav>
@@ -45,54 +46,59 @@
 </header>
 
 <main class="profile-page">
+
+    <!-- HERO: аватар + основная инфа + статы -->
     <section class="profile-hero">
-        <div class="profile-hero__left">
 
-            <div class="profile-avatar">
-                <img src="assets/img/avatar-demo.png" alt="Avatar" class="profile-avatar__img" />
-                <label class="avatar-upload">
-                    <input type="file" accept="image/*" />
-                    <span>Изменить</span>
-                </label>
+        <!-- аватар -->
+        <div class="profile-avatar" id="avatar-box">
+            <img src="assets/img/avatar-demo.png" alt="Avatar" class="profile-avatar__img" id="avatar-img" />
+            <label class="avatar-upload">
+                <input type="file" accept="image/*" id="avatar-input" />
+                <span>Изменить</span>
+            </label>
+        </div>
+
+        <!-- основная инфа -->
+        <div class="profile-main">
+            <h1 class="profile-name">Volodymyr Podkorytov</h1>
+
+            <div class="profile-role">Основатель • LVS / IBITI</div>
+            <div class="profile-location">Виндесхайм, Германия</div>
+
+            <div class="profile-tags">
+                <span class="profile-tag">Человек</span>
+                <span class="profile-tag">Строитель</span>
+                <span class="profile-tag">Ранний участник LVS</span>
             </div>
 
-            <div class="profile-identity">
-                <h1 class="profile-name">Volodymyr Podkorytov</h1>
-                <div class="profile-role">Основатель • LVS / IBITI</div>
-                <div class="profile-location">Виндесхайм, Германия</div>
-
-                <div class="profile-tags">
-                    <span class="profile-tag">Человек</span>
-                    <span class="profile-tag">Строитель</span>
-                    <span class="profile-tag">Ранний участник LVS</span>
-                </div>
-
-                <div class="profile-actions">
-                    <button class="btn btn-primary">Отправить сообщение</button>
-                    <button class="btn btn-ghost">Редактировать профиль</button>
-                </div>
+            <div class="profile-actions">
+                <button class="btn btn-primary">Отправить сообщение</button>
+                <button class="btn btn-ghost">Редактировать профиль</button>
             </div>
         </div>
 
-        <div class="profile-hero__right">
-            <div class="profile-stats">
-                <div class="profile-stat">
-                    <div class="profile-stat__label">Доверие (TC)</div>
-                    <div class="profile-stat__value">87%</div>
-                </div>
-                <div class="profile-stat">
-                    <div class="profile-stat__label">Стоимость (VU)</div>
-                    <div class="profile-stat__value">4 200</div>
-                </div>
-                <div class="profile-stat">
-                    <div class="profile-stat__label">Стабильность</div>
-                    <div class="profile-stat__value">93%</div>
-                </div>
+        <!-- статы справа -->
+        <div class="profile-stats">
+            <div class="profile-stat">
+                <span class="profile-stat__label">Доверие (TC)</span>
+                <span class="profile-stat__value">87%</span>
+            </div>
+            <div class="profile-stat">
+                <span class="profile-stat__label">Стоимость (VU)</span>
+                <span class="profile-stat__value">4 200</span>
+            </div>
+            <div class="profile-stat">
+                <span class="profile-stat__label">Стабильность</span>
+                <span class="profile-stat__value">93%</span>
             </div>
         </div>
+
     </section>
 
+    <!-- Основные секции профиля -->
     <section class="profile-grid">
+
         <section class="profile-section">
             <h2 class="profile-section__title">Обо мне</h2>
             <p class="profile-text">
@@ -103,7 +109,7 @@
 
         <section class="profile-section">
             <h2 class="profile-section__title">Навыки и фокус</h2>
-            <ul class="profile-list profile-list--two-columns">
+            <ul class="profile-list">
                 <li>Распределённые системы</li>
                 <li>Крипто / DeFi</li>
                 <li>Rust / TypeScript</li>
@@ -124,33 +130,45 @@
             <ul class="profile-timeline">
                 <li class="profile-timeline__item">
                     <div class="profile-timeline__time">2025-11-26 • 22:31</div>
-                    <div class="profile-timeline__text">Присоединился к глобальной карте LVS (Виндесхайм).</div>
+                    <div class="profile-timeline__text">
+                        Присоединился к глобальной карте LVS (Виндесхайм).
+                    </div>
                 </li>
                 <li class="profile-timeline__item">
                     <div class="profile-timeline__time">2025-11-26 • 21:10</div>
-                    <div class="profile-timeline__text">Подключён узел браузера к публичному шлюзу.</div>
+                    <div class="profile-timeline__text">
+                        Подключён узел браузера к публичному шлюзу.
+                    </div>
                 </li>
                 <li class="profile-timeline__item">
                     <div class="profile-timeline__time">2025-11-25 • 19:44</div>
-                    <div class="profile-timeline__text">Завершён сеанс моделирования дрейфа.</div>
+                    <div class="profile-timeline__text">
+                        Завершён сеанс моделирования дрейфа.
+                    </div>
                 </li>
             </ul>
         </section>
 
         <section class="profile-section profile-section--wide">
             <h2 class="profile-section__title">Отзывы и комментарии</h2>
+
             <article class="profile-feedback">
                 <div class="profile-feedback__source">Система LVS</div>
-                <p class="profile-feedback__text">Стабильное поведение и высокий рейтинг доверия.</p>
+                <p class="profile-feedback__text">
+                    Стабильное поведение и высокий рейтинг доверия.
+                </p>
                 <div class="profile-feedback__rating">★★★★★</div>
             </article>
 
             <article class="profile-feedback">
                 <div class="profile-feedback__source">Участник тестовой сети</div>
-                <p class="profile-feedback__text">Быстрые ответы, чёткая коммуникация.</p>
+                <p class="profile-feedback__text">
+                    Быстрые ответы, чёткая коммуникация.
+                </p>
                 <div class="profile-feedback__rating">★★★★★</div>
             </article>
         </section>
+
     </section>
 </main>
 
@@ -168,16 +186,40 @@
 </footer>
 
 <script>
-(function () {
-    const menu = document.querySelector('.profile-menu');
-    if (!menu) return;
+    // Дропдаун в правом верхнем углу
+    (function () {
+        var menu = document.querySelector(".profile-menu");
+        if (!menu) return;
 
-    const trigger = menu.querySelector('.profile-menu__trigger');
-    trigger.addEventListener('click', () => menu.classList.toggle('profile-menu--open'));
-    document.addEventListener('click', (e) => {
-        if (!menu.contains(e.target)) menu.classList.remove('profile-menu--open');
-    });
-})();
+        var trigger = menu.querySelector(".profile-menu__trigger");
+        trigger.addEventListener("click", function (e) {
+            e.stopPropagation();
+            menu.classList.toggle("profile-menu--open");
+        });
+
+        document.addEventListener("click", function (e) {
+            if (!menu.contains(e.target)) {
+                menu.classList.remove("profile-menu--open");
+            }
+        });
+    })();
+
+    // Загрузка аватара (локальный preview)
+    (function () {
+        var input = document.getElementById("avatar-input");
+        var img   = document.getElementById("avatar-img");
+        var box   = document.getElementById("avatar-box");
+        if (!input || !img || !box) return;
+
+        input.addEventListener("change", function (e) {
+            var file = e.target.files && e.target.files[0];
+            if (!file) return;
+
+            var url = URL.createObjectURL(file);
+            img.src = url;
+            box.classList.remove("profile-avatar--empty");
+        });
+    })();
 </script>
 
 </body>
