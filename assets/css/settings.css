@@ -1,163 +1,181 @@
-/* ===== Settings page layout ===== */
+/* Страница настроек аккаунта */
 
 .settings-page {
-    max-width: 1120px;
-    margin: 40px auto 32px;
-    padding: 0 24px;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+    max-width: 1160px;
+    margin: 72px auto 40px;
+    padding: 0 24px 40px;
     color: #f5f7ff;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
 }
 
-/* Карточка настроек */
+.settings-breadcrumb {
+    font-size: 12px;
+    opacity: 0.65;
+    margin-bottom: 14px;
+}
 
 .settings-card {
-    background: radial-gradient(circle at 0 0, rgba(91, 255, 203, 0.08), transparent 55%),
-                radial-gradient(circle at 100% 100%, rgba(0, 191, 255, 0.12), transparent 55%),
-                rgba(6, 12, 32, 0.96);
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    box-shadow: 0 26px 80px rgba(0, 0, 0, 0.75);
-    padding: 24px 28px 22px;
+    background: radial-gradient(circle at 0 0, rgba(67, 154, 255, 0.16), transparent 52%),
+                radial-gradient(circle at 100% 100%, rgba(112, 255, 195, 0.12), transparent 55%),
+                rgba(4, 11, 30, 0.96);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.65);
+    padding: 28px 32px 28px;
 }
 
-/* ===== Header ===== */
+/* ===== Summary ===== */
 
-.settings-card__header {
+.settings-summary {
     display: flex;
     justify-content: space-between;
     gap: 32px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    margin-bottom: 30px;
 }
 
-.settings-card__avatar-block {
+.settings-summary__left {
     display: flex;
     gap: 24px;
-    align-items: center;
+    min-width: 0;
 }
-
-/* квадратный, тонкий, стильный контейнер под аватар */
 
 .settings-avatar {
     position: relative;
-    width: 160px;
-    height: 160px;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.16);
+    width: 168px;
+    height: 168px;
+    border-radius: 16px;
     overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: radial-gradient(circle at 0 0, #273b5c, #050815);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: radial-gradient(circle at 20% 0, #6bffb7, #0074ff);
+    flex-shrink: 0;
 }
 
-.settings-avatar__img {
+.settings-avatar img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
 }
 
-.settings-avatar__upload {
+.settings-avatar__overlay {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 44px;
+    inset: auto 0 0 0;
+    height: 46px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.65), transparent);
-    opacity: 0;
     cursor: pointer;
-    transition: opacity 0.25s ease;
+    opacity: 0;
+    transition: opacity 0.2s ease;
 }
 
-.settings-avatar__upload span {
+.settings-avatar:hover .settings-avatar__overlay {
+    opacity: 1;
+}
+
+.settings-avatar__overlay input {
+    display: none;
+}
+
+.settings-avatar__overlay span {
     font-size: 13px;
     font-weight: 500;
 }
 
-.settings-avatar__upload input {
-    display: none;
-}
-
-.settings-avatar:hover .settings-avatar__upload {
-    opacity: 1;
-}
-
-.settings-avatar:hover {
-    border-color: rgba(255, 255, 255, 0.35);
-}
-
-/* user info */
-
-.settings-card__user {
+.settings-summary__identity {
     display: flex;
     flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.settings-input--lg {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* tags */
+
+.settings-tags {
+    display: flex;
+    flex-wrap: wrap;
     gap: 6px;
+    margin-top: 4px;
 }
 
-.settings-card__name {
-    font-size: 24px;
-    margin: 0;
+.settings-tag {
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    opacity: 0.9;
 }
 
-.settings-card__role,
-.settings-card__location {
-    font-size: 13px;
-    opacity: 0.85;
+/* stats */
+
+.settings-summary__right {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    min-width: 230px;
 }
 
-/* метрики справа */
-
-.settings-card__meta {
+.settings-stats {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    min-width: 180px;
-    align-items: flex-end;
+    padding-left: 18px;
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.settings-card__meta-item {
+.settings-stat {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
     font-size: 13px;
 }
 
-.settings-card__meta-label {
+.settings-stat__label {
     opacity: 0.7;
 }
 
-.settings-card__meta-value {
+.settings-stat__value {
     font-weight: 600;
 }
 
-/* ===== Body ===== */
-
-.settings-card__body {
-    padding-top: 18px;
-}
+/* ===== Sections & fields ===== */
 
 .settings-section {
-    padding: 12px 0 16px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    padding-top: 18px;
+    margin-top: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.settings-section:last-of-type {
-    border-bottom: none;
+.settings-section:first-of-type {
+    padding-top: 0;
+    margin-top: 0;
+    border-top: none;
 }
 
 .settings-section__title {
-    font-size: 15px;
-    margin: 0 0 10px;
+    font-size: 16px;
     font-weight: 600;
+    margin: 0 0 10px;
 }
 
-/* поля */
+.settings-two-cols {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 16px 24px;
+    margin-top: 8px;
+}
 
 .settings-field {
     display: flex;
     flex-direction: column;
     gap: 6px;
-    margin-bottom: 12px;
+    margin-top: 8px;
 }
 
 .settings-field__label {
@@ -165,304 +183,175 @@
     opacity: 0.8;
 }
 
-.settings-input {
-    background: rgba(3, 8, 23, 0.9);
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.09);
-    padding: 8px 10px;
-    font-size: 13px;
-    color: #f5f7ff;
-    outline: none;
+/* inputs */
+
+.settings-input,
+.settings-textarea,
+.settings-select {
     width: 100%;
+    box-sizing: border-box;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(3, 9, 26, 0.9);
+    color: #f5f7ff;
+    font-size: 13px;
+    padding: 9px 11px;
+    outline: none;
 }
 
-.settings-input:focus {
-    border-color: #3fd5ff;
-    box-shadow: 0 0 0 1px rgba(63, 213, 255, 0.4);
-}
-
-.settings-input--textarea {
+.settings-textarea {
     resize: vertical;
-    min-height: 80px;
+    min-height: 72px;
+    line-height: 1.5;
 }
 
-.settings-input--inline {
-    background: transparent;
-    border-radius: 6px;
-    padding: 2px 6px;
+.settings-input::placeholder,
+.settings-textarea::placeholder {
+    opacity: 0.4;
 }
 
-/* две колонки */
-
-.settings-two-columns {
-    display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
-    gap: 16px 32px;
+.settings-input:focus,
+.settings-textarea:focus,
+.settings-select:focus {
+    border-color: rgba(104, 196, 255, 0.9);
+    box-shadow: 0 0 0 1px rgba(104, 196, 255, 0.4);
 }
 
-/* свитч */
+/* ===== Toggles ===== */
 
 .settings-toggle {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 8px;
+    margin-top: 10px;
+    cursor: pointer;
     font-size: 13px;
 }
 
-.settings-toggle__input {
-    display: none;
+.settings-toggle input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
 }
 
-.settings-toggle__switch {
+.settings-toggle__slider {
     width: 34px;
     height: 18px;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.18);
     position: relative;
-    transition: background 0.2s ease;
+    flex-shrink: 0;
+    transition: background 0.18s ease;
 }
 
-.settings-toggle__switch::before {
+.settings-toggle__slider::before {
     content: "";
     position: absolute;
+    top: 2px;
+    left: 2px;
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background: #fff;
-    top: 2px;
-    left: 2px;
-    transition: transform 0.2s ease;
+    background: #ffffff;
+    transition: transform 0.18s ease;
 }
 
-.settings-toggle__input:checked + .settings-toggle__switch {
-    background: linear-gradient(135deg, #00c6ff, #00e29b);
+.settings-toggle input:checked + .settings-toggle__slider {
+    background: linear-gradient(135deg, #00c6ff, #00d27f);
 }
 
-.settings-toggle__input:checked + .settings-toggle__switch::before {
-    transform: translateX(14px);
+.settings-toggle input:checked + .settings-toggle__slider::before {
+    transform: translateX(16px);
 }
 
-.settings-toggle__label {
+.settings-toggle__text {
     opacity: 0.9;
 }
 
-/* ===== Footer ===== */
+/* ===== Actions ===== */
 
-.settings-card__footer {
+.settings-actions {
+    margin-top: 22px;
     display: flex;
-    align-items: center;
-    gap: 12px;
-    padding-top: 14px;
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
-    margin-top: 6px;
+    gap: 10px;
+    justify-content: flex-end;
 }
 
-.settings-btn {
+/* кнопки такие же, как на профиле */
+
+.btn {
     border-radius: 999px;
     padding: 8px 16px;
-    font-size: 13px;
-    cursor: pointer;
     border: 1px solid transparent;
     background: transparent;
     color: #f5f7ff;
+    font-size: 13px;
+    cursor: pointer;
 }
 
-.settings-btn--primary {
+.btn-primary {
     background: linear-gradient(135deg, #00c6ff, #0072ff);
     border-color: transparent;
 }
 
-.settings-btn--primary:hover {
-    filter: brightness(1.05);
+.btn-primary:hover {
+    filter: brightness(1.07);
 }
 
-.settings-btn--ghost {
-    border-color: rgba(255, 255, 255, 0.2);
-    background: rgba(8, 14, 35, 0.9);
+.btn-ghost {
+    border-color: rgba(255, 255, 255, 0.26);
+    background: rgba(4, 11, 30, 0.7);
 }
 
-.settings-btn--ghost:hover {
-    border-color: rgba(255, 255, 255, 0.4);
+.btn-ghost:hover {
+    border-color: rgba(255, 255, 255, 0.45);
 }
 
-.settings-status {
-    font-size: 12px;
-    opacity: 0.8;
-}
-
-/* ===== Header / footer small tweaks (reuse существующую тему) ===== */
-
-.lvs-navtop {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 24px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    background: radial-gradient(circle at 0 0, rgba(91, 255, 203, 0.1), transparent 55%),
-                rgba(4, 10, 28, 0.96);
-}
-
-.lvs-navtop-left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.lvs-navtop-logo {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-}
-
-.lvs-navtop-logo-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #6bffb7, #16a085);
-}
-
-.lvs-navtop-logo-text {
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: #f5f7ff;
-}
-
-.lvs-navtop-breadcrumb {
-    font-size: 12px;
-    opacity: 0.7;
-}
-
-.lvs-navtop-right {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
-.lvs-navtop-link {
-    font-size: 13px;
-    opacity: 0.8;
-    text-decoration: none;
-}
-
-.lvs-navtop-link--active {
-    opacity: 1;
-    font-weight: 600;
-}
-
-.lvs-navtop-link:hover {
-    opacity: 1;
-}
-
-.lvs-navtop-profile {
-    position: relative;
-}
-
-.lvs-navtop-profile-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 5px 10px;
-    border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    background: rgba(3, 7, 24, 0.95);
-    cursor: pointer;
-    font-size: 13px;
-    color: #f5f7ff;
-}
-
-.lvs-navtop-profile-avatar {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #ffe66b, #ff8a3d);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.lvs-navtop-profile-avatar-initial {
-    font-size: 11px;
-    font-weight: 600;
-}
-
-.lvs-navtop-profile-name {
-    max-width: 140px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.lvs-navtop-profile-arrow {
-    font-size: 10px;
-    opacity: 0.7;
-}
-
-.lvs-navtop-profile-menu {
-    position: absolute;
-    right: 0;
-    top: calc(100% + 6px);
-    min-width: 200px;
-    padding: 6px;
-    border-radius: 12px;
-    background: rgba(4, 10, 28, 0.98);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
-    display: none;
-}
-
-.lvs-navtop-profile-item {
-    display: block;
-    padding: 7px 9px;
-    border-radius: 8px;
-    font-size: 13px;
-    text-decoration: none;
-    color: #f5f7ff;
-}
-
-.lvs-navtop-profile-item:hover {
-    background: rgba(255, 255, 255, 0.04);
-}
-
-.lvs-navtop-profile-item--danger {
-    color: #ff8a8a;
-}
-
-.lvs-navtop-profile--open .lvs-navtop-profile-menu {
-    display: block;
-}
-
-/* footer уже есть в lvs.css; здесь ничего не трогаем */
-
-/* ===== Adaptive ===== */
+/* ===== Адаптив ===== */
 
 @media (max-width: 960px) {
-    .settings-card__header {
+    .settings-page {
+        padding-inline: 16px;
+        margin-top: 64px;
+    }
+
+    .settings-card {
+        padding-inline: 20px;
+    }
+
+    .settings-summary {
         flex-direction: column;
         align-items: flex-start;
     }
 
-    .settings-card__meta {
-        flex-direction: row;
-        align-items: flex-start;
-        gap: 24px;
+    .settings-summary__right {
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        margin-top: 16px;
+        padding-top: 12px;
+        justify-content: flex-start;
+        min-width: 0;
     }
 
-    .settings-two-columns {
+    .settings-stats {
+        border-left: none;
+        padding-left: 0;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 12px 24px;
+    }
+
+    .settings-two-cols {
         grid-template-columns: 1fr;
     }
 }
 
 @media (max-width: 720px) {
-    .settings-page {
-        padding-inline: 16px;
-    }
-
     .settings-avatar {
         width: 132px;
         height: 132px;
+    }
+
+    .settings-input--lg {
+        font-size: 16px;
     }
 }
