@@ -396,3 +396,27 @@
 .btn:active {
     transform: translateY(1px);
 }
+/* --- Layout fix for settings page --- */
+
+html,
+body {
+    height: 100%;
+    overflow-y: auto; /* включаем нормальный скролл, если базовый css его режет */
+}
+
+/* Делаем layout: шапка сверху, контент растет, футер внизу */
+body.lvs-settings-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+body.lvs-settings-page .settings-page {
+    flex: 1 0 auto;   /* контент тянется и может скроллиться */
+}
+
+body.lvs-settings-page .lvs-footer {
+    flex: 0 0 auto;   /* футер прилично сидит внизу */
+ }
+}
+
