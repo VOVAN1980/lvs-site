@@ -1,371 +1,392 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>LVS – Account settings</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="assets/lvs.css">
-    <link rel="stylesheet" href="assets/css/profile.css">
-    <script defer src="assets/js/profile.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- общий стиль сайта -->
+    <link rel="stylesheet" href="assets/lvs.css" />
+    <!-- стили аккаунта -->
+    <link rel="stylesheet" href="assets/css/settings.css" />
 </head>
 <body>
 
-<header class="lvs-navtop">
-    <div class="lvs-navtop-left">
-        <div class="lvs-navtop-logo-dot"></div>
-        <span class="lvs-navtop-title">LIVING VALUE SYSTEM</span>
-        <span class="lvs-navtop-breadcrumb">LVS / Account</span>
+<header class="lvs-topbar">
+    <div class="lvs-topbar-left">
+        <span class="lvs-topbar-dot"></span>
+        <span class="lvs-topbar-title">LIVING VALUE SYSTEM</span>
+        <span class="lvs-topbar-section">LVS / Account</span>
     </div>
-    <nav class="lvs-navtop-right">
-        <a href="index.html" class="lvs-nav-link">Jobs & tasks</a>
-        <a href="me.html" class="lvs-nav-link">My profile</a>
-        <a href="settings.html" class="lvs-nav-link lvs-nav-link--active">Settings</a>
-
-        <div class="lvs-nav-user">
-            <button class="lvs-nav-user-btn">
-                <span class="lvs-nav-user-dot"></span>
-                <span>Volodymyr Podkorytov</span>
-                <span class="lvs-nav-user-caret">▾</span>
-            </button>
-            <div class="lvs-nav-user-menu">
-                <a href="me.html">My profile</a>
-                <a href="settings.html">Account settings</a>
-                <a href="space.html">LVS map</a>
-                <a href="index.html">Exit to main page</a>
-            </div>
+    <nav class="lvs-topbar-nav">
+        <a href="jobs.html" class="lvs-topbar-link">Jobs &amp; tasks</a>
+        <a href="profile.html" class="lvs-topbar-link">My profile</a>
+        <a href="settings.html" class="lvs-topbar-link lvs-topbar-link--active">Settings</a>
+        <div class="lvs-topbar-user">
+            <span class="lvs-topbar-user-status"></span>
+            <span class="lvs-topbar-user-name">Volodymyr Podkorytov</span>
         </div>
     </nav>
 </header>
 
-<main class="lvs-page lvs-page--account">
-    <section class="lvs-account-card lvs-account-card--header">
-        <div class="lvs-account-header-left">
-            <div class="lvs-account-avatar-wrapper">
-                <img src="assets/img/profile-avatar.png" alt="Avatar" class="lvs-account-avatar" id="settingsAvatar">
+<main class="account-page">
+    <!-- hero / header карточка -->
+    <section class="account-card">
+        <div class="account-card-left">
+            <div class="account-avatar">
+                <img src="assets/img/avatar.png" alt="Avatar" class="account-avatar-img" />
+                <label class="account-avatar-upload">
+                    <input type="file" accept="image/*" />
+                    Change photo
+                </label>
             </div>
-
-            <div class="lvs-account-header-main">
-                <div class="lvs-account-name-row">
-                    <input class="lvs-input lvs-input--pill"
-                           type="text"
-                           value="Volodymyr Podkorytov"
-                           placeholder="Full name">
-                </div>
-
-                <div class="lvs-account-tags-row">
-                    <input class="lvs-input lvs-input--pill" type="text"
-                           value="Founder · LVS / IBITI"
-                           placeholder="Role / company">
-                    <input class="lvs-input lvs-input--pill" type="text"
-                           value="Windesheim, Germany"
-                           placeholder="Location">
-                </div>
-
-                <div class="lvs-account-chips-row">
-                    <button type="button" class="lvs-chip">Human</button>
-                    <button type="button" class="lvs-chip">Builder</button>
-                    <button type="button" class="lvs-chip">Early LVS participant</button>
-                </div>
-
-                <div class="lvs-account-avatar-upload">
-                    <label class="lvs-btn lvs-btn--ghost">
-                        <input type="file" id="avatarUploadInput" hidden>
-                        Change photo
-                    </label>
+            <div class="account-main-info">
+                <input class="account-input account-input-lg" value="Volodymyr Podkorytov" />
+                <input class="account-input" value="Founder · LVS / IBITI" />
+                <input class="account-input" value="Windesheim, Germany" />
+                <div class="account-tags">
+                    <span class="tag">Human</span>
+                    <span class="tag">Builder</span>
+                    <span class="tag">Early LVS participant</span>
                 </div>
             </div>
         </div>
-
-        <div class="lvs-account-header-right">
-            <div class="lvs-account-metric">
-                <div class="lvs-account-metric-label">Trust (TC)</div>
-                <div class="lvs-account-metric-value">87%</div>
+        <div class="account-card-right">
+            <div class="stat-block">
+                <div class="stat-label">Trust (TC)</div>
+                <div class="stat-value">87%</div>
             </div>
-            <div class="lvs-account-metric">
-                <div class="lvs-account-metric-label">Value (VU)</div>
-                <div class="lvs-account-metric-value">4 200</div>
+            <div class="stat-block">
+                <div class="stat-label">Value (VU)</div>
+                <div class="stat-value">4 200</div>
             </div>
-            <div class="lvs-account-metric">
-                <div class="lvs-account-metric-label">Stability</div>
-                <div class="lvs-account-metric-value">93%</div>
+            <div class="stat-block">
+                <div class="stat-label">Stability</div>
+                <div class="stat-value">93%</div>
             </div>
         </div>
     </section>
 
-    <!-- PROFILE -->
-    <section class="lvs-account-card">
-        <h2 class="lvs-section-title">Profile</h2>
-
-        <label class="lvs-field">
-            <span class="lvs-field-label">About</span>
-            <textarea class="lvs-input lvs-input--multiline" rows="3"
-                      placeholder="Short intro about you, LVS, IBITI, etc.">
-Early participant of the Living Value System. Building an autonomous value layer, the IBITI ecosystem, and real-world services around it.
-            </textarea>
-        </label>
-
-        <div class="lvs-grid lvs-grid--2">
-            <label class="lvs-field">
-                <span class="lvs-field-label">Main skills</span>
-                <input class="lvs-input" type="text"
-                       value="Distributed systems, Crypto / DeFi, Rust / TypeScript"
-                       placeholder="Key skills">
-            </label>
-
-            <label class="lvs-field">
-                <span class="lvs-field-label">Focus</span>
-                <input class="lvs-input" type="text"
-                       value="Product strategy, Protocol design"
-                       placeholder="What you work on now">
-            </label>
+    <!-- Profile -->
+    <section class="account-section">
+        <div class="account-section-header">
+            <h2>Profile</h2>
+        </div>
+        <div class="account-grid-1-1">
+            <div class="field-block">
+                <label>About</label>
+                <textarea rows="3">Early participant of the Living Value System. Building an autonomous value layer, the IBITI ecosystem, and real-world services around it.</textarea>
+            </div>
+        </div>
+        <div class="account-grid-1-1">
+            <div class="field-block">
+                <label>Main skills</label>
+                <input type="text" value="Distributed systems, Crypto / DeFi, Rust / TypeScript" />
+            </div>
+            <div class="field-block">
+                <label>Focus</label>
+                <input type="text" value="Product strategy, Protocol design" />
+            </div>
         </div>
     </section>
 
-    <!-- PERSONAL DETAILS -->
-    <section class="lvs-account-card">
-        <h2 class="lvs-section-title">Personal details</h2>
-
-        <div class="lvs-grid lvs-grid--2">
-            <label class="lvs-field">
-                <span class="lvs-field-label">Date of birth</span>
-                <input class="lvs-input" type="text" placeholder="DD.MM.YYYY">
-            </label>
-
-            <label class="lvs-field">
-                <span class="lvs-field-label">Citizenship</span>
-                <input class="lvs-input" type="text" placeholder="Country">
-            </label>
+    <!-- Personal details -->
+    <section class="account-section">
+        <div class="account-section-header">
+            <h2>Personal details</h2>
         </div>
-
-        <div class="lvs-grid lvs-grid--2">
-            <label class="lvs-field">
-                <span class="lvs-field-label">Country</span>
-                <input class="lvs-input" type="text" value="Germany">
-            </label>
-
-            <label class="lvs-field">
-                <span class="lvs-field-label">City</span>
-                <input class="lvs-input" type="text" value="Windesheim">
-            </label>
+        <div class="account-grid-1-1">
+            <div class="field-block">
+                <label>Date of birth</label>
+                <input type="text" placeholder="DD.MM.YYYY" />
+            </div>
+            <div class="field-block">
+                <label>Citizenship</label>
+                <input type="text" placeholder="Country" />
+            </div>
         </div>
-
-        <div class="lvs-grid lvs-grid--2">
-            <label class="lvs-field">
-                <span class="lvs-field-label">Phone</span>
-                <input class="lvs-input" type="tel" placeholder="+49 ...">
-            </label>
-
-            <label class="lvs-field">
-                <span class="lvs-field-label">Email</span>
-                <input class="lvs-input" type="email" value="reker198079@gmail.com">
-            </label>
+        <div class="account-grid-1-1">
+            <div class="field-block">
+                <label>Country</label>
+                <input type="text" value="Germany" />
+            </div>
+            <div class="field-block">
+                <label>City</label>
+                <input type="text" value="Windesheim" />
+            </div>
         </div>
-
-        <div class="lvs-grid lvs-grid--2">
-            <label class="lvs-field">
-                <span class="lvs-field-label">Website</span>
-                <input class="lvs-input" type="url" value="https://ibiticoin.com">
-            </label>
-
-            <label class="lvs-field">
-                <span class="lvs-field-label">GitHub</span>
-                <input class="lvs-input" type="url" value="https://github.com/VOVAN1980">
-            </label>
+        <div class="account-grid-1-1">
+            <div class="field-block">
+                <label>Phone</label>
+                <input type="text" placeholder="+49 ..." />
+            </div>
+            <div class="field-block">
+                <label>Email</label>
+                <input type="email" value="reker198079@gmail.com" />
+            </div>
         </div>
-
-        <label class="lvs-field">
-            <span class="lvs-field-label">LinkedIn / portfolio</span>
-            <input class="lvs-input" type="url" placeholder="Profile link or portfolio">
-        </label>
+        <div class="account-grid-1-1">
+            <div class="field-block">
+                <label>Website</label>
+                <input type="url" value="https://ibiticoin.com" />
+            </div>
+            <div class="field-block">
+                <label>GitHub</label>
+                <input type="url" value="https://github.com/VOVAN1980" />
+            </div>
+        </div>
+        <div class="account-grid-1">
+            <div class="field-block">
+                <label>LinkedIn / portfolio</label>
+                <input type="url" placeholder="Profile link or portfolio" />
+            </div>
+        </div>
     </section>
 
-    <!-- WORK & EDUCATION (многократные блоки) -->
-    <section class="lvs-account-card">
-        <h2 class="lvs-section-title">Work & education</h2>
-
-        <label class="lvs-field">
-            <span class="lvs-field-label">Current status</span>
-            <input class="lvs-input" type="text"
-                   placeholder="Entrepreneur, employee, freelancer, etc.">
-        </label>
-
-        <label class="lvs-field">
-            <span class="lvs-field-label">Desired roles / positions</span>
-            <input class="lvs-input" type="text"
-                   placeholder="Example: Protocol architect, DeFi engineer, product strategist">
-        </label>
-
-        <!-- Jobs list -->
-        <div class="lvs-multi-section">
-            <div class="lvs-multi-header">
-                <div class="lvs-section-subtitle">Work experience</div>
-                <button type="button"
-                        class="lvs-btn lvs-btn--ghost lvs-multi-add"
-                        data-add-row="work">
-                    + Add workplace
-                </button>
-            </div>
-
-            <div class="lvs-multi-list" id="workList">
-                <!-- первая запись -->
-                <div class="lvs-multi-row">
-                    <div class="lvs-grid lvs-grid--3">
-                        <input class="lvs-input" type="text" placeholder="Company">
-                        <input class="lvs-input" type="text" placeholder="Position">
-                        <input class="lvs-input" type="text" placeholder="Period (YYYY–YYYY / now)">
-                    </div>
-                    <textarea class="lvs-input lvs-input--multiline"
-                              rows="2"
-                              placeholder="Responsibilities, key achievements"></textarea>
-                    <button type="button"
-                            class="lvs-multi-remove"
-                            title="Remove job">
-                        Remove
-                    </button>
-                </div>
-            </div>
+    <!-- Work & education -->
+    <section class="account-section">
+        <div class="account-section-header">
+            <h2>Work &amp; education</h2>
         </div>
+
+        <div class="field-block">
+            <label>Current status</label>
+            <input type="text" placeholder="Entrepreneur, employee, freelancer, etc." />
+        </div>
+        <div class="field-block">
+            <label>Desired roles / positions</label>
+            <input type="text" placeholder="Example: Protocol architect, DeFi engineer, product strategist" />
+        </div>
+
+        <!-- Work experience list -->
+        <div class="subsection-header">
+            <span>Work experience</span>
+            <button type="button" class="pill-button" data-add-block="work">Add job</button>
+        </div>
+        <div id="work-list" class="dynamic-list"></div>
 
         <!-- Education list -->
-        <div class="lvs-multi-section">
-            <div class="lvs-multi-header">
-                <div class="lvs-section-subtitle">Education</div>
-                <button type="button"
-                        class="lvs-btn lvs-btn--ghost lvs-multi-add"
-                        data-add-row="edu">
-                    + Add education
-                </button>
-            </div>
-
-            <div class="lvs-multi-list" id="eduList">
-                <div class="lvs-multi-row">
-                    <div class="lvs-grid lvs-grid--3">
-                        <input class="lvs-input" type="text" placeholder="Institution">
-                        <input class="lvs-input" type="text" placeholder="Degree / program">
-                        <input class="lvs-input" type="text" placeholder="Year of graduation">
-                    </div>
-                    <textarea class="lvs-input lvs-input--multiline"
-                              rows="2"
-                              placeholder="Details: faculty, specialization, etc."></textarea>
-                    <button type="button"
-                            class="lvs-multi-remove"
-                            title="Remove education">
-                        Remove
-                    </button>
-                </div>
-            </div>
+        <div class="subsection-header mt-32">
+            <span>Education</span>
+            <button type="button" class="pill-button" data-add-block="edu">Add education</button>
         </div>
+        <div id="edu-list" class="dynamic-list"></div>
 
-        <div class="lvs-grid lvs-grid--2">
-            <label class="lvs-field">
-                <span class="lvs-field-label">Languages</span>
-                <input class="lvs-input" type="text"
-                       placeholder="English (B2), German (A2), Ukrainian (native)">
-            </label>
+        <!-- Courses -->
+        <div class="subsection-header mt-32">
+            <span>Courses &amp; certificates</span>
+            <button type="button" class="pill-button" data-add-block="course">Add course</button>
+        </div>
+        <div id="course-list" class="dynamic-list"></div>
 
-            <label class="lvs-field">
-                <span class="lvs-field-label">Computer skills</span>
-                <input class="lvs-input" type="text"
-                       placeholder="Linux, Docker, Git, VS Code, etc.">
-            </label>
+        <div class="field-block mt-24">
+            <label>Languages</label>
+            <input type="text" placeholder="English (B2), German (A2), Ukrainian (native)" />
+        </div>
+        <div class="field-block">
+            <label>Computer skills</label>
+            <input type="text" placeholder="Linux, Docker, Git, VS Code, etc." />
         </div>
     </section>
 
-    <!-- ADDITIONAL INFO -->
-    <section class="lvs-account-card">
-        <h2 class="lvs-section-title">Additional information</h2>
-
-        <div class="lvs-grid lvs-grid--2">
-            <div class="lvs-field">
-                <div class="lvs-field-label">Driving license</div>
-                <div class="lvs-checkbox-row">
-                    <label><input type="checkbox"> A</label>
-                    <label><input type="checkbox"> B</label>
-                    <label><input type="checkbox"> C</label>
-                    <label><input type="checkbox"> D</label>
+    <!-- Additional information -->
+    <section class="account-section">
+        <div class="account-section-header">
+            <h2>Additional information</h2>
+        </div>
+        <div class="account-grid-1-1">
+            <div class="field-block">
+                <label>Driving license</label>
+                <div class="checkbox-row">
+                    <label><input type="checkbox" /> A</label>
+                    <label><input type="checkbox" /> B</label>
+                    <label><input type="checkbox" /> C</label>
+                    <label><input type="checkbox" /> D</label>
+                    <label><input type="checkbox" /> E</label>
                 </div>
             </div>
-
-            <label class="lvs-field">
-                <span class="lvs-field-label">Free time / hobbies</span>
-                <input class="lvs-input" type="text"
-                       placeholder="What you do in your free time">
-            </label>
+            <div class="field-block">
+                <label>Free time / hobbies</label>
+                <input type="text" placeholder="What you do in your free time" />
+            </div>
         </div>
-
-        <label class="lvs-field">
-            <span class="lvs-field-label">Personal qualities</span>
-            <textarea class="lvs-input lvs-input--multiline" rows="2"
-                      placeholder="Responsibility, initiative, ability to work independently, etc."></textarea>
-        </label>
-
-        <label class="lvs-field">
-            <span class="lvs-field-label">Extra information</span>
-            <textarea class="lvs-input lvs-input--multiline" rows="2"
-                      placeholder="Anything important for employers, partners or public institutions"></textarea>
-        </label>
+        <div class="field-block">
+            <label>Personal qualities</label>
+            <textarea rows="3" placeholder="Responsibility, initiative, ability to work independently, etc."></textarea>
+        </div>
+        <div class="field-block">
+            <label>Extra information</label>
+            <textarea rows="3" placeholder="Anything important for employers, partners or public institutions"></textarea>
+        </div>
     </section>
 
-    <!-- ACCOUNT & PRIVACY -->
-    <section class="lvs-account-card">
-        <h2 class="lvs-section-title">Account & privacy</h2>
-
-        <div class="lvs-grid lvs-grid--2">
-            <label class="lvs-field">
-                <span class="lvs-field-label">Language</span>
-                <select class="lvs-input">
-                    <option selected>English</option>
+    <!-- Account & privacy -->
+    <section class="account-section">
+        <div class="account-section-header">
+            <h2>Account &amp; privacy</h2>
+        </div>
+        <div class="account-grid-1-1">
+            <div class="field-block">
+                <label>Language</label>
+                <select>
+                    <option>English</option>
                     <option>Deutsch</option>
                     <option>Українська</option>
-                    <option>Русский</option>
                 </select>
-            </label>
-
-            <label class="lvs-field">
-                <span class="lvs-field-label">Time zone</span>
-                <select class="lvs-input">
-                    <option selected>Europe / Berlin</option>
+            </div>
+            <div class="field-block">
+                <label>Time zone</label>
+                <select>
+                    <option>Europe / Berlin</option>
                 </select>
+            </div>
+        </div>
+
+        <div class="toggle-row">
+            <label class="toggle-label">
+                <input type="checkbox" checked />
+                <span>Show my profile to other LVS participants</span>
+            </label>
+            <label class="toggle-label">
+                <input type="checkbox" checked />
+                <span>Email notifications about new tasks and offers</span>
             </label>
         </div>
 
-        <div class="lvs-toggle-row">
-            <label class="lvs-toggle">
-                <input type="checkbox" checked>
-                <span class="lvs-toggle-slider"></span>
-                <span class="lvs-toggle-label">Show my profile to other LVS participants</span>
-            </label>
-        </div>
-
-        <div class="lvs-toggle-row">
-            <label class="lvs-toggle">
-                <input type="checkbox" checked>
-                <span class="lvs-toggle-slider"></span>
-                <span class="lvs-toggle-label">Email notifications about new tasks and offers</span>
-            </label>
-        </div>
-
-        <div class="lvs-account-actions">
-            <button type="button" class="lvs-btn lvs-btn--ghost">Reset</button>
-            <button type="button" class="lvs-btn lvs-btn--primary">Save changes</button>
+        <div class="buttons-row">
+            <button type="button" class="ghost-button">Reset</button>
+            <button type="button" class="primary-button">Save changes</button>
         </div>
     </section>
 </main>
 
 <footer class="lvs-footer">
     <div class="lvs-footer-inner">
-        <div class="lvs-footer-left">
-            © 2025 Living Value System (LVS)
-        </div>
-        <div class="lvs-footer-links">
-            <a href="legal-privacy.html">Privacy policy</a>
-            <a href="legal-terms.html">Terms of use</a>
-            <a href="legal.html">Legal</a>
-            <a href="contacts.html">Contacts</a>
-            <a href="https://github.com/VOVAN1980" target="_blank">GitHub</a>
-        </div>
+        <span>© 2025 Living Value System (LVS)</span>
+        <a href="#">Privacy policy</a>
+        <a href="#">Terms of use</a>
+        <a href="#">Legal</a>
+        <a href="#">Contacts</a>
+        <a href="https://github.com/VOVAN1980" target="_blank">GitHub</a>
     </div>
 </footer>
+
+<!-- шаблоны для динамических блоков -->
+<script type="text/template" id="tmpl-work">
+    <div class="card-inline" data-block="work">
+        <div class="card-inline-header">
+            <span>Job</span>
+            <button type="button" class="icon-button" data-remove-block>&times;</button>
+        </div>
+        <div class="account-grid-1-1">
+            <div class="field-block">
+                <label>Position</label>
+                <input type="text" />
+            </div>
+            <div class="field-block">
+                <label>Company</label>
+                <input type="text" />
+            </div>
+        </div>
+        <div class="account-grid-1-1">
+            <div class="field-block">
+                <label>Period</label>
+                <input type="text" placeholder="2019 – 2023" />
+            </div>
+            <div class="field-block">
+                <label>Location</label>
+                <input type="text" placeholder="City, country" />
+            </div>
+        </div>
+        <div class="field-block">
+            <label>Responsibilities / achievements</label>
+            <textarea rows="2"></textarea>
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="tmpl-edu">
+    <div class="card-inline" data-block="edu">
+        <div class="card-inline-header">
+            <span>Education</span>
+            <button type="button" class="icon-button" data-remove-block>&times;</button>
+        </div>
+        <div class="account-grid-1-1">
+            <div class="field-block">
+                <label>Institution</label>
+                <input type="text" />
+            </div>
+            <div class="field-block">
+                <label>Degree / specialty</label>
+                <input type="text" />
+            </div>
+        </div>
+        <div class="field-block">
+            <label>Period</label>
+            <input type="text" placeholder="2010 – 2014" />
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="tmpl-course">
+    <div class="card-inline" data-block="course">
+        <div class="card-inline-header">
+            <span>Course / certificate</span>
+            <button type="button" class="icon-button" data-remove-block>&times;</button>
+        </div>
+        <div class="account-grid-1-1">
+            <div class="field-block">
+                <label>Title</label>
+                <input type="text" />
+            </div>
+            <div class="field-block">
+                <label>Provider</label>
+                <input type="text" />
+            </div>
+        </div>
+        <div class="field-block">
+            <label>Year</label>
+            <input type="text" placeholder="2024" />
+        </div>
+    </div>
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // скролл у всей страницы – ничего не режем
+    document.documentElement.style.overflowY = 'auto';
+    document.body.style.overflowY = 'auto';
+
+    function addBlock(type) {
+        const tpl = document.getElementById('tmpl-' + type);
+        if (!tpl) return;
+        const html = tpl.innerHTML.trim();
+        const wrapper = document.createElement('div');
+        wrapper.innerHTML = html;
+        const block = wrapper.firstElementChild;
+        const list = document.getElementById(type + '-list');
+        if (list) list.appendChild(block);
+    }
+
+    document.body.addEventListener('click', function (e) {
+        const addBtn = e.target.closest('[data-add-block]');
+        if (addBtn) {
+            addBlock(addBtn.dataset.addBlock);
+            return;
+        }
+
+        const removeBtn = e.target.closest('[data-remove-block]');
+        if (removeBtn) {
+            const block = removeBtn.closest('.card-inline');
+            if (block) block.remove();
+        }
+    });
+
+    // по одному дефолтному блоку, чтобы не было пусто
+    addBlock('work');
+    addBlock('edu');
+});
+</script>
 
 </body>
 </html>
