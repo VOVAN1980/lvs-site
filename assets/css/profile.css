@@ -1,528 +1,579 @@
-/* Общие вещи для профиля + настроек */
+/* ===== SHELL: фиксируем верх и низ, контент по центру ===== */
 
-.lvs-page {
+html, body {
+    height: 100%;
+}
+
+.lvs-shell {
     min-height: 100vh;
-    background: radial-gradient(circle at top right, #06243f 0, #020717 40%, #000 100%);
-    color: #f5f7ff;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    display: flex;
+    flex-direction: column;
 }
 
-.lvs-page--account {
-    padding: 96px 64px 32px;
-}
+/* ===== TOP BAR ===== */
 
-/* Шапка */
-
-.lvs-navtop {
-    position: fixed;
+.lvs-app-header {
+    position: sticky;
     top: 0;
-    left: 0;
-    right: 0;
-    height: 64px;
-    padding: 0 48px;
+    z-index: 20;
+    backdrop-filter: blur(12px);
+    background: rgba(5, 9, 25, 0.96);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.lvs-app-header__inner {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 12px 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: rgba(3, 9, 24, 0.96);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-    z-index: 40;
-}
-
-.lvs-navtop-left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: 0.16em;
-    color: #8fa2ff;
-}
-
-.lvs-navtop-logo-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 999px;
-    background: #25e0a1;
-    box-shadow: 0 0 12px rgba(37, 224, 161, 0.8);
-}
-
-.lvs-navtop-breadcrumb {
-    font-weight: 500;
-    color: #e0e7ff;
-}
-
-.lvs-navtop-right {
-    display: flex;
-    align-items: center;
     gap: 24px;
-    font-size: 14px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+    color: #f6f7ff;
 }
 
-.lvs-nav-link {
-    color: #a8b3ff;
-    text-decoration: none;
-    padding-bottom: 2px;
-    border-bottom: 1px solid transparent;
-}
-
-.lvs-nav-link:hover {
-    color: #ffffff;
-}
-
-.lvs-nav-link--active {
-    color: #ffffff;
-    border-bottom-color: #25e0a1;
-}
-
-/* Юзер-меню в шапке */
-
-.lvs-nav-user {
-    position: relative;
-}
-
-.lvs-nav-user-btn {
+.lvs-app-header__left {
     display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.lvs-app-logo {
+    display: inline-flex;
     align-items: center;
     gap: 8px;
-    border-radius: 999px;
-    padding: 6px 14px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    background: rgba(8, 14, 40, 0.9);
-    color: #f5f7ff;
-    cursor: pointer;
-    font-size: 13px;
+    text-decoration: none;
 }
 
-.lvs-nav-user-dot {
+.lvs-app-logo__dot {
     width: 10px;
     height: 10px;
     border-radius: 999px;
-    background: linear-gradient(135deg, #ffd54a, #ff8f00);
+    background: radial-gradient(circle at 30% 30%, #6bffb7, #16a085);
 }
 
-.lvs-nav-user-caret {
+.lvs-app-logo__text {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #f6f7ff;
+}
+
+.lvs-app-breadcrumb {
+    font-size: 12px;
+    opacity: 0.6;
+}
+
+.lvs-app-nav {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 1;
+    justify-content: center;
+}
+
+.lvs-app-nav__link {
+    font-size: 14px;
+    text-decoration: none;
+    color: #f6f7ff;
+    opacity: 0.75;
+}
+
+.lvs-app-nav__link:hover {
+    opacity: 1;
+}
+
+.lvs-app-nav__link--active {
+    font-weight: 600;
+    opacity: 1;
+}
+
+/* user menu */
+
+.lvs-app-user {
+    position: relative;
+}
+
+.lvs-app-user__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(4, 11, 30, 0.8);
+    color: #f6f7ff;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.lvs-app-user__btn:hover {
+    border-color: rgba(255, 255, 255, 0.35);
+}
+
+.lvs-app-user__avatar {
+    width: 22px;
+    height: 22px;
+    border-radius: 999px;
+    background: radial-gradient(circle at 30% 20%, #ffe66b, #ff8a3d);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     font-size: 11px;
-    opacity: 0.8;
+    font-weight: 600;
 }
 
-.lvs-nav-user-menu {
+.lvs-app-user__name {
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.lvs-app-user__arrow {
+    font-size: 10px;
+    opacity: 0.65;
+}
+
+.lvs-app-user__menu {
     position: absolute;
-    top: 110%;
     right: 0;
+    top: calc(100% + 8px);
     min-width: 200px;
     padding: 8px;
     border-radius: 12px;
-    background: #040715;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(5, 9, 25, 0.98);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.6);
     display: none;
-    flex-direction: column;
-    gap: 4px;
-    z-index: 50;
 }
 
-.lvs-nav-user-menu a {
-    padding: 6px 8px;
-    border-radius: 8px;
-    font-size: 13px;
-    color: #dbe1ff;
-    text-decoration: none;
-}
-
-.lvs-nav-user-menu a:hover {
-    background: rgba(37, 224, 161, 0.08);
-}
-
-/* Показ меню по hover – пока так, без JS */
-
-.lvs-nav-user:hover .lvs-nav-user-menu {
-    display: flex;
-}
-
-/* Карточки аккаунта */
-
-.lvs-account-card {
-    max-width: 1120px;
-    margin: 0 auto 24px;
-    padding: 24px 28px;
-    border-radius: 24px;
-    background: radial-gradient(circle at top left, rgba(37, 224, 161, 0.06), rgba(3, 9, 24, 0.96));
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    box-shadow:
-        0 22px 60px rgba(0, 0, 0, 0.65),
-        0 0 0 1px rgba(255, 255, 255, 0.02);
-}
-
-.lvs-account-card--header {
-    display: flex;
-    justify-content: space-between;
-    gap: 32px;
-    align-items: stretch;
-}
-
-.lvs-account-header-left {
-    display: flex;
-    gap: 24px;
-}
-
-.lvs-account-avatar-wrapper {
-    width: 148px;
-    height: 148px;
-    border-radius: 28px;
-    overflow: hidden;
-    background: radial-gradient(circle at 20% 0, #25e0a1, #021226 70%);
-    flex-shrink: 0;
-}
-
-.lvs-account-avatar {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.lvs-app-user--open .lvs-app-user__menu {
     display: block;
 }
 
-.lvs-account-header-main {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.lvs-account-name-row {
-    max-width: 360px;
-}
-
-.lvs-account-tags-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    max-width: 420px;
-}
-
-.lvs-account-chips-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-}
-
-.lvs-account-avatar-upload {
-    margin-top: 6px;
-}
-
-/* Метрики справа */
-
-.lvs-account-header-right {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 12px;
-    min-width: 200px;
-}
-
-.lvs-account-metric-label {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.16em;
-    color: #8fa2ff;
-}
-
-.lvs-account-metric-value {
-    font-size: 22px;
-    font-weight: 600;
-}
-
-/* Формы */
-
-.lvs-section-title {
-    font-size: 18px;
-    margin-bottom: 16px;
-    font-weight: 600;
-}
-
-.lvs-section-subtitle {
-    font-size: 14px;
-    font-weight: 500;
-    color: #c7d2ff;
-}
-
-.lvs-field {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: 12px;
-}
-
-.lvs-field-label {
-    font-size: 12px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: #8fa2ff;
-}
-
-.lvs-input {
-    width: 100%;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    background: rgba(5, 12, 32, 0.9);
-    padding: 8px 11px;
-    color: #e5ebff;
-    font-size: 14px;
-    outline: none;
-}
-
-.lvs-input::placeholder {
-    color: #6e7aa8;
-}
-
-.lvs-input:focus {
-    border-color: #25e0a1;
-    box-shadow: 0 0 0 1px rgba(37, 224, 161, 0.4);
-}
-
-.lvs-input--multiline {
-    min-height: 72px;
-    resize: vertical;
-}
-
-.lvs-input--pill {
-    border-radius: 999px;
-}
-
-/* Гриды */
-
-.lvs-grid {
-    display: grid;
-    gap: 12px 16px;
-    margin-bottom: 8px;
-}
-
-.lvs-grid--2 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.lvs-grid--3 {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-/* Чекбоксы */
-
-.lvs-checkbox-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 16px;
+.lvs-app-user__item {
+    display: block;
+    padding: 8px 10px;
+    border-radius: 8px;
     font-size: 13px;
-    color: #dbe1ff;
+    color: #f6f7ff;
+    text-decoration: none;
 }
 
-.lvs-checkbox-row input {
-    margin-right: 4px;
+.lvs-app-user__item:hover {
+    background: rgba(255, 255, 255, 0.05);
 }
 
-/* Переключатели */
-
-.lvs-toggle-row {
-    margin-top: 10px;
-    margin-bottom: 4px;
+.lvs-app-user__item--danger {
+    color: #ff9a9a;
 }
 
-.lvs-toggle {
-    display: inline-flex;
+/* ===== MAIN PROFILE CARD ===== */
+
+.profile-main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    padding: 40px 16px 32px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+    color: #f6f7ff;
+}
+
+.profile-card {
+    width: 100%;
+    max-width: 1120px;
+    background: radial-gradient(circle at 0 0, rgba(255,255,255,0.04), rgba(6,15,40,0.98));
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 30px 90px rgba(0, 0, 0, 0.75);
+    padding: 28px 32px 24px;
+}
+
+/* top row */
+
+.profile-card__top {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+}
+
+/* left side */
+
+.profile-card__left {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    flex: 3;
+}
+
+/* avatar – квадрат, тонкая рамка */
+
+.profile-avatar {
+    position: relative;
+    width: 190px;
+    height: 190px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    overflow: hidden;
+    background: linear-gradient(135deg, #1e2746, #0b1020);
+    flex-shrink: 0;
+    display: flex;
     align-items: center;
-    gap: 10px;
-    cursor: pointer;
+    justify-content: center;
 }
 
-.lvs-toggle input {
+.profile-avatar__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* если нет картинки – просто градиент */
+
+.profile-avatar__img[src=""],
+.profile-avatar__img:not([src]) {
     display: none;
 }
 
-.lvs-toggle-slider {
-    width: 40px;
-    height: 20px;
-    border-radius: 999px;
-    background: #252b4a;
-    position: relative;
-    transition: background 0.18s ease;
-}
+/* upload overlay */
 
-.lvs-toggle-slider::before {
-    content: "";
+.avatar-upload {
     position: absolute;
-    top: 2px;
-    left: 2px;
-    width: 16px;
-    height: 16px;
-    border-radius: 999px;
-    background: #f9fafb;
-    transition: transform 0.18s ease;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 42px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 8px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.25s ease;
 }
 
-.lvs-toggle input:checked + .lvs-toggle-slider {
-    background: #25e0a1;
+.profile-avatar:hover .avatar-upload {
+    opacity: 1;
 }
 
-.lvs-toggle input:checked + .lvs-toggle-slider::before {
-    transform: translateX(20px);
+.avatar-upload input {
+    display: none;
 }
 
-.lvs-toggle-label {
+.avatar-upload span {
+    font-size: 13px;
+    font-weight: 500;
+    color: #ffffff;
+}
+
+/* main info */
+
+.profile-main-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.profile-name {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.profile-role {
     font-size: 14px;
+    opacity: 0.85;
 }
 
-/* Кнопки */
+.profile-location {
+    font-size: 13px;
+    opacity: 0.7;
+}
 
-.lvs-btn {
+.profile-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
+}
+
+.profile-tag {
+    font-size: 11px;
+    padding: 4px 8px;
     border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    opacity: 0.9;
+}
+
+.profile-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+/* buttons */
+
+.btn {
+    border-radius: 999px;
+    padding: 7px 14px;
     border: 1px solid transparent;
-    padding: 8px 16px;
+    background: transparent;
+    color: #f6f7ff;
     font-size: 13px;
     cursor: pointer;
-    background: #141a32;
-    color: #e5ebff;
 }
 
-.lvs-btn--primary {
-    background: linear-gradient(135deg, #25e0a1, #21c58f);
-    color: #020617;
-    font-weight: 600;
+.btn-primary {
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    border-color: transparent;
 }
 
-.lvs-btn--ghost {
-    background: transparent;
-    border-color: rgba(255, 255, 255, 0.18);
+.btn-primary:hover {
+    filter: brightness(1.07);
 }
 
-.lvs-btn--primary:hover {
-    filter: brightness(1.08);
+.btn-ghost {
+    border-color: rgba(255, 255, 255, 0.24);
+    background: rgba(4, 11, 30, 0.7);
 }
 
-.lvs-account-actions {
+.btn-ghost:hover {
+    border-color: rgba(255, 255, 255, 0.45);
+}
+
+/* right side stats */
+
+.profile-card__right {
+    flex: 2;
     display: flex;
     justify-content: flex-end;
-    gap: 8px;
-    margin-top: 18px;
 }
 
-/* Чипы */
-
-.lvs-chip {
-    border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    background: rgba(8, 12, 38, 0.9);
-    color: #e5ebff;
-    font-size: 11px;
-    padding: 4px 10px;
-}
-
-/* Мульти-блоки (Work / Education) */
-
-.lvs-multi-section {
-    margin-top: 12px;
-    margin-bottom: 8px;
-}
-
-.lvs-multi-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-}
-
-.lvs-multi-list {
+.profile-stats {
+    margin: 0;
+    padding: 0 0 0 24px;
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
 }
 
-.lvs-multi-row {
-    padding: 12px 12px 10px;
-    border-radius: 16px;
-    background: rgba(4, 10, 30, 0.9);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.lvs-multi-remove {
-    align-self: flex-end;
-    border: none;
-    background: transparent;
-    color: #f97373;
-    font-size: 11px;
-    cursor: pointer;
-    padding: 0;
-}
-
-/* Футер */
-
-.lvs-footer {
-    border-top: 1px solid rgba(255, 255, 255, 0.04);
-    background: #020617;
-    padding: 10px 48px 8px;
-    color: #9ca3c9;
-    font-size: 12px;
-}
-
-.lvs-footer-inner {
-    max-width: 1120px;
-    margin: 0 auto;
+.profile-stat {
     display: flex;
     justify-content: space-between;
     gap: 16px;
-    align-items: center;
+    font-size: 13px;
 }
 
-.lvs-footer-links {
+.profile-stat__label {
+    opacity: 0.7;
+}
+
+.profile-stat__value {
+    font-weight: 600;
+}
+
+/* divider */
+
+.profile-divider {
+    margin: 24px 0 20px;
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* bottom sections */
+
+.profile-card__bottom {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.4fr);
+    gap: 24px 60px;
+}
+
+.profile-section {
+    font-size: 14px;
+}
+
+.profile-section--wide {
+    grid-column: 1 / -1;
+}
+
+.profile-section__title {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0 0 8px;
+}
+
+.profile-section__text {
+    margin: 0;
+    line-height: 1.5;
+    opacity: 0.9;
+}
+
+.profile-section__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.profile-section__list li + li {
+    margin-top: 4px;
+}
+
+.profile-section__list--two-columns {
+    columns: 2;
+    column-gap: 32px;
+}
+
+.profile-section__list--two-columns li {
+    break-inside: avoid;
+}
+
+/* activity timeline */
+
+.profile-activity {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.profile-activity__item {
+    position: relative;
+    padding-left: 16px;
+    margin-bottom: 8px;
+}
+
+.profile-activity__item::before {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 6px;
+    width: 4px;
+    height: 4px;
+    border-radius: 999px;
+    background: #00c6ff;
+}
+
+.profile-activity__time {
+    font-size: 12px;
+    opacity: 0.6;
+}
+
+.profile-activity__text {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+/* ===== FOOTER (тонкая полоса внизу) ===== */
+
+.lvs-app-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(4, 8, 20, 0.96);
+}
+
+.lvs-app-footer__inner {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 10px 24px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+    font-size: 12px;
+    color: #f6f7ff;
+    opacity: 0.75;
+}
+
+.lvs-app-footer__nav {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
 }
 
-.lvs-footer-links a {
-    color: #c7d2ff;
+.lvs-app-footer__nav a {
+    color: #f6f7ff;
     text-decoration: none;
-    font-size: 12px;
+    opacity: 0.8;
 }
 
-.lvs-footer-links a:hover {
-    text-decoration: underline;
+.lvs-app-footer__nav a:hover {
+    opacity: 1;
 }
 
-/* Адаптив */
+/* ===== RESPONSIVE ===== */
 
 @media (max-width: 960px) {
-    .lvs-page--account {
-        padding: 80px 16px 24px;
+    .lvs-app-header__inner {
+        padding-inline: 16px;
+        gap: 12px;
     }
 
-    .lvs-account-card {
-        padding: 18px 16px;
-        border-radius: 18px;
+    .lvs-app-nav {
+        display: none; /* на узких — только логотип и юзер */
     }
 
-    .lvs-account-card--header {
+    .profile-main {
+        padding-inline: 12px;
+    }
+
+    .profile-card {
+        padding: 22px 18px 20px;
+    }
+
+    .profile-card__top {
         flex-direction: column;
+        gap: 18px;
     }
 
-    .lvs-account-header-left {
-        flex-direction: column;
+    .profile-card__left {
+        flex-direction: row;
+        align-items: flex-start;
     }
 
-    .lvs-grid--2,
-    .lvs-grid--3 {
-        grid-template-columns: minmax(0, 1fr);
+    .profile-card__right {
+        justify-content: flex-start;
     }
 
-    .lvs-navtop {
-        padding: 0 16px;
+    .profile-stats {
+        border-left: none;
+        padding-left: 0;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 8px 16px;
     }
 
-    .lvs-footer {
-        padding: 10px 16px 8px;
+    .profile-card__bottom {
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
 
-    .lvs-footer-inner {
+    .profile-section__list--two-columns {
+        columns: 1;
+    }
+}
+
+@media (max-width: 640px) {
+    .profile-card__left {
         flex-direction: column;
         align-items: flex-start;
+    }
+
+    .profile-avatar {
+        width: 160px;
+        height: 160px;
+    }
+
+    .profile-name {
+        font-size: 20px;
+    }
+
+    .lvs-app-footer__inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
     }
 }
