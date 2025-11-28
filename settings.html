@@ -1,453 +1,371 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
     <title>LVS – Account settings</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <!-- Base styles -->
-    <link rel="stylesheet" href="assets/lvs.css" />
-    <!-- Settings page styles -->
-    <link rel="stylesheet" href="assets/css/settings.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="assets/lvs.css">
+    <link rel="stylesheet" href="assets/css/profile.css">
+    <script defer src="assets/js/profile.js"></script>
 </head>
-<body class="lvs-settings-page">
+<body>
 
-<header class="lvs-header">
-    <div class="lvs-header__inner">
-        <a href="index.html" class="lvs-logo">
-            <span class="lvs-logo__dot"></span>
-            <span class="lvs-logo__text">Living Value System</span>
-        </a>
-
-        <nav class="lvs-nav">
-            <a href="market.html" class="lvs-nav__link">Jobs & tasks</a>
-            <a href="me.html" class="lvs-nav__link">My profile</a>
-            <a href="settings.html" class="lvs-nav__link lvs-nav__link--active">Settings</a>
-
-            <div class="lvs-nav__spacer"></div>
-
-            <div class="profile-menu">
-                <button class="profile-menu__trigger" type="button">
-                    <span class="profile-menu__avatar">
-                        <span class="profile-menu__avatar-inner">V</span>
-                    </span>
-                    <span class="profile-menu__name">Volodymyr Podkorytov</span>
-                    <span class="profile-menu__arrow">▾</span>
-                </button>
-
-                <div class="profile-menu__dropdown">
-                    <a href="me.html" class="profile-menu__item">My profile</a>
-                    <a href="settings.html" class="profile-menu__item">Account settings</a>
-                    <a href="space.html" class="profile-menu__item">LVS map</a>
-                    <a href="index.html" class="profile-menu__item profile-menu__item--danger">
-                        Exit to main page
-                    </a>
-                </div>
-            </div>
-        </nav>
+<header class="lvs-navtop">
+    <div class="lvs-navtop-left">
+        <div class="lvs-navtop-logo-dot"></div>
+        <span class="lvs-navtop-title">LIVING VALUE SYSTEM</span>
+        <span class="lvs-navtop-breadcrumb">LVS / Account</span>
     </div>
+    <nav class="lvs-navtop-right">
+        <a href="index.html" class="lvs-nav-link">Jobs & tasks</a>
+        <a href="me.html" class="lvs-nav-link">My profile</a>
+        <a href="settings.html" class="lvs-nav-link lvs-nav-link--active">Settings</a>
+
+        <div class="lvs-nav-user">
+            <button class="lvs-nav-user-btn">
+                <span class="lvs-nav-user-dot"></span>
+                <span>Volodymyr Podkorytov</span>
+                <span class="lvs-nav-user-caret">▾</span>
+            </button>
+            <div class="lvs-nav-user-menu">
+                <a href="me.html">My profile</a>
+                <a href="settings.html">Account settings</a>
+                <a href="space.html">LVS map</a>
+                <a href="index.html">Exit to main page</a>
+            </div>
+        </div>
+    </nav>
 </header>
 
-<main class="settings-page">
-    <div class="settings-layout">
-        <!-- breadcrumb -->
-        <div class="settings-breadcrumb">
-            <span class="settings-breadcrumb__root">LVS / Account</span>
+<main class="lvs-page lvs-page--account">
+    <section class="lvs-account-card lvs-account-card--header">
+        <div class="lvs-account-header-left">
+            <div class="lvs-account-avatar-wrapper">
+                <img src="assets/img/profile-avatar.png" alt="Avatar" class="lvs-account-avatar" id="settingsAvatar">
+            </div>
+
+            <div class="lvs-account-header-main">
+                <div class="lvs-account-name-row">
+                    <input class="lvs-input lvs-input--pill"
+                           type="text"
+                           value="Volodymyr Podkorytov"
+                           placeholder="Full name">
+                </div>
+
+                <div class="lvs-account-tags-row">
+                    <input class="lvs-input lvs-input--pill" type="text"
+                           value="Founder · LVS / IBITI"
+                           placeholder="Role / company">
+                    <input class="lvs-input lvs-input--pill" type="text"
+                           value="Windesheim, Germany"
+                           placeholder="Location">
+                </div>
+
+                <div class="lvs-account-chips-row">
+                    <button type="button" class="lvs-chip">Human</button>
+                    <button type="button" class="lvs-chip">Builder</button>
+                    <button type="button" class="lvs-chip">Early LVS participant</button>
+                </div>
+
+                <div class="lvs-account-avatar-upload">
+                    <label class="lvs-btn lvs-btn--ghost">
+                        <input type="file" id="avatarUploadInput" hidden>
+                        Change photo
+                    </label>
+                </div>
+            </div>
         </div>
 
-        <!-- top card: avatar + short info + metrics -->
-        <section class="settings-card settings-card--top">
-            <div class="settings-top">
-                <div class="settings-top__left">
-                    <div class="settings-avatar">
-                        <div class="settings-avatar__image">
-                            <!-- дефолтное фото, можно заменить на любое -->
-                            <img src="assets/img/avatar-demo.png" alt="Avatar" />
-                        </div>
-                        <label class="settings-avatar__upload">
-                            <input
-                                type="file"
-                                class="settings-avatar__input"
-                                accept="image/*"
-                            />
-                            Change photo
-                        </label>
+        <div class="lvs-account-header-right">
+            <div class="lvs-account-metric">
+                <div class="lvs-account-metric-label">Trust (TC)</div>
+                <div class="lvs-account-metric-value">87%</div>
+            </div>
+            <div class="lvs-account-metric">
+                <div class="lvs-account-metric-label">Value (VU)</div>
+                <div class="lvs-account-metric-value">4 200</div>
+            </div>
+            <div class="lvs-account-metric">
+                <div class="lvs-account-metric-label">Stability</div>
+                <div class="lvs-account-metric-value">93%</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROFILE -->
+    <section class="lvs-account-card">
+        <h2 class="lvs-section-title">Profile</h2>
+
+        <label class="lvs-field">
+            <span class="lvs-field-label">About</span>
+            <textarea class="lvs-input lvs-input--multiline" rows="3"
+                      placeholder="Short intro about you, LVS, IBITI, etc.">
+Early participant of the Living Value System. Building an autonomous value layer, the IBITI ecosystem, and real-world services around it.
+            </textarea>
+        </label>
+
+        <div class="lvs-grid lvs-grid--2">
+            <label class="lvs-field">
+                <span class="lvs-field-label">Main skills</span>
+                <input class="lvs-input" type="text"
+                       value="Distributed systems, Crypto / DeFi, Rust / TypeScript"
+                       placeholder="Key skills">
+            </label>
+
+            <label class="lvs-field">
+                <span class="lvs-field-label">Focus</span>
+                <input class="lvs-input" type="text"
+                       value="Product strategy, Protocol design"
+                       placeholder="What you work on now">
+            </label>
+        </div>
+    </section>
+
+    <!-- PERSONAL DETAILS -->
+    <section class="lvs-account-card">
+        <h2 class="lvs-section-title">Personal details</h2>
+
+        <div class="lvs-grid lvs-grid--2">
+            <label class="lvs-field">
+                <span class="lvs-field-label">Date of birth</span>
+                <input class="lvs-input" type="text" placeholder="DD.MM.YYYY">
+            </label>
+
+            <label class="lvs-field">
+                <span class="lvs-field-label">Citizenship</span>
+                <input class="lvs-input" type="text" placeholder="Country">
+            </label>
+        </div>
+
+        <div class="lvs-grid lvs-grid--2">
+            <label class="lvs-field">
+                <span class="lvs-field-label">Country</span>
+                <input class="lvs-input" type="text" value="Germany">
+            </label>
+
+            <label class="lvs-field">
+                <span class="lvs-field-label">City</span>
+                <input class="lvs-input" type="text" value="Windesheim">
+            </label>
+        </div>
+
+        <div class="lvs-grid lvs-grid--2">
+            <label class="lvs-field">
+                <span class="lvs-field-label">Phone</span>
+                <input class="lvs-input" type="tel" placeholder="+49 ...">
+            </label>
+
+            <label class="lvs-field">
+                <span class="lvs-field-label">Email</span>
+                <input class="lvs-input" type="email" value="reker198079@gmail.com">
+            </label>
+        </div>
+
+        <div class="lvs-grid lvs-grid--2">
+            <label class="lvs-field">
+                <span class="lvs-field-label">Website</span>
+                <input class="lvs-input" type="url" value="https://ibiticoin.com">
+            </label>
+
+            <label class="lvs-field">
+                <span class="lvs-field-label">GitHub</span>
+                <input class="lvs-input" type="url" value="https://github.com/VOVAN1980">
+            </label>
+        </div>
+
+        <label class="lvs-field">
+            <span class="lvs-field-label">LinkedIn / portfolio</span>
+            <input class="lvs-input" type="url" placeholder="Profile link or portfolio">
+        </label>
+    </section>
+
+    <!-- WORK & EDUCATION (многократные блоки) -->
+    <section class="lvs-account-card">
+        <h2 class="lvs-section-title">Work & education</h2>
+
+        <label class="lvs-field">
+            <span class="lvs-field-label">Current status</span>
+            <input class="lvs-input" type="text"
+                   placeholder="Entrepreneur, employee, freelancer, etc.">
+        </label>
+
+        <label class="lvs-field">
+            <span class="lvs-field-label">Desired roles / positions</span>
+            <input class="lvs-input" type="text"
+                   placeholder="Example: Protocol architect, DeFi engineer, product strategist">
+        </label>
+
+        <!-- Jobs list -->
+        <div class="lvs-multi-section">
+            <div class="lvs-multi-header">
+                <div class="lvs-section-subtitle">Work experience</div>
+                <button type="button"
+                        class="lvs-btn lvs-btn--ghost lvs-multi-add"
+                        data-add-row="work">
+                    + Add workplace
+                </button>
+            </div>
+
+            <div class="lvs-multi-list" id="workList">
+                <!-- первая запись -->
+                <div class="lvs-multi-row">
+                    <div class="lvs-grid lvs-grid--3">
+                        <input class="lvs-input" type="text" placeholder="Company">
+                        <input class="lvs-input" type="text" placeholder="Position">
+                        <input class="lvs-input" type="text" placeholder="Period (YYYY–YYYY / now)">
                     </div>
-
-                    <div class="settings-summary">
-                        <input
-                            type="text"
-                            class="settings-input settings-input--line"
-                            value="Volodymyr Podkorytov"
-                            autocomplete="name"
-                        />
-
-                        <input
-                            type="text"
-                            class="settings-input settings-input--line"
-                            value="Founder · LVS / IBITI"
-                        />
-
-                        <input
-                            type="text"
-                            class="settings-input settings-input--line"
-                            value="Windesheim, Germany"
-                        />
-
-                        <div class="settings-tags">
-                            <span class="settings-tag">Human</span>
-                            <span class="settings-tag">Builder</span>
-                            <span class="settings-tag">Early LVS participant</span>
-                        </div>
-                    </div>
+                    <textarea class="lvs-input lvs-input--multiline"
+                              rows="2"
+                              placeholder="Responsibilities, key achievements"></textarea>
+                    <button type="button"
+                            class="lvs-multi-remove"
+                            title="Remove job">
+                        Remove
+                    </button>
                 </div>
+            </div>
+        </div>
 
-                <div class="settings-top__right">
-                    <div class="settings-metrics">
-                        <div class="settings-metric">
-                            <div class="settings-metric__label">Trust (TC)</div>
-                            <div class="settings-metric__value">87%</div>
-                        </div>
-                        <div class="settings-metric">
-                            <div class="settings-metric__label">Value (VU)</div>
-                            <div class="settings-metric__value">4 200</div>
-                        </div>
-                        <div class="settings-metric">
-                            <div class="settings-metric__label">Stability</div>
-                            <div class="settings-metric__value">93%</div>
-                        </div>
+        <!-- Education list -->
+        <div class="lvs-multi-section">
+            <div class="lvs-multi-header">
+                <div class="lvs-section-subtitle">Education</div>
+                <button type="button"
+                        class="lvs-btn lvs-btn--ghost lvs-multi-add"
+                        data-add-row="edu">
+                    + Add education
+                </button>
+            </div>
+
+            <div class="lvs-multi-list" id="eduList">
+                <div class="lvs-multi-row">
+                    <div class="lvs-grid lvs-grid--3">
+                        <input class="lvs-input" type="text" placeholder="Institution">
+                        <input class="lvs-input" type="text" placeholder="Degree / program">
+                        <input class="lvs-input" type="text" placeholder="Year of graduation">
                     </div>
+                    <textarea class="lvs-input lvs-input--multiline"
+                              rows="2"
+                              placeholder="Details: faculty, specialization, etc."></textarea>
+                    <button type="button"
+                            class="lvs-multi-remove"
+                            title="Remove education">
+                        Remove
+                    </button>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- Profile block -->
-        <section class="settings-card">
-            <h2 class="settings-section-title">Profile</h2>
-
-            <label class="settings-field">
-                <span class="settings-field__label">About</span>
-                <textarea class="settings-input settings-input--textarea" rows="4">
-Early participant of the Living Value System. Building an autonomous value layer, the IBITI ecosystem, and real-world services around it.</textarea>
+        <div class="lvs-grid lvs-grid--2">
+            <label class="lvs-field">
+                <span class="lvs-field-label">Languages</span>
+                <input class="lvs-input" type="text"
+                       placeholder="English (B2), German (A2), Ukrainian (native)">
             </label>
 
-            <div class="settings-grid settings-grid--2">
-                <label class="settings-field">
-                    <span class="settings-field__label">Main skills</span>
-                    <input
-                        type="text"
-                        class="settings-input"
-                        value="Distributed systems, Crypto / DeFi, Rust / TypeScript"
-                    />
-                </label>
-
-                <label class="settings-field">
-                    <span class="settings-field__label">Focus</span>
-                    <input
-                        type="text"
-                        class="settings-input"
-                        value="Product strategy, Protocol design"
-                    />
-                </label>
-            </div>
-        </section>
-
-        <!-- Personal details -->
-        <section class="settings-card">
-            <h2 class="settings-section-title">Personal details</h2>
-
-            <div class="settings-grid settings-grid--2">
-                <label class="settings-field">
-                    <span class="settings-field__label">Date of birth</span>
-                    <input
-                        type="text"
-                        class="settings-input"
-                        placeholder="DD.MM.YYYY"
-                    />
-                </label>
-
-                <label class="settings-field">
-                    <span class="settings-field__label">Citizenship</span>
-                    <input type="text" class="settings-input" placeholder="Country" />
-                </label>
-            </div>
-
-            <div class="settings-grid settings-grid--2">
-                <label class="settings-field">
-                    <span class="settings-field__label">Country</span>
-                    <input type="text" class="settings-input" value="Germany" />
-                </label>
-
-                <label class="settings-field">
-                    <span class="settings-field__label">City</span>
-                    <input type="text" class="settings-input" value="Windesheim" />
-                </label>
-            </div>
-
-            <div class="settings-grid settings-grid--2">
-                <label class="settings-field">
-                    <span class="settings-field__label">Phone</span>
-                    <input
-                        type="tel"
-                        class="settings-input"
-                        placeholder="+49 ..."
-                    />
-                </label>
-
-                <label class="settings-field">
-                    <span class="settings-field__label">Email</span>
-                    <input
-                        type="email"
-                        class="settings-input"
-                        value="reker198079@gmail.com"
-                    />
-                </label>
-            </div>
-
-            <div class="settings-grid settings-grid--2">
-                <label class="settings-field">
-                    <span class="settings-field__label">Website</span>
-                    <input
-                        type="url"
-                        class="settings-input"
-                        value="https://ibiticoin.com"
-                    />
-                </label>
-
-                <label class="settings-field">
-                    <span class="settings-field__label">GitHub</span>
-                    <input
-                        type="url"
-                        class="settings-input"
-                        value="https://github.com/VOVAN1980"
-                    />
-                </label>
-            </div>
-
-            <label class="settings-field">
-                <span class="settings-field__label">LinkedIn / portfolio</span>
-                <input
-                    type="url"
-                    class="settings-input"
-                    placeholder="Profile link or portfolio"
-                />
+            <label class="lvs-field">
+                <span class="lvs-field-label">Computer skills</span>
+                <input class="lvs-input" type="text"
+                       placeholder="Linux, Docker, Git, VS Code, etc.">
             </label>
-        </section>
+        </div>
+    </section>
 
-        <!-- Work & education -->
-        <section class="settings-card">
-            <h2 class="settings-section-title">Work & education</h2>
+    <!-- ADDITIONAL INFO -->
+    <section class="lvs-account-card">
+        <h2 class="lvs-section-title">Additional information</h2>
 
-            <label class="settings-field">
-                <span class="settings-field__label">Current status</span>
-                <input
-                    type="text"
-                    class="settings-input"
-                    placeholder="Entrepreneur, employee, freelancer, etc."
-                />
-            </label>
-
-            <label class="settings-field">
-                <span class="settings-field__label">Desired roles / positions</span>
-                <input
-                    type="text"
-                    class="settings-input"
-                    placeholder="Example: Protocol architect, DeFi engineer, product strategist"
-                />
-            </label>
-
-            <label class="settings-field">
-                <span class="settings-field__label">Work experience</span>
-                <textarea
-                    class="settings-input settings-input--textarea"
-                    rows="5"
-                    placeholder="Short history of key jobs, roles, responsibilities"
-                ></textarea>
-            </label>
-
-            <label class="settings-field">
-                <span class="settings-field__label">Education</span>
-                <textarea
-                    class="settings-input settings-input--textarea"
-                    rows="4"
-                    placeholder="Universities, courses, certificates"
-                ></textarea>
-            </label>
-
-            <div class="settings-grid settings-grid--2">
-                <label class="settings-field">
-                    <span class="settings-field__label">Languages</span>
-                    <input
-                        type="text"
-                        class="settings-input"
-                        placeholder="English (B2), German (A2), Ukrainian (native)"
-                    />
-                </label>
-
-                <label class="settings-field">
-                    <span class="settings-field__label">Computer skills</span>
-                    <input
-                        type="text"
-                        class="settings-input"
-                        placeholder="Linux, Docker, Git, VS Code, etc."
-                    />
-                </label>
-            </div>
-        </section>
-
-        <!-- Additional info -->
-        <section class="settings-card">
-            <h2 class="settings-section-title">Additional information</h2>
-
-            <div class="settings-grid settings-grid--2 settings-grid--stretch">
-                <div class="settings-field">
-                    <div class="settings-field__label">Driving license</div>
-                    <div class="settings-checkboxes">
-                        <label class="settings-checkbox">
-                            <input type="checkbox" />
-                            <span>A</span>
-                        </label>
-                        <label class="settings-checkbox">
-                            <input type="checkbox" />
-                            <span>B</span>
-                        </label>
-                        <label class="settings-checkbox">
-                            <input type="checkbox" />
-                            <span>C</span>
-                        </label>
-                        <label class="settings-checkbox">
-                            <input type="checkbox" />
-                            <span>D</span>
-                        </label>
-                    </div>
+        <div class="lvs-grid lvs-grid--2">
+            <div class="lvs-field">
+                <div class="lvs-field-label">Driving license</div>
+                <div class="lvs-checkbox-row">
+                    <label><input type="checkbox"> A</label>
+                    <label><input type="checkbox"> B</label>
+                    <label><input type="checkbox"> C</label>
+                    <label><input type="checkbox"> D</label>
                 </div>
-
-                <label class="settings-field">
-                    <span class="settings-field__label">Free time / hobbies</span>
-                    <input
-                        type="text"
-                        class="settings-input"
-                        placeholder="What you do in your free time"
-                    />
-                </label>
             </div>
 
-            <label class="settings-field">
-                <span class="settings-field__label">Personal qualities</span>
-                <textarea
-                    class="settings-input settings-input--textarea"
-                    rows="4"
-                    placeholder="Responsibility, initiative, ability to work independently, etc."
-                ></textarea>
+            <label class="lvs-field">
+                <span class="lvs-field-label">Free time / hobbies</span>
+                <input class="lvs-input" type="text"
+                       placeholder="What you do in your free time">
+            </label>
+        </div>
+
+        <label class="lvs-field">
+            <span class="lvs-field-label">Personal qualities</span>
+            <textarea class="lvs-input lvs-input--multiline" rows="2"
+                      placeholder="Responsibility, initiative, ability to work independently, etc."></textarea>
+        </label>
+
+        <label class="lvs-field">
+            <span class="lvs-field-label">Extra information</span>
+            <textarea class="lvs-input lvs-input--multiline" rows="2"
+                      placeholder="Anything important for employers, partners or public institutions"></textarea>
+        </label>
+    </section>
+
+    <!-- ACCOUNT & PRIVACY -->
+    <section class="lvs-account-card">
+        <h2 class="lvs-section-title">Account & privacy</h2>
+
+        <div class="lvs-grid lvs-grid--2">
+            <label class="lvs-field">
+                <span class="lvs-field-label">Language</span>
+                <select class="lvs-input">
+                    <option selected>English</option>
+                    <option>Deutsch</option>
+                    <option>Українська</option>
+                    <option>Русский</option>
+                </select>
             </label>
 
-            <label class="settings-field">
-                <span class="settings-field__label">Extra information</span>
-                <textarea
-                    class="settings-input settings-input--textarea"
-                    rows="4"
-                    placeholder="Anything important for employers, partners or public institutions"
-                ></textarea>
+            <label class="lvs-field">
+                <span class="lvs-field-label">Time zone</span>
+                <select class="lvs-input">
+                    <option selected>Europe / Berlin</option>
+                </select>
             </label>
-        </section>
+        </div>
 
-        <!-- Privacy & save -->
-        <section class="settings-card settings-card--actions">
-            <h2 class="settings-section-title">Account & privacy</h2>
+        <div class="lvs-toggle-row">
+            <label class="lvs-toggle">
+                <input type="checkbox" checked>
+                <span class="lvs-toggle-slider"></span>
+                <span class="lvs-toggle-label">Show my profile to other LVS participants</span>
+            </label>
+        </div>
 
-            <div class="settings-grid settings-grid--2">
-                <label class="settings-field">
-                    <span class="settings-field__label">Language</span>
-                    <select class="settings-input settings-input--select">
-                        <option selected>English</option>
-                    </select>
-                </label>
+        <div class="lvs-toggle-row">
+            <label class="lvs-toggle">
+                <input type="checkbox" checked>
+                <span class="lvs-toggle-slider"></span>
+                <span class="lvs-toggle-label">Email notifications about new tasks and offers</span>
+            </label>
+        </div>
 
-                <label class="settings-field">
-                    <span class="settings-field__label">Time zone</span>
-                    <select class="settings-input settings-input--select">
-                        <option selected>Europe / Berlin</option>
-                    </select>
-                </label>
-            </div>
-
-            <div class="settings-toggles">
-                <label class="settings-toggle">
-                    <input type="checkbox" checked />
-                    <span class="settings-toggle__slider"></span>
-                    <span class="settings-toggle__label">
-                        Show my profile to other LVS participants
-                    </span>
-                </label>
-
-                <label class="settings-toggle">
-                    <input type="checkbox" checked />
-                    <span class="settings-toggle__slider"></span>
-                    <span class="settings-toggle__label">
-                        Email notifications about new tasks and offers
-                    </span>
-                </label>
-            </div>
-
-            <div class="settings-actions">
-                <button class="btn btn-secondary">Reset</button>
-                <button class="btn btn-primary">Save changes</button>
-            </div>
-        </section>
-    </div>
+        <div class="lvs-account-actions">
+            <button type="button" class="lvs-btn lvs-btn--ghost">Reset</button>
+            <button type="button" class="lvs-btn lvs-btn--primary">Save changes</button>
+        </div>
+    </section>
 </main>
 
 <footer class="lvs-footer">
-    <div class="lvs-footer__inner">
-        <span>© 2025 Living Value System (LVS)</span>
-        <nav class="lvs-footer__nav">
-            <a href="privacy.html">Privacy policy</a>
-            <a href="terms.html">Terms of use</a>
+    <div class="lvs-footer-inner">
+        <div class="lvs-footer-left">
+            © 2025 Living Value System (LVS)
+        </div>
+        <div class="lvs-footer-links">
+            <a href="legal-privacy.html">Privacy policy</a>
+            <a href="legal-terms.html">Terms of use</a>
             <a href="legal.html">Legal</a>
             <a href="contacts.html">Contacts</a>
-            <a href="https://github.com/VOVAN1980/lvs-site" target="_blank" rel="noopener">GitHub</a>
-        </nav>
+            <a href="https://github.com/VOVAN1980" target="_blank">GitHub</a>
+        </div>
     </div>
 </footer>
 
-<script>
-    // profile dropdown (как на me.html)
-    (function () {
-        var menu = document.querySelector('.profile-menu');
-        if (!menu) return;
-
-        var trigger = menu.querySelector('.profile-menu__trigger');
-
-        trigger.addEventListener('click', function () {
-            menu.classList.toggle('profile-menu--open');
-        });
-
-        document.addEventListener('click', function (e) {
-            if (!menu.contains(e.target)) {
-                menu.classList.remove('profile-menu--open');
-            }
-        });
-    })();
-
-    // превью аватарки чисто на фронте (без сервера)
-    (function () {
-        var input = document.querySelector('.settings-avatar__input');
-        var img = document.querySelector('.settings-avatar__image img');
-        if (!input || !img) return;
-
-        input.addEventListener('change', function () {
-            var file = input.files && input.files[0];
-            if (!file) return;
-
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                img.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        });
-    })();
-</script>
-
 </body>
 </html>
-
