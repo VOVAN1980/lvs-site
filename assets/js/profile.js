@@ -1,111 +1,203 @@
-const demoProfile = {
-  id: "acc_vovan1980",
-  username: "Volodymyr Podkorytov",
-  role: "Founder · LVS / IBITI",
-  location: "Windesheim, Germany",
-  avatar: "assets/img/default-avatar.png",
-  tags: ["Human", "Builder", "Early LVS participant"],
-  tc: 0.87,
-  vu: 4200,
-  stability: 0.93,
-  bio: "Early participant of Living Value System. Building autonomous value layer, IBITI ecosystem and real-world services.",
-  skills: ["Distributed systems", "Crypto / DeFi", "Rust", "Product strategy"],
-  nodes: [
-    { id: "node1", label: "Home gateway node" },
-    { id: "node2", label: "Mobile browser node" }
-  ],
-  activity: [
-    { ts: "2025-11-27 02:30", text: "Opened LVS account dashboard." },
-    { ts: "2025-11-26 22:31", text: "Joined LVS global map (Windesheim)." },
-    { ts: "2025-11-26 21:10", text: "Connected browser node to public gateway." }
-  ],
-  reviews: [
-    { author: "LVS System", text: "Stable behaviour and high trust score.", score: 5 },
-    { author: "Testnet participant", text: "Fast responses, clear communication.", score: 5 }
-  ]
-};
+// assets/js/profile.js
 
-function byId(id) {
-  return document.getElementById(id);
-}
+(function () {
+    const STORAGE_KEY = "lvs_profile_v1";
 
-function renderProfile(p) {
-  if (byId("profile-avatar") && p.avatar) {
-    byId("profile-avatar").src = p.avatar;
-  }
-  if (byId("profile-name")) byId("profile-name").textContent = p.username;
-  if (byId("profile-role")) byId("profile-role").textContent = p.role || "";
-  if (byId("profile-location")) byId("profile-location").textContent = p.location || "";
+    function $(selector) {
+        return document.querySelector(selector);
+    }
 
-  const tagsEl = byId("profile-tags");
-  if (tagsEl) {
-    tagsEl.innerHTML = "";
-    (p.tags || []).forEach(t => {
-      const span = document.createElement("span");
-      span.className = "lvs-tag";
-      span.textContent = t;
-      tagsEl.appendChild(span);
+    function $all(selector) {
+        return Array.from(document.querySelectorAll(selector));
+    }
+
+    function loadProfile() {
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (!raw) return {};
+            return JSON.parse(raw);
+        } catch (e) {
+            console.warn("LVS profile: cannot parse storage", e);
+            return {};
+        }
+    }
+
+    function saveProfile(data) {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        } catch (e) {
+            console.warn("LVS profile: cannot save", e);
+        }
+    }
+
+    const state = loadProfile();
+
+    /* === Аватар на всех страницах === */
+
+    function applyAvatar() {
+        const imgs = $all(".js-avatar-img");
+        if (!imgs.length) return;
+
+        imgs.forEach((img) => {
+            const def = img.getAttribute("data-default");
+            if (state.avatar) {
+                img.src = state.avatar;
+            } else if (def) {
+                img.src = def;
+            }
+        });
+    }
+
+    function initAvatarUpload() {
+        const input = $(".js-avatar-input");
+        if (!input) return;
+
+        input.addEventListener("change", function () {
+            const file = this.files && this.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const dataUrl = e.target.result;
+                state.avatar = dataUrl;
+                saveProfile(state);
+                applyAvatar();
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    /* === Поля настроек (settings.html) === */
+
+    function applySettingsToForm() {
+        const name = $(".js-field-name");
+        const title = $(".js-field-title");
+        const locationInput = $(".js-field-location");
+        const about = $(".js-field-about");
+        const skills = $(".js-field-skills");
+        const focus = $(".js-field-focus");
+        const email = $(".js-field-email");
+        const language = $(".js-field-language");
+        const tz = $(".js-field-timezone");
+        const publicProfile = $(".js-field-public");
+        const emailNotify = $(".js-field-email-notify");
+
+        if (name && state.name) name.value = state.name;
+        if (title && state.title) title.value = state.title;
+        if (locationInput && state.location) locationInput.value = state.location;
+        if (about && state.about) about.value = state.about;
+        if (skills && state.skills) skills.value = state.skills;
+        if (focus && state.focus) focus.value = state.focus;
+        if (email && state.email) email.value = state.email;
+        if (language && state.language) language.value = state.language;
+        if (tz && state.timezone) tz.value = state.timezone;
+        if (publicProfile && typeof state.publicProfile === "boolean")
+            publicProfile.checked = state.publicProfile;
+        if (emailNotify && typeof state.emailNotify === "boolean")
+            emailNotify.checked = state.emailNotify;
+    }
+
+    function collectSettingsFromForm() {
+        const name = $(".js-field-name");
+        const title = $(".js-field-title");
+        const locationInput = $(".js-field-location");
+        const about = $(".js-field-about");
+        const skills = $(".js-field-skills");
+        const focus = $(".js-field-focus");
+        const email = $(".js-field-email");
+        const language = $(".js-field-language");
+        const tz = $(".js-field-timezone");
+        const publicProfile = $(".js-field-public");
+        const emailNotify = $(".js-field-email-notify");
+
+        if (name) state.name = name.value.trim();
+        if (title) state.title = title.value.trim();
+        if (locationInput) state.location = locationInput.value.trim();
+        if (about) state.about = about.value.trim();
+        if (skills) state.skills = skills.value.trim();
+        if (focus) state.focus = focus.value.trim();
+        if (email) state.email = email.value.trim();
+        if (language) state.language = language.value;
+        if (tz) state.timezone = tz.value;
+        if (publicProfile) state.publicProfile = publicProfile.checked;
+        if (emailNotify) state.emailNotify = emailNotify.checked;
+    }
+
+    function initSettingsButtons() {
+        const saveBtn = $(".js-save-settings");
+        const resetBtn = $(".js-reset-settings");
+        const status = $(".js-settings-status");
+
+        if (saveBtn) {
+            saveBtn.addEventListener("click", function () {
+                collectSettingsFromForm();
+                saveProfile(state);
+                applyAvatar();
+                if (status) {
+                    status.textContent = "Saved locally";
+                    setTimeout(() => (status.textContent = ""), 2000);
+                }
+            });
+        }
+
+        if (resetBtn) {
+            resetBtn.addEventListener("click", function () {
+                localStorage.removeItem(STORAGE_KEY);
+                Object.keys(state).forEach((k) => delete state[k]);
+                window.location.reload();
+            });
+        }
+    }
+
+    /* === Применение данных к странице профиля (me.html) === */
+
+    function applyProfileReadOnly() {
+        const name = document.querySelector(".js-profile-name");
+        const title = document.querySelector(".js-profile-title");
+        const locationEl = document.querySelector(".js-profile-location");
+        const about = document.querySelector(".js-profile-about");
+        const skillsList = document.querySelector(".js-profile-skills");
+        const focusList = document.querySelector(".js-profile-focus");
+
+        if (name && state.name) name.textContent = state.name;
+        if (title && state.title) title.textContent = state.title;
+        if (locationEl && state.location) locationEl.textContent = state.location;
+        if (about && state.about) about.textContent = state.about;
+
+        if (skillsList && state.skills) {
+            skillsList.textContent = state.skills;
+        }
+        if (focusList && state.focus) {
+            focusList.textContent = state.focus;
+        }
+    }
+
+    /* === Профиль-меню в шапке === */
+
+    function initProfileMenu() {
+        const wrapper = document.querySelector(".lvs-navtop-profile");
+        const btn = wrapper && wrapper.querySelector(".lvs-navtop-profile-btn");
+        if (!wrapper || !btn) return;
+
+        btn.addEventListener("click", function () {
+            wrapper.classList.toggle("lvs-navtop-profile--open");
+        });
+
+        document.addEventListener("click", function (e) {
+            if (!wrapper.contains(e.target)) {
+                wrapper.classList.remove("lvs-navtop-profile--open");
+            }
+        });
+    }
+
+    /* === init === */
+
+    document.addEventListener("DOMContentLoaded", function () {
+        applyAvatar();
+        initAvatarUpload();
+        applySettingsToForm();
+        initSettingsButtons();
+        applyProfileReadOnly();
+        initProfileMenu();
     });
-  }
-
-  if (byId("profile-tc")) byId("profile-tc").textContent = `${Math.round(p.tc * 100)}%`;
-  if (byId("profile-vu")) byId("profile-vu").textContent = p.vu.toLocaleString("en-US");
-  if (byId("profile-stability")) byId("profile-stability").textContent = `${Math.round(p.stability * 100)}%`;
-
-  if (byId("profile-bio")) byId("profile-bio").textContent = p.bio || "";
-
-  const skillsEl = byId("profile-skills");
-  if (skillsEl) {
-    skillsEl.innerHTML = "";
-    (p.skills || []).forEach(s => {
-      const li = document.createElement("li");
-      li.textContent = s;
-      skillsEl.appendChild(li);
-    });
-  }
-
-  const nodesEl = byId("profile-nodes");
-  if (nodesEl) {
-    nodesEl.innerHTML = "";
-    (p.nodes || []).forEach(n => {
-      const li = document.createElement("li");
-      li.textContent = `${n.id} — ${n.label}`;
-      nodesEl.appendChild(li);
-    });
-  }
-
-  const actEl = byId("profile-activity");
-  if (actEl) {
-    actEl.innerHTML = "";
-    (p.activity || []).forEach(a => {
-      const li = document.createElement("li");
-      li.className = "lvs-activity-item";
-      li.innerHTML = `
-        <span class="lvs-activity-ts">${a.ts}</span>
-        <span class="lvs-activity-text">${a.text}</span>
-      `;
-      actEl.appendChild(li);
-    });
-  }
-
-  const revEl = byId("profile-reviews");
-  if (revEl) {
-    revEl.innerHTML = "";
-    (p.reviews || []).forEach(r => {
-      const li = document.createElement("li");
-      li.className = "lvs-review-item";
-      li.innerHTML = `
-        <div class="lvs-review-header">
-          <span class="lvs-review-author">${r.author}</span>
-          <span class="lvs-review-score">${"★".repeat(r.score || 5)}</span>
-        </div>
-        <p class="lvs-review-text">${r.text}</p>
-      `;
-      revEl.appendChild(li);
-    });
-  }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  renderProfile(demoProfile);
-});
+})();
