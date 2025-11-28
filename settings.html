@@ -5,11 +5,9 @@
     <title>LVS – Account settings</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Базовые стили сайта -->
+    <!-- Base styles -->
     <link rel="stylesheet" href="assets/lvs.css" />
-    <!-- Шапка/футер такие же, как на профиле -->
-    <link rel="stylesheet" href="assets/css/profile.css" />
-    <!-- Стили формы настроек -->
+    <!-- Settings page styles -->
     <link rel="stylesheet" href="assets/css/settings.css" />
 </head>
 <body>
@@ -21,12 +19,12 @@
             <span class="lvs-logo__text">Living Value System</span>
         </a>
 
-        <nav class="lvs-nav lvs-nav--profile">
+        <nav class="lvs-nav">
             <a href="market.html" class="lvs-nav__link">Jobs & tasks</a>
             <a href="me.html" class="lvs-nav__link">My profile</a>
             <a href="settings.html" class="lvs-nav__link lvs-nav__link--active">Settings</a>
 
-            <div class="lvs-nav__separator"></div>
+            <div class="lvs-nav__spacer"></div>
 
             <div class="profile-menu">
                 <button class="profile-menu__trigger" type="button">
@@ -51,257 +49,352 @@
 </header>
 
 <main class="settings-page">
-    <div class="settings-breadcrumb">
-        LVS / Account
-    </div>
-
-    <section class="settings-card">
-        <!-- ===== Верх: аватар + имя + статы ===== -->
-        <div class="settings-summary">
-            <div class="settings-summary__left">
-                <div class="settings-avatar">
-                    <img id="settings-avatar-preview"
-                         src="assets/img/avatar-demo.png"
-                         alt="Avatar" />
-
-                    <label class="settings-avatar__overlay">
-                        <input id="settings-avatar-input" type="file" accept="image/*" />
-                        <span>Change photo</span>
-                    </label>
-                </div>
-
-                <div class="settings-summary__identity">
-                    <input class="settings-input settings-input--lg"
-                           type="text"
-                           value="Volodymyr Podkorytov"
-                           placeholder="Full name" />
-
-                    <input class="settings-input"
-                           type="text"
-                           value="Founder · LVS / IBITI"
-                           placeholder="Role / position" />
-
-                    <input class="settings-input"
-                           type="text"
-                           value="Windesheim, Germany"
-                           placeholder="Location" />
-
-                    <div class="settings-tags">
-                        <span class="settings-tag">Human</span>
-                        <span class="settings-tag">Builder</span>
-                        <span class="settings-tag">Early LVS participant</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="settings-summary__right">
-                <div class="settings-stats">
-                    <div class="settings-stat">
-                        <span class="settings-stat__label">Trust (TC)</span>
-                        <span class="settings-stat__value">87%</span>
-                    </div>
-                    <div class="settings-stat">
-                        <span class="settings-stat__label">Value (VU)</span>
-                        <span class="settings-stat__value">4 200</span>
-                    </div>
-                    <div class="settings-stat">
-                        <span class="settings-stat__label">Stability</span>
-                        <span class="settings-stat__value">93%</span>
-                    </div>
-                </div>
-            </div>
+    <div class="settings-layout">
+        <!-- breadcrumb -->
+        <div class="settings-breadcrumb">
+            <span class="settings-breadcrumb__root">LVS / Account</span>
         </div>
 
-        <!-- ===== Profile ===== -->
-        <section class="settings-section">
-            <h2 class="settings-section__title">Profile</h2>
+        <!-- top card: avatar + short info + metrics -->
+        <section class="settings-card settings-card--top">
+            <div class="settings-top">
+                <div class="settings-top__left">
+                    <div class="settings-avatar">
+                        <div class="settings-avatar__image">
+                            <!-- дефолтное фото, можно заменить на любое -->
+                            <img src="assets/img/avatar-demo.png" alt="Avatar" />
+                        </div>
+                        <label class="settings-avatar__upload">
+                            <input
+                                type="file"
+                                class="settings-avatar__input"
+                                accept="image/*"
+                            />
+                            Change photo
+                        </label>
+                    </div>
+
+                    <div class="settings-summary">
+                        <input
+                            type="text"
+                            class="settings-input settings-input--line"
+                            value="Volodymyr Podkorytov"
+                            autocomplete="name"
+                        />
+
+                        <input
+                            type="text"
+                            class="settings-input settings-input--line"
+                            value="Founder · LVS / IBITI"
+                        />
+
+                        <input
+                            type="text"
+                            class="settings-input settings-input--line"
+                            value="Windesheim, Germany"
+                        />
+
+                        <div class="settings-tags">
+                            <span class="settings-tag">Human</span>
+                            <span class="settings-tag">Builder</span>
+                            <span class="settings-tag">Early LVS participant</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-top__right">
+                    <div class="settings-metrics">
+                        <div class="settings-metric">
+                            <div class="settings-metric__label">Trust (TC)</div>
+                            <div class="settings-metric__value">87%</div>
+                        </div>
+                        <div class="settings-metric">
+                            <div class="settings-metric__label">Value (VU)</div>
+                            <div class="settings-metric__value">4 200</div>
+                        </div>
+                        <div class="settings-metric">
+                            <div class="settings-metric__label">Stability</div>
+                            <div class="settings-metric__value">93%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile block -->
+        <section class="settings-card">
+            <h2 class="settings-section-title">Profile</h2>
 
             <label class="settings-field">
                 <span class="settings-field__label">About</span>
-                <textarea class="settings-textarea" rows="3">
-Early participant of the Living Value System. Building an autonomous value layer, the IBITI ecosystem, and real-world services around it.
-                </textarea>
+                <textarea class="settings-input settings-input--textarea" rows="4">
+Early participant of the Living Value System. Building an autonomous value layer, the IBITI ecosystem, and real-world services around it.</textarea>
             </label>
 
-            <div class="settings-two-cols">
+            <div class="settings-grid settings-grid--2">
                 <label class="settings-field">
                     <span class="settings-field__label">Main skills</span>
-                    <input class="settings-input"
-                           type="text"
-                           value="Distributed systems, Crypto / DeFi, Rust / TypeScript" />
+                    <input
+                        type="text"
+                        class="settings-input"
+                        value="Distributed systems, Crypto / DeFi, Rust / TypeScript"
+                    />
                 </label>
 
                 <label class="settings-field">
                     <span class="settings-field__label">Focus</span>
-                    <input class="settings-input"
-                           type="text"
-                           value="Product strategy, Protocol design" />
+                    <input
+                        type="text"
+                        class="settings-input"
+                        value="Product strategy, Protocol design"
+                    />
                 </label>
             </div>
         </section>
 
-        <!-- ===== Personal details ===== -->
-        <section class="settings-section">
-            <h2 class="settings-section__title">Personal details</h2>
+        <!-- Personal details -->
+        <section class="settings-card">
+            <h2 class="settings-section-title">Personal details</h2>
 
-            <div class="settings-two-cols">
+            <div class="settings-grid settings-grid--2">
                 <label class="settings-field">
                     <span class="settings-field__label">Date of birth</span>
-                    <input class="settings-input" type="text" placeholder="DD.MM.YYYY" />
+                    <input
+                        type="text"
+                        class="settings-input"
+                        placeholder="DD.MM.YYYY"
+                    />
                 </label>
 
                 <label class="settings-field">
                     <span class="settings-field__label">Citizenship</span>
-                    <input class="settings-input" type="text" placeholder="Country of citizenship" />
+                    <input type="text" class="settings-input" placeholder="Country" />
                 </label>
             </div>
 
-            <div class="settings-two-cols">
+            <div class="settings-grid settings-grid--2">
                 <label class="settings-field">
                     <span class="settings-field__label">Country</span>
-                    <input class="settings-input" type="text" value="Germany" />
+                    <input type="text" class="settings-input" value="Germany" />
                 </label>
 
-            <label class="settings-field">
+                <label class="settings-field">
                     <span class="settings-field__label">City</span>
-                    <input class="settings-input" type="text" value="Windesheim" />
+                    <input type="text" class="settings-input" value="Windesheim" />
                 </label>
             </div>
 
-            <div class="settings-two-cols">
+            <div class="settings-grid settings-grid--2">
                 <label class="settings-field">
                     <span class="settings-field__label">Phone</span>
-                    <input class="settings-input" type="tel" placeholder="+49 ..." />
+                    <input
+                        type="tel"
+                        class="settings-input"
+                        placeholder="+49 ..."
+                    />
                 </label>
 
+                <label class="settings-field">
+                    <span class="settings-field__label">Email</span>
+                    <input
+                        type="email"
+                        class="settings-input"
+                        value="reker198079@gmail.com"
+                    />
+                </label>
+            </div>
+
+            <div class="settings-grid settings-grid--2">
                 <label class="settings-field">
                     <span class="settings-field__label">Website</span>
-                    <input class="settings-input" type="url"
-                           value="https://ibiticoin.com" />
+                    <input
+                        type="url"
+                        class="settings-input"
+                        value="https://ibiticoin.com"
+                    />
                 </label>
-            </div>
 
-            <div class="settings-two-cols">
                 <label class="settings-field">
                     <span class="settings-field__label">GitHub</span>
-                    <input class="settings-input" type="url"
-                           value="https://github.com/VOVAN1980" />
-                </label>
-
-                <label class="settings-field">
-                    <span class="settings-field__label">LinkedIn</span>
-                    <input class="settings-input" type="url"
-                           placeholder="https://linkedin.com/in/…" />
+                    <input
+                        type="url"
+                        class="settings-input"
+                        value="https://github.com/VOVAN1980"
+                    />
                 </label>
             </div>
-        </section>
-
-        <!-- ===== Work & education ===== -->
-        <section class="settings-section">
-            <h2 class="settings-section__title">Work & education</h2>
 
             <label class="settings-field">
-                <span class="settings-field__label">Current role</span>
-                <input class="settings-input"
-                       type="text"
-                       value="Founder & protocol designer at LVS / IBITI" />
+                <span class="settings-field__label">LinkedIn / portfolio</span>
+                <input
+                    type="url"
+                    class="settings-input"
+                    placeholder="Profile link or portfolio"
+                />
+            </label>
+        </section>
+
+        <!-- Work & education -->
+        <section class="settings-card">
+            <h2 class="settings-section-title">Work & education</h2>
+
+            <label class="settings-field">
+                <span class="settings-field__label">Current status</span>
+                <input
+                    type="text"
+                    class="settings-input"
+                    placeholder="Entrepreneur, employee, freelancer, etc."
+                />
             </label>
 
             <label class="settings-field">
-                <span class="settings-field__label">Work experience (short)</span>
-                <textarea class="settings-textarea" rows="3"
-                          placeholder="Short work history / key projects"></textarea>
+                <span class="settings-field__label">Desired roles / positions</span>
+                <input
+                    type="text"
+                    class="settings-input"
+                    placeholder="Example: Protocol architect, DeFi engineer, product strategist"
+                />
+            </label>
+
+            <label class="settings-field">
+                <span class="settings-field__label">Work experience</span>
+                <textarea
+                    class="settings-input settings-input--textarea"
+                    rows="5"
+                    placeholder="Short history of key jobs, roles, responsibilities"
+                ></textarea>
             </label>
 
             <label class="settings-field">
                 <span class="settings-field__label">Education</span>
-                <textarea class="settings-textarea" rows="3"
-                          placeholder="Universities, courses, certifications"></textarea>
+                <textarea
+                    class="settings-input settings-input--textarea"
+                    rows="4"
+                    placeholder="Universities, courses, certificates"
+                ></textarea>
             </label>
 
-            <div class="settings-two-cols">
+            <div class="settings-grid settings-grid--2">
                 <label class="settings-field">
                     <span class="settings-field__label">Languages</span>
-                    <input class="settings-input"
-                           type="text"
-                           placeholder="English, German, Ukrainian, …" />
+                    <input
+                        type="text"
+                        class="settings-input"
+                        placeholder="English (B2), German (A2), Ukrainian (native)"
+                    />
                 </label>
 
                 <label class="settings-field">
-                    <span class="settings-field__label">Driving licence</span>
-                    <input class="settings-input"
-                           type="text"
-                           placeholder="Categories (B, BE, …)" />
+                    <span class="settings-field__label">Computer skills</span>
+                    <input
+                        type="text"
+                        class="settings-input"
+                        placeholder="Linux, Docker, Git, VS Code, etc."
+                    />
+                </label>
+            </div>
+        </section>
+
+        <!-- Additional info -->
+        <section class="settings-card">
+            <h2 class="settings-section-title">Additional information</h2>
+
+            <div class="settings-grid settings-grid--2 settings-grid--stretch">
+                <div class="settings-field">
+                    <div class="settings-field__label">Driving license</div>
+                    <div class="settings-checkboxes">
+                        <label class="settings-checkbox">
+                            <input type="checkbox" />
+                            <span>A</span>
+                        </label>
+                        <label class="settings-checkbox">
+                            <input type="checkbox" />
+                            <span>B</span>
+                        </label>
+                        <label class="settings-checkbox">
+                            <input type="checkbox" />
+                            <span>C</span>
+                        </label>
+                        <label class="settings-checkbox">
+                            <input type="checkbox" />
+                            <span>D</span>
+                        </label>
+                    </div>
+                </div>
+
+                <label class="settings-field">
+                    <span class="settings-field__label">Free time / hobbies</span>
+                    <input
+                        type="text"
+                        class="settings-input"
+                        placeholder="What you do in your free time"
+                    />
                 </label>
             </div>
 
             <label class="settings-field">
-                <span class="settings-field__label">Additional information</span>
-                <textarea class="settings-textarea" rows="3"
-                          placeholder="Anything required by employers or authorities."></textarea>
+                <span class="settings-field__label">Personal qualities</span>
+                <textarea
+                    class="settings-input settings-input--textarea"
+                    rows="4"
+                    placeholder="Responsibility, initiative, ability to work independently, etc."
+                ></textarea>
+            </label>
+
+            <label class="settings-field">
+                <span class="settings-field__label">Extra information</span>
+                <textarea
+                    class="settings-input settings-input--textarea"
+                    rows="4"
+                    placeholder="Anything important for employers, partners or public institutions"
+                ></textarea>
             </label>
         </section>
 
-        <!-- ===== Account ===== -->
-        <section class="settings-section">
-            <h2 class="settings-section__title">Account</h2>
+        <!-- Privacy & save -->
+        <section class="settings-card settings-card--actions">
+            <h2 class="settings-section-title">Account & privacy</h2>
 
-            <label class="settings-field">
-                <span class="settings-field__label">Email</span>
-                <input class="settings-input"
-                       type="email"
-                       value="reker198079@gmail.com" />
-            </label>
-
-            <div class="settings-two-cols">
+            <div class="settings-grid settings-grid--2">
                 <label class="settings-field">
-                    <span class="settings-field__label">Interface language</span>
-                    <select class="settings-select">
+                    <span class="settings-field__label">Language</span>
+                    <select class="settings-input settings-input--select">
                         <option selected>English</option>
-                        <option>Deutsch</option>
-                        <option>Українська</option>
-                        <option>Русский</option>
                     </select>
                 </label>
 
                 <label class="settings-field">
                     <span class="settings-field__label">Time zone</span>
-                    <select class="settings-select">
+                    <select class="settings-input settings-input--select">
                         <option selected>Europe / Berlin</option>
-                        <option>Europe / Kyiv</option>
-                        <option>UTC</option>
                     </select>
                 </label>
             </div>
+
+            <div class="settings-toggles">
+                <label class="settings-toggle">
+                    <input type="checkbox" checked />
+                    <span class="settings-toggle__slider"></span>
+                    <span class="settings-toggle__label">
+                        Show my profile to other LVS participants
+                    </span>
+                </label>
+
+                <label class="settings-toggle">
+                    <input type="checkbox" checked />
+                    <span class="settings-toggle__slider"></span>
+                    <span class="settings-toggle__label">
+                        Email notifications about new tasks and offers
+                    </span>
+                </label>
+            </div>
+
+            <div class="settings-actions">
+                <button class="btn btn-secondary">Reset</button>
+                <button class="btn btn-primary">Save changes</button>
+            </div>
         </section>
-
-        <!-- ===== Privacy ===== -->
-        <section class="settings-section">
-            <h2 class="settings-section__title">Privacy</h2>
-
-            <label class="settings-toggle">
-                <input type="checkbox" checked />
-                <span class="settings-toggle__slider"></span>
-                <span class="settings-toggle__text">
-                    Show my profile to other LVS participants
-                </span>
-            </label>
-
-            <label class="settings-toggle">
-                <input type="checkbox" checked />
-                <span class="settings-toggle__slider"></span>
-                <span class="settings-toggle__text">
-                    Email notifications about new tasks and offers
-                </span>
-            </label>
-        </section>
-
-        <!-- ===== Buttons ===== -->
-        <div class="settings-actions">
-            <button class="btn btn-primary" type="button">Save changes</button>
-            <button class="btn btn-ghost" type="button">Reset</button>
-        </div>
-    </section>
+    </div>
 </main>
 
 <footer class="lvs-footer">
@@ -312,18 +405,17 @@ Early participant of the Living Value System. Building an autonomous value layer
             <a href="terms.html">Terms of use</a>
             <a href="legal.html">Legal</a>
             <a href="contacts.html">Contacts</a>
-            <a href="https://github.com/VOVAN1980/lvs-site" target="_blank" rel="noopener">
-                GitHub
-            </a>
+            <a href="https://github.com/VOVAN1980/lvs-site" target="_blank" rel="noopener">GitHub</a>
         </nav>
     </div>
 </footer>
 
 <script>
-    // выпадающее меню профиля
+    // profile dropdown (как на me.html)
     (function () {
         var menu = document.querySelector('.profile-menu');
         if (!menu) return;
+
         var trigger = menu.querySelector('.profile-menu__trigger');
 
         trigger.addEventListener('click', function () {
@@ -337,11 +429,11 @@ Early participant of the Living Value System. Building an autonomous value layer
         });
     })();
 
-    // превью аватара
+    // превью аватарки чисто на фронте (без сервера)
     (function () {
-        var input = document.getElementById('settings-avatar-input');
-        var preview = document.getElementById('settings-avatar-preview');
-        if (!input || !preview) return;
+        var input = document.querySelector('.settings-avatar__input');
+        var img = document.querySelector('.settings-avatar__image img');
+        if (!input || !img) return;
 
         input.addEventListener('change', function () {
             var file = input.files && input.files[0];
@@ -349,7 +441,7 @@ Early participant of the Living Value System. Building an autonomous value layer
 
             var reader = new FileReader();
             reader.onload = function (e) {
-                preview.src = e.target.result;
+                img.src = e.target.result;
             };
             reader.readAsDataURL(file);
         });
