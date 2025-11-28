@@ -5,9 +5,9 @@
     <title>LVS – Account settings</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- базовые стили сайта -->
+    <!-- Базовые стили сайта -->
     <link rel="stylesheet" href="assets/lvs.css" />
-    <!-- стили страницы настроек -->
+    <!-- Стили страницы настроек -->
     <link rel="stylesheet" href="assets/css/settings.css" />
 </head>
 <body class="lvs-settings-page">
@@ -20,7 +20,7 @@
         </a>
 
         <nav class="lvs-nav">
-            <a href="market.html" class="lvs-nav__link">Jobs &amp; tasks</a>
+            <a href="market.html" class="lvs-nav__link">Jobs & tasks</a>
             <a href="me.html" class="lvs-nav__link">My profile</a>
             <a href="settings.html" class="lvs-nav__link lvs-nav__link--active">Settings</a>
 
@@ -36,6 +36,7 @@
                 </button>
 
                 <div class="profile-menu__dropdown">
+                    <a href="me.html" class="profile-menu__item">My profile</a>
                     <a href="settings.html" class="profile-menu__item">Account settings</a>
                     <a href="space.html" class="profile-menu__item">LVS map</a>
                     <a href="index.html" class="profile-menu__item profile-menu__item--danger">
@@ -48,393 +49,221 @@
 </header>
 
 <main class="settings-page">
-    <!-- summary / header-card -->
-    <section class="settings-card settings-card--summary">
-        <div class="settings-summary-left">
-            <div class="settings-avatar-block">
-                <div class="settings-avatar">
+    <div class="settings-breadcrumbs">
+        LVS / Account
+    </div>
+
+    <section class="settings-card">
+        <!-- Верхний блок с аватаром и рейтингами -->
+        <div class="settings-header">
+            <div class="settings-header__left">
+                <div class="settings-avatar uploadable">
                     <img
+                        id="settings-avatar-img"
                         src="assets/img/avatar-demo.png"
                         alt="Avatar"
-                        class="settings-avatar-img"
+                        class="settings-avatar__img"
                     />
+                    <label class="avatar-upload">
+                        <input id="settings-avatar-input" type="file" accept="image/*" />
+                        <span>Change photo</span>
+                    </label>
                 </div>
 
-                <label class="settings-avatar-upload">
+                <div class="settings-header__identity">
                     <input
-                        type="file"
-                        accept="image/*"
-                        class="settings-avatar-input"
+                        class="settings-input settings-input--line"
+                        type="text"
+                        value="Volodymyr Podkorytov"
                     />
-                    <span>Change photo</span>
-                </label>
+                    <input
+                        class="settings-input settings-input--line"
+                        type="text"
+                        value="Founder • LVS / IBITI"
+                    />
+                    <input
+                        class="settings-input settings-input--line"
+                        type="text"
+                        value="Windesheim, Germany"
+                    />
+
+                    <div class="settings-tags">
+                        <span class="settings-tag">Human</span>
+                        <span class="settings-tag">Builder</span>
+                        <span class="settings-tag">Early LVS participant</span>
+                    </div>
+                </div>
             </div>
 
-            <div class="settings-summary-identity">
-                <div class="settings-summary-name">Volodymyr Podkorytov</div>
-                <div class="settings-summary-role">Founder • LVS / IBITI</div>
-                <div class="settings-summary-location">Windesheim, Germany</div>
-
-                <div class="settings-summary-tags">
-                    <span class="settings-tag">Human</span>
-                    <span class="settings-tag">Builder</span>
-                    <span class="settings-tag">Early LVS participant</span>
+            <div class="settings-header__right">
+                <div class="settings-stat">
+                    <div class="settings-stat__label">Trust (TC)</div>
+                    <div class="settings-stat__value">87%</div>
+                </div>
+                <div class="settings-stat">
+                    <div class="settings-stat__label">Value (VU)</div>
+                    <div class="settings-stat__value">4 200</div>
+                </div>
+                <div class="settings-stat">
+                    <div class="settings-stat__label">Stability</div>
+                    <div class="settings-stat__value">93%</div>
                 </div>
             </div>
         </div>
 
-        <div class="settings-summary-right">
-            <div class="settings-stat">
-                <div class="settings-stat__label">Trust (TC)</div>
-                <div class="settings-stat__value">87%</div>
-            </div>
-            <div class="settings-stat">
-                <div class="settings-stat__label">Value (VU)</div>
-                <div class="settings-stat__value">4 200</div>
-            </div>
-            <div class="settings-stat">
-                <div class="settings-stat__label">Stability</div>
-                <div class="settings-stat__value">93%</div>
-            </div>
-        </div>
-    </section>
+        <!-- Блок Profile -->
+        <section class="settings-section">
+            <h2 class="settings-section__title">Profile</h2>
 
-    <form class="settings-form" autocomplete="on">
-        <!-- Profile -->
-        <section class="settings-card">
-            <h2 class="settings-section-title">Profile</h2>
-
-            <div class="settings-field">
-                <label class="settings-label" for="about">
-                    About
-                </label>
+            <label class="settings-field">
+                <div class="settings-field__label">About</div>
                 <textarea
-                    id="about"
                     class="settings-textarea"
                     rows="3"
-                    placeholder="Short bio and what you are building."
                 >Early participant of the Living Value System. Building an autonomous value layer, the IBITI ecosystem, and real-world services around it.</textarea>
-            </div>
+            </label>
 
-            <div class="settings-grid settings-grid--2col">
-                <div class="settings-field">
-                    <label class="settings-label" for="main-skills">
-                        Main skills
-                    </label>
+            <div class="settings-section__grid settings-section__grid--2">
+                <label class="settings-field">
+                    <div class="settings-field__label">Main skills</div>
                     <input
-                        id="main-skills"
-                        type="text"
                         class="settings-input"
+                        type="text"
                         value="Distributed systems, Crypto / DeFi, Rust / TypeScript"
                     />
-                </div>
+                </label>
 
-                <div class="settings-field">
-                    <label class="settings-label" for="focus">
-                        Focus
-                    </label>
+                <label class="settings-field">
+                    <div class="settings-field__label">Focus</div>
                     <input
-                        id="focus"
-                        type="text"
                         class="settings-input"
+                        type="text"
                         value="Product strategy, Protocol design"
                     />
-                </div>
+                </label>
             </div>
         </section>
 
-        <!-- Personal details -->
-        <section class="settings-card">
-            <h2 class="settings-section-title">Personal details</h2>
+        <!-- Личные данные -->
+        <section class="settings-section">
+            <h2 class="settings-section__title">Personal details</h2>
 
-            <div class="settings-grid settings-grid--2col">
-                <div class="settings-field">
-                    <label class="settings-label" for="birth-date">
-                        Date of birth
-                    </label>
+            <div class="settings-section__grid settings-section__grid--2">
+                <label class="settings-field">
+                    <div class="settings-field__label">Date of birth</div>
+                    <input class="settings-input" type="text" placeholder="DD.MM.YYYY" />
+                </label>
+
+                <label class="settings-field">
+                    <div class="settings-field__label">Citizenship</div>
+                    <input class="settings-input" type="text" placeholder="Country" />
+                </label>
+
+                <label class="settings-field">
+                    <div class="settings-field__label">Country</div>
+                    <input class="settings-input" type="text" value="Germany" />
+                </label>
+
+                <label class="settings-field">
+                    <div class="settings-field__label">City</div>
+                    <input class="settings-input" type="text" value="Windesheim" />
+                </label>
+
+                <label class="settings-field">
+                    <div class="settings-field__label">Phone</div>
+                    <input class="settings-input" type="text" placeholder="+49 ..." />
+                </label>
+
+                <label class="settings-field">
+                    <div class="settings-field__label">Website</div>
                     <input
-                        id="birth-date"
+                        class="settings-input"
                         type="text"
-                        class="settings-input"
-                        placeholder="DD.MM.YYYY"
-                    />
-                </div>
-
-                <div class="settings-field">
-                    <label class="settings-label" for="citizenship">
-                        Citizenship
-                    </label>
-                    <input
-                        id="citizenship"
-                        type="text"
-                        class="settings-input"
-                        placeholder="Country of citizenship"
-                    />
-                </div>
-
-                <div class="settings-field">
-                    <label class="settings-label" for="country">
-                        Country
-                    </label>
-                    <input
-                        id="country"
-                        type="text"
-                        class="settings-input"
-                        value="Germany"
-                    />
-                </div>
-
-                <div class="settings-field">
-                    <label class="settings-label" for="city">
-                        City
-                    </label>
-                    <input
-                        id="city"
-                        type="text"
-                        class="settings-input"
-                        value="Windesheim"
-                    />
-                </div>
-
-                <div class="settings-field">
-                    <label class="settings-label" for="phone">
-                        Phone
-                    </label>
-                    <input
-                        id="phone"
-                        type="tel"
-                        class="settings-input"
-                        placeholder="+49 ..."
-                    />
-                </div>
-
-                <div class="settings-field">
-                    <label class="settings-label" for="email">
-                        Email
-                    </label>
-                    <input
-                        id="email"
-                        type="email"
-                        class="settings-input"
-                        value="reker198079@gmail.com"
-                    />
-                </div>
-            </div>
-
-            <div class="settings-grid settings-grid--2col">
-                <div class="settings-field">
-                    <label class="settings-label" for="website">
-                        Website
-                    </label>
-                    <input
-                        id="website"
-                        type="url"
-                        class="settings-input"
                         value="https://ibiticoin.com"
                     />
-                </div>
+                </label>
 
-                <div class="settings-field">
-                    <label class="settings-label" for="github">
-                        GitHub
-                    </label>
+                <label class="settings-field">
+                    <div class="settings-field__label">GitHub</div>
                     <input
-                        id="github"
-                        type="url"
                         class="settings-input"
+                        type="text"
                         value="https://github.com/VOVAN1980"
                     />
-                </div>
-
-                <div class="settings-field">
-                    <label class="settings-label" for="linkedin">
-                        LinkedIn
-                    </label>
-                    <input
-                        id="linkedin"
-                        type="url"
-                        class="settings-input"
-                        placeholder="Profile link (optional)"
-                    />
-                </div>
-
-                <div class="settings-field">
-                    <label class="settings-label" for="telegram">
-                        Telegram
-                    </label>
-                    <input
-                        id="telegram"
-                        type="text"
-                        class="settings-input"
-                        placeholder="@username"
-                    />
-                </div>
-            </div>
-        </section>
-
-        <!-- Professional details -->
-        <section class="settings-card">
-            <h2 class="settings-section-title">Professional details</h2>
-
-            <div class="settings-grid settings-grid--2col">
-                <div class="settings-field">
-                    <label class="settings-label" for="current-role">
-                        Current role
-                    </label>
-                    <input
-                        id="current-role"
-                        type="text"
-                        class="settings-input"
-                        value="Founder / Protocol designer"
-                    />
-                </div>
-
-                <div class="settings-field">
-                    <label class="settings-label" for="looking-for">
-                        Looking for
-                    </label>
-                    <input
-                        id="looking-for"
-                        type="text"
-                        class="settings-input"
-                        placeholder="Type of work or collaboration"
-                    />
-                </div>
-
-                <div class="settings-field">
-                    <label class="settings-label" for="experience">
-                        Experience
-                    </label>
-                    <input
-                        id="experience"
-                        type="text"
-                        class="settings-input"
-                        placeholder="Years of experience, main domains"
-                    />
-                </div>
-
-                <div class="settings-field">
-                    <label class="settings-label" for="employment-type">
-                        Preferred employment type
-                    </label>
-                    <input
-                        id="employment-type"
-                        type="text"
-                        class="settings-input"
-                        placeholder="Full-time, part-time, contract, remote..."
-                    />
-                </div>
-            </div>
-
-            <div class="settings-field">
-                <label class="settings-label" for="extra-professional">
-                    Additional professional info
-                </label>
-                <textarea
-                    id="extra-professional"
-                    class="settings-textarea"
-                    rows="3"
-                    placeholder="Extra information that may be useful for employers, partners or state institutions."
-                ></textarea>
-            </div>
-        </section>
-
-        <!-- Education & skills -->
-        <section class="settings-card">
-            <h2 class="settings-section-title">Education &amp; skills</h2>
-
-            <div class="settings-field">
-                <label class="settings-label" for="education">
-                    Education
-                </label>
-                <textarea
-                    id="education"
-                    class="settings-textarea"
-                    rows="2"
-                    placeholder="Main education, universities, programmes."
-                ></textarea>
-            </div>
-
-            <div class="settings-grid settings-grid--2col">
-                <div class="settings-field">
-                    <label class="settings-label" for="languages">
-                        Languages
-                    </label>
-                    <textarea
-                        id="languages"
-                        class="settings-textarea"
-                        rows="2"
-                        placeholder="Languages and level (for example: English – B2, German – A2)."
-                    ></textarea>
-                </div>
-
-                <div class="settings-field">
-                    <label class="settings-label" for="computer-skills">
-                        Computer skills
-                    </label>
-                    <textarea
-                        id="computer-skills"
-                        class="settings-textarea"
-                        rows="2"
-                        placeholder="Key tools and technologies you are confident with."
-                    ></textarea>
-                </div>
-            </div>
-
-            <div class="settings-grid settings-grid--2col">
-                <div class="settings-field">
-                    <label class="settings-label" for="driving-licence">
-                        Driving licence
-                    </label>
-                    <input
-                        id="driving-licence"
-                        type="text"
-                        class="settings-input"
-                        placeholder="Categories (if relevant)"
-                    />
-                </div>
-
-                <div class="settings-field">
-                    <label class="settings-label" for="hobbies">
-                        Hobbies &amp; free time
-                    </label>
-                    <input
-                        id="hobbies"
-                        type="text"
-                        class="settings-input"
-                        placeholder="Optional, only if you want to share."
-                    />
-                </div>
-            </div>
-        </section>
-
-        <!-- Privacy -->
-        <section class="settings-card">
-            <h2 class="settings-section-title">Privacy</h2>
-
-            <div class="settings-privacy">
-                <label class="settings-checkbox">
-                    <input type="checkbox" checked />
-                    <span>Show my profile to other LVS participants</span>
                 </label>
 
-                <label class="settings-checkbox">
-                    <input type="checkbox" checked />
-                    <span>Email notifications about new tasks and offers</span>
+                <label class="settings-field">
+                    <div class="settings-field__label">LinkedIn</div>
+                    <input
+                        class="settings-input"
+                        type="text"
+                        placeholder="Profile link"
+                    />
                 </label>
             </div>
         </section>
 
-        <!-- actions -->
-        <section class="settings-actions">
-            <button type="submit" class="btn btn-primary">
-                Save changes
-            </button>
-            <button type="reset" class="btn btn-ghost">
-                Reset
-            </button>
+        <!-- Аккаунт -->
+        <section class="settings-section">
+            <h2 class="settings-section__title">Account</h2>
+
+            <div class="settings-section__grid settings-section__grid--2">
+                <label class="settings-field">
+                    <div class="settings-field__label">Email</div>
+                    <input
+                        class="settings-input"
+                        type="email"
+                        value="reker198079@gmail.com"
+                    />
+                </label>
+
+                <label class="settings-field">
+                    <div class="settings-field__label">Time zone</div>
+                    <input
+                        class="settings-input"
+                        type="text"
+                        value="Europe / Berlin"
+                    />
+                </label>
+
+                <label class="settings-field">
+                    <div class="settings-field__label">Language</div>
+                    <input
+                        class="settings-input"
+                        type="text"
+                        value="English"
+                    />
+                </label>
+            </div>
         </section>
-    </form>
+
+        <!-- Приватность -->
+        <section class="settings-section">
+            <h2 class="settings-section__title">Privacy</h2>
+
+            <label class="settings-toggle">
+                <input type="checkbox" checked />
+                <span class="settings-toggle__indicator"></span>
+                <span class="settings-toggle__label">
+                    Show my profile to other LVS participants
+                </span>
+            </label>
+
+            <label class="settings-toggle">
+                <input type="checkbox" checked />
+                <span class="settings-toggle__indicator"></span>
+                <span class="settings-toggle__label">
+                    Email notifications about new tasks and offers
+                </span>
+            </label>
+        </section>
+
+        <!-- Кнопки -->
+        <div class="settings-actions">
+            <button class="btn btn-primary">Save changes</button>
+            <button class="btn btn-ghost">Reset</button>
+        </div>
+    </section>
 </main>
 
 <footer class="lvs-footer">
@@ -451,13 +280,12 @@
 </footer>
 
 <script>
-    // dropdown in header
+    // dropdown профиля (как в me.html)
     (function () {
         var menu = document.querySelector('.profile-menu');
         if (!menu) return;
 
         var trigger = menu.querySelector('.profile-menu__trigger');
-        if (!trigger) return;
 
         trigger.addEventListener('click', function () {
             menu.classList.toggle('profile-menu--open');
@@ -470,20 +298,19 @@
         });
     })();
 
-    // avatar preview on settings page
+    // предпросмотр аватара только в браузере (файл не нужно класть в репу)
     (function () {
-        var input = document.querySelector('.settings-avatar-input');
-        var img = document.querySelector('.settings-avatar-img');
+        var input = document.getElementById('settings-avatar-input');
+        var img   = document.getElementById('settings-avatar-img');
         if (!input || !img) return;
 
         input.addEventListener('change', function () {
-            var file = this.files && this.files[0];
+            var file = input.files && input.files[0];
             if (!file) return;
 
             var reader = new FileReader();
             reader.onload = function (e) {
                 img.src = e.target.result;
-                img.classList.add('settings-avatar-img--has-image');
             };
             reader.readAsDataURL(file);
         });
