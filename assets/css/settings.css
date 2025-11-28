@@ -1,398 +1,472 @@
-/* Общий контейнер страницы настроек */
-.settings-page {
-    padding: 32px 16px 80px;
+/* базовые вещи */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-@media (min-width: 1024px) {
-    .settings-page {
-        padding-top: 40px;
-        padding-bottom: 96px;
-    }
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
 }
 
-/* Центрируем и ограничиваем ширину, чтобы не было "во весь монитор" */
-.settings-layout {
-    max-width: 1120px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+body.lvs-root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top, #101b3a 0, #050813 55%, #02030a 100%);
+  color: #f5f7ff;
 }
 
-/* Breadcrumb LVS / Account */
-.settings-breadcrumb {
-    font-size: 12px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    opacity: 0.7;
-    margin-bottom: 4px;
+/* HEADER */
+
+.lvs-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(2, 3, 12, 0.95);
+  backdrop-filter: blur(10px);
 }
 
-/* Карточки */
-.settings-card {
-    background: rgba(4, 12, 24, 0.94);
-    border-radius: 18px;
-    padding: 20px 18px;
-    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.45);
-    border: 1px solid rgba(255, 255, 255, 0.02);
+.lvs-header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-@media (min-width: 1024px) {
-    .settings-card {
-        padding: 24px 28px;
-    }
-
-    .settings-card--top {
-        padding: 24px 28px 22px;
-    }
+.lvs-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #8f9bbf;
 }
 
-/* Верхний блок: аватар + резюме + метрики */
-.settings-top {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+.lvs-logo-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #16c784;
 }
 
-@media (min-width: 900px) {
-    .settings-top {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: stretch;
-        gap: 32px;
-    }
+.lvs-logo-text {
+  font-weight: 600;
+  color: #dbe4ff;
 }
 
-.settings-top__left {
-    display: flex;
-    gap: 20px;
+.lvs-breadcrumb {
+  opacity: 0.7;
 }
 
-@media (min-width: 900px) {
-    .settings-top__left {
-        flex: 1 1 auto;
-    }
+.lvs-header-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-size: 13px;
 }
 
-/* Аватар */
-.settings-avatar {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
+.lvs-header-link {
+  color: #9ca9d8;
+  text-decoration: none;
 }
 
-.settings-avatar__image {
-    width: 190px;
-    height: 190px;
-    border-radius: 24px;
-    overflow: hidden;
-    background: radial-gradient(circle at 20% 0%, #18ffe6 0, #0b1220 55%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.lvs-header-link--active {
+  color: #ffffff;
+  font-weight: 600;
 }
 
-.settings-avatar__image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.lvs-user-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
 }
 
-.settings-avatar__input {
-    display: none;
+.lvs-user-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #16c784;
 }
 
-.settings-avatar__upload {
-    font-size: 13px;
-    padding: 6px 14px;
-    border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    background: rgba(15, 23, 42, 0.9);
-    cursor: pointer;
-    user-select: none;
-    transition: background 0.18s ease, border-color 0.18s ease, transform 0.1s ease;
-    white-space: nowrap;
+.lvs-user-name {
+  font-size: 12px;
 }
 
-.settings-avatar__upload:hover {
-    background: rgba(37, 99, 235, 0.42);
-    border-color: rgba(96, 165, 250, 0.9);
+/* MAIN LAYOUT */
+
+.lvs-main {
+  flex: 1;
 }
 
-.settings-avatar__upload:active {
-    transform: translateY(1px);
+.lvs-account-page {
+  max-width: 1200px;     /* ШИРОКАЯ АНКЕТА, КАК ТЫ ХОЧЕШЬ */
+  width: 100%;
+  margin: 32px auto 48px;
+  padding: 0 24px;
 }
 
-/* Основная инфа рядом с аватаром */
-.settings-summary {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    min-width: 0;
+/* CARDS */
+
+.lvs-card {
+  background: radial-gradient(circle at top left, #18233d 0, #050816 55%);
+  border-radius: 18px;
+  padding: 20px 22px 22px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  margin-bottom: 20px;
 }
 
-/* Метрики справа */
-.settings-top__right {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+.lvs-card--header {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1.7fr) auto;
+  align-items: center;
+  gap: 24px;
+  padding: 22px 24px;
 }
 
-.settings-metrics {
-    display: flex;
-    flex-direction: row;
-    gap: 18px;
+.lvs-card--bottom {
+  margin-bottom: 0;
 }
 
-@media (max-width: 899px) {
-    .settings-top__right {
-        justify-content: flex-start;
-    }
-
-    .settings-metrics {
-        flex-wrap: wrap;
-    }
+.lvs-card-title {
+  margin: 0 0 12px;
+  font-size: 16px;
+  font-weight: 600;
 }
 
-.settings-metric {
-    min-width: 90px;
+/* AVATAR BLOCK */
+
+.account-avatar {
+  width: 220px;
+  height: 220px;
+  border-radius: 26px;
+  overflow: hidden;
+  background: radial-gradient(circle at 30% 0, #35d5ff 0, #0a1224 55%, #03050c 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8);
 }
 
-.settings-metric__label {
-    font-size: 11px;
-    opacity: 0.7;
-    margin-bottom: 4px;
+.account-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
-.settings-metric__value {
-    font-size: 18px;
-    font-weight: 600;
+.account-avatar-btn {
+  margin-top: 12px;
 }
 
-/* Теги Human / Builder */
-.settings-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 6px;
+/* header center/right */
+
+.lvs-card-header-center {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.settings-tag {
-    font-size: 11px;
-    padding: 4px 10px;
-    border-radius: 999px;
-    background: rgba(15, 23, 42, 0.85);
-    border: 1px solid rgba(148, 163, 184, 0.4);
+.lvs-input-pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-/* Заголовки секций */
-.settings-section-title {
-    font-size: 15px;
-    font-weight: 600;
-    margin-bottom: 14px;
+.lvs-input-pill {
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(2, 5, 18, 0.8);
+  padding: 7px 12px;
+  font-size: 13px;
+  color: #f2f4ff;
+  min-width: 0;
 }
 
-/* Поля формы */
-.settings-field {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: 12px;
+.lvs-input-pill:focus {
+  outline: none;
+  border-color: #3ddcff;
+  box-shadow: 0 0 0 1px rgba(61, 220, 255, 0.4);
 }
 
-.settings-field__label {
-    font-size: 12px;
-    opacity: 0.8;
+.lvs-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-/* Общий вид инпутов */
-.settings-input {
-    width: 100%;
-    border-radius: 10px;
-    border: 1px solid rgba(148, 163, 184, 0.4);
-    background: rgba(15, 23, 42, 0.9);
-    padding: 8px 10px;
-    font-size: 13px;
-    color: #f9fafb;
-    outline: none;
-    transition: border-color 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+.lvs-chip {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(20, 219, 159, 0.1);
+  color: #8df7c9;
+  font-size: 11px;
+  border: 1px solid rgba(141, 247, 201, 0.4);
 }
 
-.settings-input:focus {
-    border-color: rgba(96, 165, 250, 0.98);
-    box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.6);
-    background: rgba(15, 23, 42, 1);
+.lvs-card-header-right {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+  font-size: 12px;
 }
 
-/* Однострочные поля вверху */
-.settings-input--line {
-    border-radius: 999px;
+.metric-label {
+  color: #8a94b8;
 }
 
-/* textarea */
-.settings-input--textarea {
-    resize: vertical;
-    min-height: 80px;
-    line-height: 1.4;
+.metric-value {
+  font-size: 16px;
+  font-weight: 600;
 }
 
-/* select */
-.settings-input--select {
-    appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    background-image: linear-gradient(45deg, transparent 50%, #9ca3af 50%),
-        linear-gradient(135deg, #9ca3af 50%, transparent 50%);
-    background-position: calc(100% - 14px) 50%,
-        calc(100% - 9px) 50%;
-    background-size: 6px 6px;
-    background-repeat: no-repeat;
-    padding-right: 28px;
+/* FORM ELEMENTS */
+
+.lvs-field {
+  margin-bottom: 12px;
 }
 
-/* Сетка 2 колонки */
-.settings-grid {
-    display: grid;
-    gap: 12px;
+.lvs-label {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #808ab0;
+  margin-bottom: 4px;
 }
 
-.settings-grid--2 {
-    grid-template-columns: minmax(0, 1fr);
+.lvs-input,
+.lvs-textarea,
+.lvs-input-pill,
+select.lvs-input {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(6, 11, 30, 0.9);
+  color: #f5f7ff;
+  padding: 8px 10px;
+  font-size: 13px;
 }
 
-@media (min-width: 900px) {
-    .settings-grid--2 {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
+.lvs-textarea {
+  resize: vertical;
+  min-height: 68px;
 }
 
-.settings-grid--stretch > .settings-field {
-    height: 100%;
+.lvs-input:focus,
+.lvs-textarea:focus,
+select.lvs-input:focus {
+  outline: none;
+  border-color: #3ddcff;
+  box-shadow: 0 0 0 1px rgba(61, 220, 255, 0.4);
 }
 
-/* Чекбоксы (driver license) */
-.settings-checkboxes {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 4px;
+/* LAYOUT HELPERS */
+
+.lvs-two-col {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 18px;
 }
 
-.settings-checkbox {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 12px;
-    cursor: pointer;
-    user-select: none;
+.top-gap {
+  margin-top: 12px;
 }
 
-.settings-checkbox input {
-    width: 14px;
-    height: 14px;
-    accent-color: #38bdf8;
+/* REPEATABLE LISTS (work, education, courses) */
+
+.lvs-subtitle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  margin-bottom: 6px;
 }
 
-/* Тогглы */
-.settings-toggles {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin: 8px 0 18px;
+.lvs-subtitle {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
 }
 
-.settings-toggle {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    user-select: none;
+.lvs-repeat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.settings-toggle input {
-    display: none;
+.lvs-repeat-item {
+  padding: 12px 12px 10px;
+  border-radius: 12px;
+  background: rgba(3, 8, 22, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.07);
 }
 
-.settings-toggle__slider {
-    width: 38px;
-    height: 20px;
-    border-radius: 999px;
-    background: rgba(15, 23, 42, 0.9);
-    border: 1px solid rgba(148, 163, 184, 0.6);
-    position: relative;
-    transition: background 0.18s ease, border-color 0.18s ease;
+.lvs-repeat-remove {
+  margin-top: 6px;
+  font-size: 11px;
+  padding: 3px 6px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(255, 80, 80, 0.12);
+  color: #ff9a9a;
+  cursor: pointer;
 }
 
-.settings-toggle__slider::before {
-    content: "";
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    width: 14px;
-    height: 14px;
-    border-radius: 999px;
-    background: #e5e7eb;
-    transition: transform 0.18s ease;
+/* CHECKBOXES */
+
+.lvs-checkbox-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  font-size: 12px;
 }
 
-.settings-toggle input:checked + .settings-toggle__slider {
-    background: rgba(34, 197, 94, 0.85);
-    border-color: rgba(34, 197, 94, 0.9);
+.lvs-checkbox-row label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
-.settings-toggle input:checked + .settings-toggle__slider::before {
-    transform: translateX(16px);
+/* SWITCHES */
+
+.lvs-switch-row {
+  margin-top: 8px;
 }
 
-.settings-toggle__label {
-    font-size: 13px;
+.lvs-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 13px;
 }
 
-/* Кнопки сохранения */
-.settings-card--actions .settings-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 8px;
+.lvs-switch input {
+  display: none;
 }
 
-/* Базовые кнопки, чтобы не зависеть от других стилей */
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px 18px;
-    border-radius: 999px;
-    font-size: 13px;
-    border: 1px solid transparent;
-    cursor: pointer;
-    user-select: none;
-    transition: background 0.18s ease, border-color 0.18s ease, transform 0.08s ease,
-        box-shadow 0.18s ease;
+.lvs-switch-slider {
+  width: 34px;
+  height: 18px;
+  border-radius: 999px;
+  background: #39415f;
+  position: relative;
+  transition: background 0.2s ease;
 }
 
-.btn-primary {
-    background: linear-gradient(135deg, #0ea5e9, #2563eb);
-    border-color: rgba(191, 219, 254, 0.5);
-    color: #f9fafb;
-    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.45);
+.lvs-switch-slider::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #cfd6ff;
+  transition: transform 0.2s ease;
 }
 
-.btn-primary:hover {
-    box-shadow: 0 16px 40px rgba(37, 99, 235, 0.65);
+.lvs-switch input:checked + .lvs-switch-slider {
+  background: #16c784;
 }
 
-.btn-secondary {
-    background: rgba(15, 23, 42, 0.9);
-    border-color: rgba(148, 163, 184, 0.5);
-    color: #e5e7eb;
+.lvs-switch input:checked + .lvs-switch-slider::before {
+  transform: translateX(14px);
 }
 
-.btn-secondary:hover {
-    background: rgba(30, 64, 175, 0.4);
+.lvs-switch-label {
+  color: #c6cce9;
 }
 
-.btn:active {
-    transform: translateY(1px);
+/* BUTTONS */
+
+.lvs-btn {
+  border-radius: 999px;
+  border: none;
+  padding: 6px 14px;
+  font-size: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.lvs-btn-primary {
+  background: linear-gradient(135deg, #3ddcff, #27e2a5);
+  color: #020311;
+  font-weight: 600;
+}
+
+.lvs-btn-secondary {
+  background: rgba(255, 255, 255, 0.06);
+  color: #e2e7ff;
+}
+
+.lvs-btn-ghost {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #d0d8ff;
+}
+
+.lvs-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+/* FOOTER */
+
+.lvs-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(2, 3, 12, 0.95);
+  font-size: 11px;
+  color: #8087a8;
+}
+
+.lvs-footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 8px 24px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.lvs-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.lvs-footer a {
+  color: #a6b0dd;
+  text-decoration: none;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 980px) {
+  .lvs-card--header {
+    grid-template-columns: 1fr;
+    justify-items: flex-start;
+  }
+
+  .account-avatar {
+    width: 180px;
+    height: 180px;
+  }
+
+  .lvs-two-col {
+    grid-template-columns: 1fr;
+  }
 }
