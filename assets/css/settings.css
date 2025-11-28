@@ -1,138 +1,132 @@
-/* ===========================
- *  Base layout for settings page
- * =========================== */
+/* === Общий layout для страницы настроек === */
 
 html,
 body {
     height: 100%;
-    overflow-y: auto; /* включаем нормальный вертикальный скролл */
 }
 
+/* ТОЛЬКО для settings: flex-layout, чтобы футер был внизу и был скролл */
 body.lvs-settings-page {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
 
-/* main content should take all free vertical space */
+/* Контент тянется и скроллится */
 body.lvs-settings-page .settings-page {
     flex: 1 0 auto;
 }
 
-/* footer сидит внизу, но не перекрывает контент */
+/* Футер остаётся внизу */
 body.lvs-settings-page .lvs-footer {
     flex: 0 0 auto;
 }
 
-/* ===========================
- *  Settings main container
- * =========================== */
+/* === Контент страницы === */
 
 .settings-page {
-    max-width: 1120px;
-    margin: 64px auto 40px;
-    padding: 0 24px 40px;
+    max-width: 1160px;
+    margin: 96px auto 40px;
+    padding: 0 24px 24px;
 }
 
-/* карточки */
+.settings-breadcrumbs {
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: 16px;
+}
 
 .settings-card {
-    background: radial-gradient(circle at top left, rgba(39, 120, 255, 0.08), rgba(5, 10, 25, 0.96));
-    border-radius: 24px;
-    padding: 24px 28px 26px;
-    box-shadow: 0 22px 60px rgba(0, 0, 0, 0.55);
-    border: 1px solid rgba(255, 255, 255, 0.04);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    margin-bottom: 20px;
+    background: rgba(1, 5, 18, 0.88);
+    border-radius: 20px;
+    padding: 28px 32px 32px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
 }
 
-/* summary card */
+/* Верхняя шапка с аватаром и рейтингами */
 
-.settings-card--summary {
+.settings-header {
     display: flex;
     justify-content: space-between;
-    align-items: stretch;
     gap: 32px;
     margin-bottom: 28px;
 }
 
-.settings-summary-left {
+.settings-header__left {
     display: flex;
     gap: 24px;
     align-items: center;
 }
 
-.settings-avatar-block {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-}
-
 .settings-avatar {
-    width: 168px;
-    height: 168px;
+    position: relative;
+    width: 152px;
+    height: 152px;
     border-radius: 24px;
-    background: radial-gradient(circle at 10% 0, rgba(70, 140, 255, 0.25), rgba(0, 0, 0, 0.85));
     overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: radial-gradient(circle at 30% 20%, #19e0ff 0, #00a4ff 28%, #004060 80%);
+    flex-shrink: 0;
 }
 
-.settings-avatar-img {
+.settings-avatar__img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
 }
 
-.settings-avatar-upload {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    cursor: pointer;
-    padding: 6px 14px;
-    border-radius: 999px;
-    font-size: 12px;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-    border: 1px solid rgba(120, 170, 255, 0.7);
-    color: #d9e4ff;
-    background: radial-gradient(circle at top left, rgba(49, 108, 255, 0.45), rgba(4, 8, 20, 0.95));
-}
-
-.settings-avatar-upload input {
+.avatar-upload {
     position: absolute;
-    inset: 0;
-    opacity: 0;
+    inset-inline: 10px;
+    bottom: 10px;
+    background: rgba(2, 10, 26, 0.88);
+    border-radius: 999px;
+    font-size: 11px;
+    line-height: 1;
+    padding: 6px 10px;
+    text-align: center;
     cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
-.settings-summary-identity {
+.avatar-upload input {
+    display: none;
+}
+
+.avatar-upload span {
+    opacity: 0.9;
+}
+
+.settings-header__identity {
+    min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
 }
 
-.settings-summary-name {
+.settings-input.settings-input--line {
+    background: transparent;
+    border: none;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    outline: none;
+}
+
+.settings-input.settings-input--line:first-of-type {
     font-size: 22px;
     font-weight: 600;
-    color: #ffffff;
 }
 
-.settings-summary-role {
+.settings-input.settings-input--line:nth-of-type(2),
+.settings-input.settings-input--line:nth-of-type(3) {
     font-size: 13px;
-    color: rgba(255, 255, 255, 0.7);
+    opacity: 0.78;
 }
 
-.settings-summary-location {
-    font-size: 13px;
-    color: rgba(255, 255, 255, 0.6);
-}
-
-.settings-summary-tags {
+.settings-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
@@ -140,177 +134,170 @@ body.lvs-settings-page .lvs-footer {
 }
 
 .settings-tag {
-    padding: 4px 10px;
-    border-radius: 999px;
     font-size: 11px;
-    color: rgba(255, 255, 255, 0.82);
+    padding: 4px 9px;
+    border-radius: 999px;
     background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-/* правый блок статов */
+/* Статы справа */
 
-.settings-summary-right {
+.settings-header__right {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    gap: 14px;
-    min-width: 170px;
+    align-items: flex-end;
+    gap: 8px;
+    min-width: 160px;
+}
+
+.settings-stat {
     text-align: right;
 }
 
 .settings-stat__label {
     font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: rgba(255, 255, 255, 0.55);
+    opacity: 0.7;
 }
 
 .settings-stat__value {
-    margin-top: 2px;
     font-size: 18px;
     font-weight: 600;
-    color: #ffffff;
 }
 
-/* ===========================
- *  Form fields
- * =========================== */
+/* === Секции форм === */
 
-.settings-section-title {
-    font-size: 15px;
+.settings-section {
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.settings-section__title {
+    font-size: 14px;
     font-weight: 600;
-    margin: 0 0 14px;
-    color: #ffffff;
+    margin-bottom: 12px;
 }
 
 .settings-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
     margin-bottom: 14px;
 }
 
-.settings-label {
-    display: block;
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.6);
-    margin-bottom: 6px;
+.settings-field__label {
+    font-size: 12px;
+    opacity: 0.8;
 }
 
 .settings-input,
 .settings-textarea {
     width: 100%;
-    font-size: 13px;
-    line-height: 1.4;
     border-radius: 10px;
-    padding: 7px 11px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(3, 10, 26, 0.9);
+    padding: 9px 11px;
+    font: inherit;
+    color: inherit;
     outline: none;
-    background: rgba(1, 5, 18, 0.96);
-    color: #ffffff;
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
-}
-
-.settings-input::placeholder,
-.settings-textarea::placeholder {
-    color: rgba(255, 255, 255, 0.36);
 }
 
 .settings-input:focus,
 .settings-textarea:focus {
-    border-color: rgba(76, 142, 255, 0.9);
-    box-shadow:
-        0 0 0 1px rgba(76, 142, 255, 0.6),
-        0 0 0 8px rgba(76, 142, 255, 0.12);
-    outline: none;
+    border-color: rgba(70, 190, 255, 0.9);
+    box-shadow: 0 0 0 1px rgba(70, 190, 255, 0.4);
 }
 
 .settings-textarea {
     resize: vertical;
-    min-height: 80px;
 }
 
-/* сетка 2 колонки */
+/* Сетка полей */
 
-.settings-grid {
+.settings-section__grid {
     display: grid;
-    gap: 12px 20px;
+    gap: 12px 18px;
 }
 
-.settings-grid--2col {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+.settings-section__grid--2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-/* чекбоксы */
+/* Тогглы приватности */
 
-.settings-privacy {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.settings-checkbox {
+.settings-toggle {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     font-size: 13px;
-    color: rgba(255, 255, 255, 0.78);
+    margin-top: 6px;
 }
 
-.settings-checkbox input[type="checkbox"] {
-    width: 15px;
-    height: 15px;
-    border-radius: 4px;
+.settings-toggle input {
+    display: none;
 }
 
-/* блок кнопок */
+.settings-toggle__indicator {
+    width: 32px;
+    height: 18px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    position: relative;
+    flex-shrink: 0;
+}
+
+.settings-toggle__indicator::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #ffffff;
+    transition: transform 0.18s ease, background 0.18s ease;
+}
+
+.settings-toggle input:checked + .settings-toggle__indicator {
+    background: linear-gradient(135deg, #27e1ff, #3af59f);
+}
+
+.settings-toggle input:checked + .settings-toggle__indicator::after {
+    transform: translateX(12px);
+}
+
+.settings-toggle__label {
+    opacity: 0.9;
+}
+
+/* Кнопки действий */
 
 .settings-actions {
+    margin-top: 22px;
     display: flex;
-    justify-content: flex-start;
-    gap: 12px;
-    margin: 10px 0 8px;
+    gap: 10px;
 }
 
-/* ===========================
- *  Responsive
- * =========================== */
+/* Адаптив */
 
-@media (max-width: 1024px) {
-    .settings-page {
-        padding: 0 16px 32px;
-        margin-top: 56px;
-    }
-
-    .settings-card--summary {
+@media (max-width: 900px) {
+    .settings-header {
         flex-direction: column;
         align-items: flex-start;
     }
 
-    .settings-summary-right {
-        text-align: left;
+    .settings-header__right {
         flex-direction: row;
-        gap: 24px;
+        justify-content: flex-start;
+        gap: 20px;
     }
-}
 
-@media (max-width: 768px) {
-    .settings-grid--2col {
+    .settings-section__grid--2 {
         grid-template-columns: minmax(0, 1fr);
     }
 
-    .settings-summary-left {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .settings-avatar {
-        width: 140px;
-        height: 140px;
-    }
-
-    .settings-actions {
-        flex-direction: column;
-        align-items: stretch;
+    .settings-page {
+        margin-top: 72px;
     }
 }
