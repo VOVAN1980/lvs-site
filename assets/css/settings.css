@@ -1,105 +1,229 @@
-/* ===== Общий layout страницы настроек ===== */
+/* === Layout === */
 
 .settings-page {
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: 72px 24px 80px;
+    min-height: calc(100vh - 60px);
+    padding: 72px 24px 40px;
     color: #f5f7ff;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
 }
 
-/* фоновая логика / ссылки */
-
-.settings-page a {
-    color: #5fd3ff;
-    text-decoration: none;
-}
-.settings-page a:hover {
-    text-decoration: underline;
-}
-
-/* ===== Карточка настроек ===== */
-
-.settings-card {
-    max-width: 1040px;              /* было “мобильное”, делаем нормальный десктоп */
+.settings-shell {
+    max-width: 1120px;
     margin: 0 auto;
-    padding: 32px 40px 32px;
-    border-radius: 18px;
-    background: radial-gradient(circle at 0 0, rgba(84, 255, 209, 0.06), transparent 55%),
-                radial-gradient(circle at 100% 100%, rgba(0, 174, 255, 0.12), transparent 55%),
-                rgba(7, 14, 32, 0.94);
-    box-shadow: 0 22px 80px rgba(0, 0, 0, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 }
 
-/* ===== Хедер карточки: аватар + базовая инфа + статы ===== */
+/* === Topbar адаптер (если в lvs.css нет, не ломает) === */
 
-.settings-header {
-    display: grid;
-    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-    gap: 32px;
-    margin-bottom: 28px;
-    align-items: center;
+.lvs-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    backdrop-filter: blur(18px);
+    background: linear-gradient(90deg, rgba(4, 9, 24, 0.96), rgba(6, 17, 40, 0.96));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-/* левая часть: аватар + краткое резюме */
-
-.settings-header-main {
+.lvs-topbar__inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 12px 24px;
     display: flex;
     align-items: center;
-    gap: 20px;
+    justify-content: space-between;
+    gap: 24px;
+    font-size: 13px;
 }
 
-/* квадратный, тонкий, “не в контейнере” 🙃 */
+.lvs-topbar__left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0.9;
+}
 
-.settings-avatar {
-    flex-shrink: 0;
-    width: 120px;
-    height: 120px;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.28);
-    overflow: hidden;
+.lvs-topbar__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #6bffb7, #16a085);
+}
+
+.lvs-topbar__brand {
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.lvs-topbar__crumb {
+    opacity: 0.7;
+}
+
+.lvs-topbar__nav {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.lvs-topbar__link {
+    text-decoration: none;
+    color: #f5f7ff;
+    opacity: 0.75;
+}
+
+.lvs-topbar__link--active {
+    opacity: 1;
+    font-weight: 600;
+}
+
+.lvs-topbar__link:hover {
+    opacity: 1;
+}
+
+.lvs-topbar__user {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(5, 16, 42, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.lvs-topbar__user-avatar {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #1b2744, #040917);
+    font-size: 11px;
+    font-weight: 600;
+    background: radial-gradient(circle at 30% 20%, #ffe66b, #ff8a3d);
 }
 
-.settings-avatar img {
+.lvs-topbar__user-name {
+    max-width: 160px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 12px;
+}
+
+/* === Cards === */
+
+.settings-card {
+    background: rgba(7, 13, 32, 0.96);
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 22px 70px rgba(0, 0, 0, 0.7);
+    padding: 24px 28px 24px;
+}
+
+.settings-card--header {
+    padding-bottom: 20px;
+}
+
+.settings-card--form {
+    padding-top: 20px;
+}
+
+/* === Header block === */
+
+.settings-header {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1.6fr) auto;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+/* Avatar – квадрат, тонкая рамка */
+
+.settings-avatar {
+    position: relative;
+    width: 160px;
+    height: 160px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    overflow: hidden;
+    background: linear-gradient(135deg, #1e2746, #0d1529);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.settings-avatar__img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-/* подпись под аватаром */
+/* Кнопка поверх */
 
-.settings-user {
+.avatar-upload {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 42px;
     display: flex;
-    flex-direction: column;
-    gap: 4px;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.6),
+        rgba(0, 0, 0, 0.0)
+    );
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.25s ease;
 }
 
-.settings-user-name {
+.settings-avatar:hover .avatar-upload {
+    opacity: 1;
+}
+
+.avatar-upload input {
+    display: none;
+}
+
+.avatar-upload span {
+    font-size: 13px;
+    font-weight: 500;
+    color: #ffffff;
+}
+
+/* Main info */
+
+.settings-header-main {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.settings-header-main__top {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.settings-input--title {
     font-size: 22px;
     font-weight: 600;
 }
 
-.settings-user-role {
-    font-size: 13px;
-    opacity: 0.8;
+.settings-header-main__role .settings-input + .settings-input {
+    margin-top: 4px;
 }
 
-.settings-user-location {
-    font-size: 12px;
-    opacity: 0.65;
-}
+/* Tags */
 
-/* маленькие “чипы” Human / Builder / Early LVS participant */
-
-.settings-user-tags {
+.settings-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 8px;
     margin-top: 6px;
 }
 
@@ -107,22 +231,19 @@
     font-size: 11px;
     padding: 4px 8px;
     border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.22);
+    border: 1px solid rgba(255, 255, 255, 0.16);
     opacity: 0.9;
 }
 
-/* ===== Правая часть: статы TC / VU / Stability ===== */
-
-.settings-header-stats {
-    display: flex;
-    justify-content: flex-end;
-}
+/* Stats */
 
 .settings-stats {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    min-width: 180px;
+    min-width: 160px;
+    padding-left: 18px;
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .settings-stat {
@@ -132,211 +253,258 @@
     font-size: 13px;
 }
 
-.settings-stat-label {
+.settings-stat__label {
     opacity: 0.7;
 }
 
-.settings-stat-value {
+.settings-stat__value {
     font-weight: 600;
 }
 
-/* ===== Основная форма ===== */
-
-.settings-body {
-    margin-top: 8px;
-    display: grid;
-    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.1fr);
-    gap: 32px 48px;
-}
-
-/* секции: Profile / Account / Privacy */
+/* === Form sections === */
 
 .settings-section {
     padding-top: 18px;
     border-top: 1px solid rgba(255, 255, 255, 0.06);
+    margin-top: 18px;
 }
 
-.settings-section-title {
+.settings-section:first-of-type {
+    border-top: none;
+    padding-top: 0;
+    margin-top: 0;
+}
+
+.settings-section__title {
     font-size: 16px;
     font-weight: 600;
     margin: 0 0 12px;
 }
 
-/* группы внутри секций */
+.settings-grid {
+    display: grid;
+    gap: 14px 32px;
+}
 
-.settings-group {
-    margin-bottom: 14px;
+.settings-grid--2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.settings-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.settings-field--full {
+    grid-column: 1 / -1;
 }
 
 .settings-label {
-    display: block;
     font-size: 13px;
-    margin-bottom: 4px;
-    opacity: 0.78;
+    opacity: 0.8;
 }
 
-/* текстовые поля */
+/* Inputs */
 
 .settings-input,
 .settings-select,
 .settings-textarea {
     width: 100%;
-    box-sizing: border-box;
+    background: rgba(6, 13, 32, 0.85);
     border-radius: 10px;
     border: 1px solid rgba(255, 255, 255, 0.12);
-    background: rgba(4, 10, 26, 0.85);
-    color: #f5f7ff;
     padding: 8px 10px;
     font-size: 13px;
+    color: #f5f7ff;
     outline: none;
 }
 
 .settings-input:focus,
 .settings-select:focus,
 .settings-textarea:focus {
-    border-color: rgba(86, 225, 255, 0.9);
-    box-shadow: 0 0 0 1px rgba(86, 225, 255, 0.25);
+    border-color: #36c2ff;
+    box-shadow: 0 0 0 1px rgba(54, 194, 255, 0.4);
 }
 
 .settings-textarea {
-    min-height: 90px;
     resize: vertical;
+    min-height: 80px;
 }
 
-/* селекты */
+/* Privacy toggles */
 
-.settings-select {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: linear-gradient(45deg, transparent 50%, #ffffff 50%),
-                      linear-gradient(135deg, #ffffff 50%, transparent 50%);
-    background-position: calc(100% - 14px) 52%, calc(100% - 9px) 52%;
-    background-size: 6px 6px, 6px 6px;
-    background-repeat: no-repeat;
-    padding-right: 26px;
-}
-
-/* маленький helper-текст под полем */
-
-.settings-help {
-    font-size: 11px;
-    margin-top: 4px;
-    opacity: 0.6;
-}
-
-/* ===== Privacy: тумблеры ===== */
-
-.settings-toggle-row {
+.settings-privacy {
     display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.settings-toggle {
+    display: inline-flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 10px;
+    gap: 10px;
+    cursor: pointer;
     font-size: 13px;
 }
 
-/* визуальный свитч (сам инпут можно оставить нативный) */
+.settings-toggle input {
+    display: none;
+}
 
-.settings-toggle {
-    position: relative;
-    width: 40px;
+.settings-toggle__slider {
+    width: 36px;
     height: 20px;
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.18);
+    position: relative;
     flex-shrink: 0;
+    transition: background 0.2s ease;
 }
-.settings-toggle-knob {
+
+.settings-toggle__slider::before {
+    content: "";
     position: absolute;
     top: 2px;
     left: 2px;
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    background: #0b0f1f;
-    transition: transform 0.22s ease;
+    background: #ffffff;
+    transition: transform 0.2s ease;
 }
 
-/* если хочешь анимировать по классу .is-on */
-.settings-toggle.is-on {
-    background: linear-gradient(135deg, #00c6ff, #00ffb5);
-}
-.settings-toggle.is-on .settings-toggle-knob {
-    transform: translateX(20px);
-}
-
-/* ===== Кнопки внизу ===== */
-
-.settings-footer {
-    grid-column: 1 / -1;
-    display: flex;
-    justify-content: flex-start;
-    gap: 10px;
-    margin-top: 18px;
-    padding-top: 18px;
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.settings-btn {
-    border-radius: 999px;
-    padding: 8px 18px;
-    font-size: 13px;
-    border: 1px solid transparent;
-    cursor: pointer;
-    background: transparent;
-    color: #f5f7ff;
-}
-
-.settings-btn--primary {
+.settings-toggle input:checked + .settings-toggle__slider {
     background: linear-gradient(135deg, #00c6ff, #0072ff);
 }
-.settings-btn--primary:hover {
+
+.settings-toggle input:checked + .settings-toggle__slider::before {
+    transform: translateX(16px);
+}
+
+.settings-toggle__label {
+    opacity: 0.9;
+}
+
+/* Buttons */
+
+.btn {
+    border-radius: 999px;
+    padding: 8px 16px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: #f5f7ff;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    border-color: transparent;
+}
+
+.btn-primary:hover {
     filter: brightness(1.07);
 }
-.settings-btn--ghost {
-    border-color: rgba(255, 255, 255, 0.26);
-    background: rgba(4, 10, 26, 0.8);
-}
-.settings-btn--ghost:hover {
-    border-color: rgba(255, 255, 255, 0.5);
+
+.btn-ghost {
+    border-color: rgba(255, 255, 255, 0.24);
+    background: rgba(4, 11, 30, 0.8);
 }
 
-/* ===== Адаптив ===== */
+.btn-ghost:hover {
+    border-color: rgba(255, 255, 255, 0.45);
+}
 
-@media (max-width: 1040px) {
-    .settings-card {
+.settings-actions {
+    margin-top: 22px;
+    display: flex;
+    gap: 10px;
+}
+
+/* === Footer (тонкая чёрная полоса) === */
+
+.lvs-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 16px 0 22px;
+    margin-top: 32px;
+    background: rgba(3, 6, 18, 0.98);
+}
+
+.lvs-footer__inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+.lvs-footer__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.lvs-footer__nav a {
+    color: #f5f7ff;
+    text-decoration: none;
+    opacity: 0.8;
+}
+
+.lvs-footer__nav a:hover {
+    opacity: 1;
+}
+
+/* === Responsive === */
+
+@media (max-width: 960px) {
+    .settings-shell {
         max-width: 100%;
-        padding-inline: 24px;
     }
-}
 
-@media (max-width: 900px) {
+    .settings-card {
+        padding-inline: 18px;
+    }
+
     .settings-header {
         grid-template-columns: 1fr;
-        gap: 20px;
     }
-    .settings-header-stats {
-        justify-content: flex-start;
+
+    .settings-stats {
+        border-left: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        margin-top: 10px;
+        padding-left: 0;
+        padding-top: 12px;
+        flex-direction: row;
+        flex-wrap: wrap;
     }
-    .settings-body {
+
+    .settings-grid--2 {
         grid-template-columns: 1fr;
+    }
+
+    .lvs-topbar__inner {
+        padding-inline: 16px;
+        flex-wrap: wrap;
+        row-gap: 8px;
     }
 }
 
 @media (max-width: 640px) {
     .settings-page {
-        padding-inline: 16px;
-        padding-top: 56px;
+        padding-inline: 12px;
     }
-    .settings-card {
-        padding: 20px 16px 24px;
-    }
+
     .settings-avatar {
-        width: 96px;
-        height: 96px;
-        border-radius: 12px;
+        width: 130px;
+        height: 130px;
     }
-    .settings-user-name {
-        font-size: 19px;
+
+    .settings-input--title {
+        font-size: 18px;
     }
 }
