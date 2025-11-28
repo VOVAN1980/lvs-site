@@ -1,77 +1,80 @@
-/* SETTINGS PAGE LAYOUT
-   -------------------------------------------------- */
-
-html,
-body {
-    /* чтобы можно было нормально скроллить, даже если в базовом css что-то другое */
-    height: 100%;
-}
-
-body.lvs-settings-page {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-}
-
-/* main занимает всё пространство между шапкой и футером */
+/* Общий контейнер страницы настроек */
 .settings-page {
-    flex: 1 0 auto;
-    padding: 80px 0 40px;
+    padding: 32px 16px 80px;
 }
 
-.settings-page__inner {
+@media (min-width: 1024px) {
+    .settings-page {
+        padding-top: 40px;
+        padding-bottom: 96px;
+    }
+}
+
+/* Центрируем и ограничиваем ширину, чтобы не было "во весь монитор" */
+.settings-layout {
     max-width: 1120px;
     margin: 0 auto;
-    padding: 0 24px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 }
 
-/* BREADCRUMB */
-
+/* Breadcrumb LVS / Account */
 .settings-breadcrumb {
     font-size: 12px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     opacity: 0.7;
-    margin-bottom: 18px;
+    margin-bottom: 4px;
 }
 
-/* CARDS */
-
+/* Карточки */
 .settings-card {
-    background: rgba(4, 9, 24, 0.92);
+    background: rgba(4, 12, 24, 0.94);
     border-radius: 18px;
-    padding: 24px 28px 24px;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
-    border: 1px solid rgba(80, 120, 255, 0.18);
-    margin-bottom: 20px;
+    padding: 20px 18px;
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.02);
 }
 
-.settings-card--header {
-    margin-bottom: 24px;
+@media (min-width: 1024px) {
+    .settings-card {
+        padding: 24px 28px;
+    }
+
+    .settings-card--top {
+        padding: 24px 28px 22px;
+    }
 }
 
-.settings-card__title {
-    font-size: 16px;
-    font-weight: 600;
-    margin: 0 0 18px;
-}
-
-/* HEADER BLOCK */
-
-.settings-header {
+/* Верхний блок: аватар + резюме + метрики */
+.settings-top {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 32px;
-}
-
-.settings-header__left {
-    display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: 24px;
 }
 
+@media (min-width: 900px) {
+    .settings-top {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: stretch;
+        gap: 32px;
+    }
+}
+
+.settings-top__left {
+    display: flex;
+    gap: 20px;
+}
+
+@media (min-width: 900px) {
+    .settings-top__left {
+        flex: 1 1 auto;
+    }
+}
+
+/* Аватар */
 .settings-avatar {
     display: flex;
     flex-direction: column;
@@ -79,74 +82,96 @@ body.lvs-settings-page {
     gap: 10px;
 }
 
-.settings-avatar__image-wrapper {
-    width: 160px;
-    height: 160px;
-    border-radius: 26px;
+.settings-avatar__image {
+    width: 190px;
+    height: 190px;
+    border-radius: 24px;
     overflow: hidden;
-    box-shadow: 0 0 0 2px rgba(120, 200, 255, 0.35);
-    background: radial-gradient(circle at 30% 20%, #2ff0ff, #0a1635);
+    background: radial-gradient(circle at 20% 0%, #18ffe6 0, #0b1220 55%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.settings-avatar__image {
+.settings-avatar__image img {
     width: 100%;
     height: 100%;
-    display: block;
     object-fit: cover;
 }
 
+.settings-avatar__input {
+    display: none;
+}
+
 .settings-avatar__upload {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    font-size: 13px;
     padding: 6px 14px;
-    font-size: 12px;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(140, 180, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(15, 23, 42, 0.9);
     cursor: pointer;
-    transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+    user-select: none;
+    transition: background 0.18s ease, border-color 0.18s ease, transform 0.1s ease;
+    white-space: nowrap;
 }
 
 .settings-avatar__upload:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(160, 210, 255, 0.9);
-    transform: translateY(-1px);
+    background: rgba(37, 99, 235, 0.42);
+    border-color: rgba(96, 165, 250, 0.9);
 }
 
-.settings-avatar__upload input[type="file"] {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    cursor: pointer;
+.settings-avatar__upload:active {
+    transform: translateY(1px);
 }
 
-.settings-header__identity {
-    min-width: 260px;
-    max-width: 420px;
+/* Основная инфа рядом с аватаром */
+.settings-summary {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
+    min-width: 0;
 }
 
-.settings-header__field {
-    width: 100%;
-    padding: 7px 11px;
-    border-radius: 999px;
-    border: 1px solid rgba(90, 120, 180, 0.6);
-    background: rgba(3, 8, 22, 0.9);
-    font-size: 14px;
-    outline: none;
-    color: #ffffff;
+/* Метрики справа */
+.settings-top__right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 }
 
-.settings-header__field:focus {
-    border-color: rgba(120, 200, 255, 0.9);
-    box-shadow: 0 0 0 1px rgba(120, 200, 255, 0.6);
+.settings-metrics {
+    display: flex;
+    flex-direction: row;
+    gap: 18px;
 }
 
-.settings-header__tags {
+@media (max-width: 899px) {
+    .settings-top__right {
+        justify-content: flex-start;
+    }
+
+    .settings-metrics {
+        flex-wrap: wrap;
+    }
+}
+
+.settings-metric {
+    min-width: 90px;
+}
+
+.settings-metric__label {
+    font-size: 11px;
+    opacity: 0.7;
+    margin-bottom: 4px;
+}
+
+.settings-metric__value {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* Теги Human / Builder */
+.settings-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
@@ -155,57 +180,25 @@ body.lvs-settings-page {
 
 .settings-tag {
     font-size: 11px;
-    padding: 4px 9px;
+    padding: 4px 10px;
     border-radius: 999px;
-    border: 1px solid rgba(140, 180, 255, 0.5);
-    background: radial-gradient(circle at 0 0, rgba(90, 200, 255, 0.24), rgba(6, 14, 36, 0.95));
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(148, 163, 184, 0.4);
 }
 
-/* STATS */
-
-.settings-header__right {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    gap: 12px 18px;
-}
-
-.settings-stat {
-    min-width: 90px;
-    text-align: right;
-}
-
-.settings-stat__label {
-    font-size: 11px;
-    opacity: 0.7;
-    margin-bottom: 3px;
-}
-
-.settings-stat__value {
-    font-size: 16px;
+/* Заголовки секций */
+.settings-section-title {
+    font-size: 15px;
     font-weight: 600;
+    margin-bottom: 14px;
 }
 
-/* FIELDS & GRID */
-
-.settings-grid {
-    display: grid;
-    gap: 14px 20px;
-}
-
-.settings-grid--2 {
-    grid-template-columns: 1fr 1fr;
-}
-
+/* Поля формы */
 .settings-field {
     display: flex;
     flex-direction: column;
     gap: 6px;
-}
-
-.settings-field--full {
-    margin-top: 10px;
-    margin-bottom: 6px;
+    margin-bottom: 12px;
 }
 
 .settings-field__label {
@@ -213,205 +206,193 @@ body.lvs-settings-page {
     opacity: 0.8;
 }
 
-.settings-field__control {
+/* Общий вид инпутов */
+.settings-input {
     width: 100%;
-    padding: 8px 11px;
-    border-radius: 999px;
-    border: 1px solid rgba(90, 120, 180, 0.65);
-    background: rgba(3, 8, 22, 0.96);
-    color: #ffffff;
+    border-radius: 10px;
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    background: rgba(15, 23, 42, 0.9);
+    padding: 8px 10px;
     font-size: 13px;
+    color: #f9fafb;
     outline: none;
+    transition: border-color 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
 }
 
-.settings-field__control::placeholder {
-    opacity: 0.6;
+.settings-input:focus {
+    border-color: rgba(96, 165, 250, 0.98);
+    box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.6);
+    background: rgba(15, 23, 42, 1);
 }
 
-.settings-field__control:focus {
-    border-color: rgba(120, 200, 255, 0.95);
-    box-shadow: 0 0 0 1px rgba(120, 200, 255, 0.5);
+/* Однострочные поля вверху */
+.settings-input--line {
+    border-radius: 999px;
 }
 
-.settings-field__control--textarea {
-    border-radius: 14px;
+/* textarea */
+.settings-input--textarea {
     resize: vertical;
     min-height: 80px;
     line-height: 1.4;
 }
 
-/* PRIVACY & ACTIONS */
-
-.settings-privacy {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: 18px;
+/* select */
+.settings-input--select {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, #9ca3af 50%),
+        linear-gradient(135deg, #9ca3af 50%, transparent 50%);
+    background-position: calc(100% - 14px) 50%,
+        calc(100% - 9px) 50%;
+    background-size: 6px 6px;
+    background-repeat: no-repeat;
+    padding-right: 28px;
 }
 
-.settings-privacy__item {
+/* Сетка 2 колонки */
+.settings-grid {
+    display: grid;
+    gap: 12px;
+}
+
+.settings-grid--2 {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 900px) {
+    .settings-grid--2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+.settings-grid--stretch > .settings-field {
+    height: 100%;
+}
+
+/* Чекбоксы (driver license) */
+.settings-checkboxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.settings-checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.settings-checkbox input {
+    width: 14px;
+    height: 14px;
+    accent-color: #38bdf8;
+}
+
+/* Тогглы */
+.settings-toggles {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 8px 0 18px;
+}
+
+.settings-toggle {
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.settings-toggle input {
+    display: none;
+}
+
+.settings-toggle__slider {
+    width: 38px;
+    height: 20px;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.9);
+    border: 1px solid rgba(148, 163, 184, 0.6);
+    position: relative;
+    transition: background 0.18s ease, border-color 0.18s ease;
+}
+
+.settings-toggle__slider::before {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    background: #e5e7eb;
+    transition: transform 0.18s ease;
+}
+
+.settings-toggle input:checked + .settings-toggle__slider {
+    background: rgba(34, 197, 94, 0.85);
+    border-color: rgba(34, 197, 94, 0.9);
+}
+
+.settings-toggle input:checked + .settings-toggle__slider::before {
+    transform: translateX(16px);
+}
+
+.settings-toggle__label {
     font-size: 13px;
 }
 
-.settings-privacy__item input {
-    width: 15px;
-    height: 15px;
-}
-
-.settings-actions {
+/* Кнопки сохранения */
+.settings-card--actions .settings-actions {
     display: flex;
-    gap: 10px;
     justify-content: flex-end;
+    gap: 10px;
+    margin-top: 8px;
 }
 
+/* Базовые кнопки, чтобы не зависеть от других стилей */
 .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 7px 16px;
+    padding: 8px 18px;
     border-radius: 999px;
     font-size: 13px;
-    cursor: pointer;
     border: 1px solid transparent;
-    background: transparent;
-    color: #ffffff;
-    transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.18s ease, border-color 0.18s ease, transform 0.08s ease,
+        box-shadow 0.18s ease;
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #1e9eff, #61f2ff);
-    border-color: rgba(0, 0, 0, 0.5);
-    color: #020510;
+    background: linear-gradient(135deg, #0ea5e9, #2563eb);
+    border-color: rgba(191, 219, 254, 0.5);
+    color: #f9fafb;
+    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.45);
 }
 
 .btn-primary:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.55);
+    box-shadow: 0 16px 40px rgba(37, 99, 235, 0.65);
 }
 
-.btn-ghost {
-    border-color: rgba(140, 180, 255, 0.55);
-    background: rgba(255, 255, 255, 0.02);
+.btn-secondary {
+    background: rgba(15, 23, 42, 0.9);
+    border-color: rgba(148, 163, 184, 0.5);
+    color: #e5e7eb;
 }
 
-.btn-ghost:hover {
-    background: rgba(255, 255, 255, 0.06);
+.btn-secondary:hover {
+    background: rgba(30, 64, 175, 0.4);
 }
 
-/* HEADER PROFILE MENU (минимальный фикс под дропдаун) */
-
-.lvs-profile-menu {
-    position: relative;
-}
-
-.lvs-profile-menu__trigger {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 4px 10px;
-    border-radius: 999px;
-    border: 1px solid rgba(140, 180, 255, 0.4);
-    background: rgba(2, 6, 18, 0.9);
-    cursor: pointer;
-    font-size: 13px;
-}
-
-.lvs-profile-menu__avatar {
-    width: 22px;
-    height: 22px;
-    border-radius: 999px;
-    background: radial-gradient(circle at 30% 0, #ffd56a, #ff7a3c);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-    font-weight: 600;
-}
-
-.lvs-profile-menu__avatar-inner {
+.btn:active {
     transform: translateY(1px);
-}
-
-.lvs-profile-menu__arrow {
-    font-size: 10px;
-    opacity: 0.7;
-}
-
-.lvs-profile-menu__dropdown {
-    position: absolute;
-    right: 0;
-    top: calc(100% + 6px);
-    min-width: 190px;
-    padding: 6px;
-    border-radius: 12px;
-    background: rgba(3, 8, 22, 0.98);
-    border: 1px solid rgba(120, 160, 255, 0.7);
-    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.65);
-    display: none;
-    z-index: 40;
-}
-
-.lvs-profile-menu__item {
-    display: block;
-    padding: 6px 9px;
-    font-size: 13px;
-    border-radius: 8px;
-}
-
-.lvs-profile-menu__item:hover {
-    background: rgba(120, 180, 255, 0.14);
-}
-
-.lvs-profile-menu__item--danger {
-    color: #ff7d7d;
-}
-
-.lvs-profile-menu--open .lvs-profile-menu__dropdown {
-    display: block;
-}
-
-/* FOOTER ALWAYS ВНИЗУ */
-
-.lvs-footer {
-    flex: 0 0 auto;
-}
-
-/* RESPONSIVE */
-
-@media (max-width: 960px) {
-    .settings-page {
-        padding-top: 72px;
-    }
-
-    .settings-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .settings-header__right {
-        width: 100%;
-        justify-content: flex-start;
-    }
-
-    .settings-grid--2 {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 640px) {
-    .settings-page__inner {
-        padding-inline: 16px;
-    }
-
-    .settings-card {
-        padding: 18px 16px 18px;
-    }
-
-    .settings-avatar__image-wrapper {
-        width: 130px;
-        height: 130px;
-    }
 }
