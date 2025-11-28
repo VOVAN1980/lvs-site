@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>LVS – Account settings</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Base styles -->
+    <link rel="stylesheet" href="assets/lvs.css" />
+    <!-- Settings page styles -->
+    <link rel="stylesheet" href="assets/css/settings.css" />
+</head>
+<body>
+
+<header class="lvs-navtop">
+    <div class="lvs-navtop-left">
+        <a href="index.html" class="lvs-navtop-logo">
+            <span class="lvs-navtop-logo-dot"></span>
+            <span class="lvs-navtop-logo-text">Living Value System</span>
+        </a>
+
+        <span class="lvs-navtop-breadcrumb">
+            LVS / Account
+        </span>
+    </div>
+
+    <nav class="lvs-navtop-right">
+        <a href="market.html" class="lvs-navtop-link">Jobs & tasks</a>
+        <a href="me.html" class="lvs-navtop-link">My profile</a>
+        <a href="settings.html" class="lvs-navtop-link lvs-navtop-link--active">Settings</a>
+
+        <div class="lvs-navtop-profile">
+            <button class="lvs-navtop-profile-btn" type="button">
+                <span class="lvs-navtop-profile-avatar">
+                    <span class="lvs-navtop-profile-avatar-initial">V</span>
+                </span>
+                <span class="lvs-navtop-profile-name">Volodymyr Podkorytov</span>
+                <span class="lvs-navtop-profile-arrow">▾</span>
+            </button>
+
+            <div class="lvs-navtop-profile-menu">
+                <a href="me.html" class="lvs-navtop-profile-item">My profile</a>
+                <a href="settings.html" class="lvs-navtop-profile-item">Account settings</a>
+                <a href="space.html" class="lvs-navtop-profile-item">LVS map</a>
+                <a href="index.html" class="lvs-navtop-profile-item lvs-navtop-profile-item--danger">
+                    Sign out
+                </a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main class="settings-page">
+    <section class="settings-card">
+        <header class="settings-card__header">
+            <div class="settings-card__avatar-block">
+                <div class="settings-avatar js-settings-avatar">
+                    <img
+                        src=""
+                        alt="Avatar"
+                        class="settings-avatar__img js-avatar-img"
+                        data-default="assets/img/avatar-default.png"
+                    />
+
+                    <label class="settings-avatar__upload">
+                        <input type="file" accept="image/*" class="js-avatar-input" />
+                        <span>Change photo</span>
+                    </label>
+                </div>
+
+                <div class="settings-card__user">
+                    <h1 class="settings-card__name">
+                        <input
+                            type="text"
+                            class="settings-input settings-input--inline js-field-name"
+                            value="Volodymyr Podkorytov"
+                        />
+                    </h1>
+                    <div class="settings-card__role">
+                        <input
+                            type="text"
+                            class="settings-input settings-input--inline js-field-title"
+                            value="Founder • LVS / IBITI"
+                        />
+                    </div>
+                    <div class="settings-card__location">
+                        <input
+                            type="text"
+                            class="settings-input settings-input--inline js-field-location"
+                            value="Windesheim, Germany"
+                        />
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-card__meta">
+                <div class="settings-card__meta-item">
+                    <div class="settings-card__meta-label">Trust (TC)</div>
+                    <div class="settings-card__meta-value">87%</div>
+                </div>
+                <div class="settings-card__meta-item">
+                    <div class="settings-card__meta-label">Value (VU)</div>
+                    <div class="settings-card__meta-value">4 200</div>
+                </div>
+                <div class="settings-card__meta-item">
+                    <div class="settings-card__meta-label">Stability</div>
+                    <div class="settings-card__meta-value">93%</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="settings-card__body">
+            <section class="settings-section">
+                <h2 class="settings-section__title">Profile</h2>
+
+                <label class="settings-field">
+                    <span class="settings-field__label">About</span>
+                    <textarea
+                        class="settings-input settings-input--textarea js-field-about"
+                        rows="4"
+                    >Early participant of the Living Value System. Building an autonomous value layer, the IBITI ecosystem, and real-world services around it.</textarea>
+                </label>
+
+                <div class="settings-two-columns">
+                    <label class="settings-field">
+                        <span class="settings-field__label">Main skills</span>
+                        <input
+                            type="text"
+                            class="settings-input js-field-skills"
+                            value="Distributed systems, Crypto / DeFi, Rust / TypeScript"
+                        />
+                    </label>
+
+                    <label class="settings-field">
+                        <span class="settings-field__label">Focus</span>
+                        <input
+                            type="text"
+                            class="settings-input js-field-focus"
+                            value="Product strategy, Protocol design"
+                        />
+                    </label>
+                </div>
+            </section>
+
+            <section class="settings-section">
+                <h2 class="settings-section__title">Account</h2>
+
+                <label class="settings-field">
+                    <span class="settings-field__label">Email</span>
+                    <input
+                        type="email"
+                        class="settings-input js-field-email"
+                        value="reker198079@gmail.com"
+                    />
+                </label>
+
+                <div class="settings-two-columns">
+                    <label class="settings-field">
+                        <span class="settings-field__label">Language</span>
+                        <select class="settings-input js-field-language">
+                            <option value="en" selected>English</option>
+                            <option value="de">Deutsch</option>
+                            <option value="ru">Русский</option>
+                        </select>
+                    </label>
+
+                    <label class="settings-field">
+                        <span class="settings-field__label">Time zone</span>
+                        <select class="settings-input js-field-timezone">
+                            <option value="Europe/Berlin" selected>Europe / Berlin</option>
+                            <option value="UTC">UTC</option>
+                        </select>
+                    </label>
+                </div>
+            </section>
+
+            <section class="settings-section">
+                <h2 class="settings-section__title">Privacy</h2>
+
+                <label class="settings-toggle">
+                    <input type="checkbox" class="settings-toggle__input js-field-public" checked />
+                    <span class="settings-toggle__switch"></span>
+                    <span class="settings-toggle__label">Show my profile to other LVS participants</span>
+                </label>
+
+                <label class="settings-toggle">
+                    <input type="checkbox" class="settings-toggle__input js-field-email-notify" checked />
+                    <span class="settings-toggle__switch"></span>
+                    <span class="settings-toggle__label">Email notifications about new tasks and offers</span>
+                </label>
+            </section>
+        </div>
+
+        <footer class="settings-card__footer">
+            <button class="settings-btn settings-btn--primary js-save-settings">
+                Save changes
+            </button>
+            <button class="settings-btn settings-btn--ghost js-reset-settings">
+                Reset
+            </button>
+            <span class="settings-status js-settings-status"></span>
+        </footer>
+    </section>
+</main>
+
+<footer class="lvs-footer">
+    <div class="lvs-footer__inner">
+        <span>© 2025 Living Value System (LVS)</span>
+        <nav class="lvs-footer__nav">
+            <a href="privacy.html">Privacy policy</a>
+            <a href="terms.html">Terms of use</a>
+            <a href="legal.html">Legal</a>
+            <a href="contacts.html">Contacts</a>
+            <a href="https://github.com/VOVAN1980/lvs-site" target="_blank" rel="noopener">GitHub</a>
+        </nav>
+    </div>
+</footer>
+
+<script src="assets/js/profile.js"></script>
+</body>
+</html>
