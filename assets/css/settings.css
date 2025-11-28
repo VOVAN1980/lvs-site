@@ -1,468 +1,342 @@
-/* ===== Settings page layout ===== */
+/* ===== Общий layout страницы настроек ===== */
 
 .settings-page {
     max-width: 1120px;
-    margin: 40px auto 32px;
-    padding: 0 24px;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+    margin: 0 auto;
+    padding: 72px 24px 80px;
     color: #f5f7ff;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
 }
 
-/* Карточка настроек */
+/* фоновая логика / ссылки */
+
+.settings-page a {
+    color: #5fd3ff;
+    text-decoration: none;
+}
+.settings-page a:hover {
+    text-decoration: underline;
+}
+
+/* ===== Карточка настроек ===== */
 
 .settings-card {
-    background: radial-gradient(circle at 0 0, rgba(91, 255, 203, 0.08), transparent 55%),
-                radial-gradient(circle at 100% 100%, rgba(0, 191, 255, 0.12), transparent 55%),
-                rgba(6, 12, 32, 0.96);
-    border-radius: 16px;
+    max-width: 1040px;              /* было “мобильное”, делаем нормальный десктоп */
+    margin: 0 auto;
+    padding: 32px 40px 32px;
+    border-radius: 18px;
+    background: radial-gradient(circle at 0 0, rgba(84, 255, 209, 0.06), transparent 55%),
+                radial-gradient(circle at 100% 100%, rgba(0, 174, 255, 0.12), transparent 55%),
+                rgba(7, 14, 32, 0.94);
+    box-shadow: 0 22px 80px rgba(0, 0, 0, 0.7);
     border: 1px solid rgba(255, 255, 255, 0.06);
-    box-shadow: 0 26px 80px rgba(0, 0, 0, 0.75);
-    padding: 24px 28px 22px;
 }
 
-/* ===== Header ===== */
+/* ===== Хедер карточки: аватар + базовая инфа + статы ===== */
 
-.settings-card__header {
-    display: flex;
-    justify-content: space-between;
+.settings-header {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
     gap: 32px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.settings-card__avatar-block {
-    display: flex;
-    gap: 24px;
+    margin-bottom: 28px;
     align-items: center;
 }
 
-/* квадратный, тонкий, стильный контейнер под аватар */
+/* левая часть: аватар + краткое резюме */
+
+.settings-header-main {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* квадратный, тонкий, “не в контейнере” 🙃 */
 
 .settings-avatar {
-    position: relative;
-    width: 160px;
-    height: 160px;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.16);
+    flex-shrink: 0;
+    width: 120px;
+    height: 120px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.28);
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: radial-gradient(circle at 0 0, #273b5c, #050815);
+    background: linear-gradient(135deg, #1b2744, #040917);
 }
 
-.settings-avatar__img {
+.settings-avatar img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.settings-avatar__upload {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.65), transparent);
-    opacity: 0;
-    cursor: pointer;
-    transition: opacity 0.25s ease;
-}
+/* подпись под аватаром */
 
-.settings-avatar__upload span {
-    font-size: 13px;
-    font-weight: 500;
-}
-
-.settings-avatar__upload input {
-    display: none;
-}
-
-.settings-avatar:hover .settings-avatar__upload {
-    opacity: 1;
-}
-
-.settings-avatar:hover {
-    border-color: rgba(255, 255, 255, 0.35);
-}
-
-/* user info */
-
-.settings-card__user {
+.settings-user {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 4px;
 }
 
-.settings-card__name {
-    font-size: 24px;
-    margin: 0;
-}
-
-.settings-card__role,
-.settings-card__location {
-    font-size: 13px;
-    opacity: 0.85;
-}
-
-/* метрики справа */
-
-.settings-card__meta {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    min-width: 180px;
-    align-items: flex-end;
-}
-
-.settings-card__meta-item {
-    font-size: 13px;
-}
-
-.settings-card__meta-label {
-    opacity: 0.7;
-}
-
-.settings-card__meta-value {
+.settings-user-name {
+    font-size: 22px;
     font-weight: 600;
 }
 
-/* ===== Body ===== */
-
-.settings-card__body {
-    padding-top: 18px;
-}
-
-.settings-section {
-    padding: 12px 0 16px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-}
-
-.settings-section:last-of-type {
-    border-bottom: none;
-}
-
-.settings-section__title {
-    font-size: 15px;
-    margin: 0 0 10px;
-    font-weight: 600;
-}
-
-/* поля */
-
-.settings-field {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: 12px;
-}
-
-.settings-field__label {
+.settings-user-role {
     font-size: 13px;
     opacity: 0.8;
 }
 
-.settings-input {
-    background: rgba(3, 8, 23, 0.9);
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.09);
-    padding: 8px 10px;
-    font-size: 13px;
-    color: #f5f7ff;
-    outline: none;
-    width: 100%;
+.settings-user-location {
+    font-size: 12px;
+    opacity: 0.65;
 }
 
-.settings-input:focus {
-    border-color: #3fd5ff;
-    box-shadow: 0 0 0 1px rgba(63, 213, 255, 0.4);
-}
+/* маленькие “чипы” Human / Builder / Early LVS participant */
 
-.settings-input--textarea {
-    resize: vertical;
-    min-height: 80px;
-}
-
-.settings-input--inline {
-    background: transparent;
-    border-radius: 6px;
-    padding: 2px 6px;
-}
-
-/* две колонки */
-
-.settings-two-columns {
-    display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
-    gap: 16px 32px;
-}
-
-/* свитч */
-
-.settings-toggle {
+.settings-user-tags {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 8px;
-    font-size: 13px;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
 }
 
-.settings-toggle__input {
-    display: none;
-}
-
-.settings-toggle__switch {
-    width: 34px;
-    height: 18px;
+.settings-tag {
+    font-size: 11px;
+    padding: 4px 8px;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.15);
-    position: relative;
-    transition: background 0.2s ease;
-}
-
-.settings-toggle__switch::before {
-    content: "";
-    position: absolute;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: #fff;
-    top: 2px;
-    left: 2px;
-    transition: transform 0.2s ease;
-}
-
-.settings-toggle__input:checked + .settings-toggle__switch {
-    background: linear-gradient(135deg, #00c6ff, #00e29b);
-}
-
-.settings-toggle__input:checked + .settings-toggle__switch::before {
-    transform: translateX(14px);
-}
-
-.settings-toggle__label {
+    border: 1px solid rgba(255, 255, 255, 0.22);
     opacity: 0.9;
 }
 
-/* ===== Footer ===== */
+/* ===== Правая часть: статы TC / VU / Stability ===== */
 
-.settings-card__footer {
+.settings-header-stats {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.settings-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 180px;
+}
+
+.settings-stat {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    font-size: 13px;
+}
+
+.settings-stat-label {
+    opacity: 0.7;
+}
+
+.settings-stat-value {
+    font-weight: 600;
+}
+
+/* ===== Основная форма ===== */
+
+.settings-body {
+    margin-top: 8px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.1fr);
+    gap: 32px 48px;
+}
+
+/* секции: Profile / Account / Privacy */
+
+.settings-section {
+    padding-top: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.settings-section-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 12px;
+}
+
+/* группы внутри секций */
+
+.settings-group {
+    margin-bottom: 14px;
+}
+
+.settings-label {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 4px;
+    opacity: 0.78;
+}
+
+/* текстовые поля */
+
+.settings-input,
+.settings-select,
+.settings-textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(4, 10, 26, 0.85);
+    color: #f5f7ff;
+    padding: 8px 10px;
+    font-size: 13px;
+    outline: none;
+}
+
+.settings-input:focus,
+.settings-select:focus,
+.settings-textarea:focus {
+    border-color: rgba(86, 225, 255, 0.9);
+    box-shadow: 0 0 0 1px rgba(86, 225, 255, 0.25);
+}
+
+.settings-textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+/* селекты */
+
+.settings-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, #ffffff 50%),
+                      linear-gradient(135deg, #ffffff 50%, transparent 50%);
+    background-position: calc(100% - 14px) 52%, calc(100% - 9px) 52%;
+    background-size: 6px 6px, 6px 6px;
+    background-repeat: no-repeat;
+    padding-right: 26px;
+}
+
+/* маленький helper-текст под полем */
+
+.settings-help {
+    font-size: 11px;
+    margin-top: 4px;
+    opacity: 0.6;
+}
+
+/* ===== Privacy: тумблеры ===== */
+
+.settings-toggle-row {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 12px;
-    padding-top: 14px;
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+
+/* визуальный свитч (сам инпут можно оставить нативный) */
+
+.settings-toggle {
+    position: relative;
+    width: 40px;
+    height: 20px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.18);
+    flex-shrink: 0;
+}
+.settings-toggle-knob {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #0b0f1f;
+    transition: transform 0.22s ease;
+}
+
+/* если хочешь анимировать по классу .is-on */
+.settings-toggle.is-on {
+    background: linear-gradient(135deg, #00c6ff, #00ffb5);
+}
+.settings-toggle.is-on .settings-toggle-knob {
+    transform: translateX(20px);
+}
+
+/* ===== Кнопки внизу ===== */
+
+.settings-footer {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-top: 18px;
+    padding-top: 18px;
     border-top: 1px solid rgba(255, 255, 255, 0.06);
-    margin-top: 6px;
 }
 
 .settings-btn {
     border-radius: 999px;
-    padding: 8px 16px;
+    padding: 8px 18px;
     font-size: 13px;
-    cursor: pointer;
     border: 1px solid transparent;
+    cursor: pointer;
     background: transparent;
     color: #f5f7ff;
 }
 
 .settings-btn--primary {
     background: linear-gradient(135deg, #00c6ff, #0072ff);
-    border-color: transparent;
 }
-
 .settings-btn--primary:hover {
-    filter: brightness(1.05);
+    filter: brightness(1.07);
 }
-
 .settings-btn--ghost {
-    border-color: rgba(255, 255, 255, 0.2);
-    background: rgba(8, 14, 35, 0.9);
+    border-color: rgba(255, 255, 255, 0.26);
+    background: rgba(4, 10, 26, 0.8);
 }
-
 .settings-btn--ghost:hover {
-    border-color: rgba(255, 255, 255, 0.4);
+    border-color: rgba(255, 255, 255, 0.5);
 }
 
-.settings-status {
-    font-size: 12px;
-    opacity: 0.8;
-}
+/* ===== Адаптив ===== */
 
-/* ===== Header / footer small tweaks (reuse существующую тему) ===== */
-
-.lvs-navtop {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 24px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    background: radial-gradient(circle at 0 0, rgba(91, 255, 203, 0.1), transparent 55%),
-                rgba(4, 10, 28, 0.96);
-}
-
-.lvs-navtop-left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.lvs-navtop-logo {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-}
-
-.lvs-navtop-logo-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #6bffb7, #16a085);
-}
-
-.lvs-navtop-logo-text {
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: #f5f7ff;
-}
-
-.lvs-navtop-breadcrumb {
-    font-size: 12px;
-    opacity: 0.7;
-}
-
-.lvs-navtop-right {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
-.lvs-navtop-link {
-    font-size: 13px;
-    opacity: 0.8;
-    text-decoration: none;
-}
-
-.lvs-navtop-link--active {
-    opacity: 1;
-    font-weight: 600;
-}
-
-.lvs-navtop-link:hover {
-    opacity: 1;
-}
-
-.lvs-navtop-profile {
-    position: relative;
-}
-
-.lvs-navtop-profile-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 5px 10px;
-    border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    background: rgba(3, 7, 24, 0.95);
-    cursor: pointer;
-    font-size: 13px;
-    color: #f5f7ff;
-}
-
-.lvs-navtop-profile-avatar {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #ffe66b, #ff8a3d);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.lvs-navtop-profile-avatar-initial {
-    font-size: 11px;
-    font-weight: 600;
-}
-
-.lvs-navtop-profile-name {
-    max-width: 140px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.lvs-navtop-profile-arrow {
-    font-size: 10px;
-    opacity: 0.7;
-}
-
-.lvs-navtop-profile-menu {
-    position: absolute;
-    right: 0;
-    top: calc(100% + 6px);
-    min-width: 200px;
-    padding: 6px;
-    border-radius: 12px;
-    background: rgba(4, 10, 28, 0.98);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
-    display: none;
-}
-
-.lvs-navtop-profile-item {
-    display: block;
-    padding: 7px 9px;
-    border-radius: 8px;
-    font-size: 13px;
-    text-decoration: none;
-    color: #f5f7ff;
-}
-
-.lvs-navtop-profile-item:hover {
-    background: rgba(255, 255, 255, 0.04);
-}
-
-.lvs-navtop-profile-item--danger {
-    color: #ff8a8a;
-}
-
-.lvs-navtop-profile--open .lvs-navtop-profile-menu {
-    display: block;
-}
-
-/* footer уже есть в lvs.css; здесь ничего не трогаем */
-
-/* ===== Adaptive ===== */
-
-@media (max-width: 960px) {
-    .settings-card__header {
-        flex-direction: column;
-        align-items: flex-start;
+@media (max-width: 1040px) {
+    .settings-card {
+        max-width: 100%;
+        padding-inline: 24px;
     }
+}
 
-    .settings-card__meta {
-        flex-direction: row;
-        align-items: flex-start;
-        gap: 24px;
+@media (max-width: 900px) {
+    .settings-header {
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
-
-    .settings-two-columns {
+    .settings-header-stats {
+        justify-content: flex-start;
+    }
+    .settings-body {
         grid-template-columns: 1fr;
     }
 }
 
-@media (max-width: 720px) {
+@media (max-width: 640px) {
     .settings-page {
         padding-inline: 16px;
+        padding-top: 56px;
     }
-
+    .settings-card {
+        padding: 20px 16px 24px;
+    }
     .settings-avatar {
-        width: 132px;
-        height: 132px;
+        width: 96px;
+        height: 96px;
+        border-radius: 12px;
+    }
+    .settings-user-name {
+        font-size: 19px;
     }
 }
