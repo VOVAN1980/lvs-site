@@ -1,1 +1,468 @@
-1
+/* ===== Settings page layout ===== */
+
+.settings-page {
+    max-width: 1120px;
+    margin: 40px auto 32px;
+    padding: 0 24px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+    color: #f5f7ff;
+}
+
+/* Карточка настроек */
+
+.settings-card {
+    background: radial-gradient(circle at 0 0, rgba(91, 255, 203, 0.08), transparent 55%),
+                radial-gradient(circle at 100% 100%, rgba(0, 191, 255, 0.12), transparent 55%),
+                rgba(6, 12, 32, 0.96);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 26px 80px rgba(0, 0, 0, 0.75);
+    padding: 24px 28px 22px;
+}
+
+/* ===== Header ===== */
+
+.settings-card__header {
+    display: flex;
+    justify-content: space-between;
+    gap: 32px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.settings-card__avatar-block {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+
+/* квадратный, тонкий, стильный контейнер под аватар */
+
+.settings-avatar {
+    position: relative;
+    width: 160px;
+    height: 160px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at 0 0, #273b5c, #050815);
+}
+
+.settings-avatar__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.settings-avatar__upload {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.65), transparent);
+    opacity: 0;
+    cursor: pointer;
+    transition: opacity 0.25s ease;
+}
+
+.settings-avatar__upload span {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.settings-avatar__upload input {
+    display: none;
+}
+
+.settings-avatar:hover .settings-avatar__upload {
+    opacity: 1;
+}
+
+.settings-avatar:hover {
+    border-color: rgba(255, 255, 255, 0.35);
+}
+
+/* user info */
+
+.settings-card__user {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.settings-card__name {
+    font-size: 24px;
+    margin: 0;
+}
+
+.settings-card__role,
+.settings-card__location {
+    font-size: 13px;
+    opacity: 0.85;
+}
+
+/* метрики справа */
+
+.settings-card__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 180px;
+    align-items: flex-end;
+}
+
+.settings-card__meta-item {
+    font-size: 13px;
+}
+
+.settings-card__meta-label {
+    opacity: 0.7;
+}
+
+.settings-card__meta-value {
+    font-weight: 600;
+}
+
+/* ===== Body ===== */
+
+.settings-card__body {
+    padding-top: 18px;
+}
+
+.settings-section {
+    padding: 12px 0 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.settings-section:last-of-type {
+    border-bottom: none;
+}
+
+.settings-section__title {
+    font-size: 15px;
+    margin: 0 0 10px;
+    font-weight: 600;
+}
+
+/* поля */
+
+.settings-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.settings-field__label {
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+.settings-input {
+    background: rgba(3, 8, 23, 0.9);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    padding: 8px 10px;
+    font-size: 13px;
+    color: #f5f7ff;
+    outline: none;
+    width: 100%;
+}
+
+.settings-input:focus {
+    border-color: #3fd5ff;
+    box-shadow: 0 0 0 1px rgba(63, 213, 255, 0.4);
+}
+
+.settings-input--textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.settings-input--inline {
+    background: transparent;
+    border-radius: 6px;
+    padding: 2px 6px;
+}
+
+/* две колонки */
+
+.settings-two-columns {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+    gap: 16px 32px;
+}
+
+/* свитч */
+
+.settings-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+.settings-toggle__input {
+    display: none;
+}
+
+.settings-toggle__switch {
+    width: 34px;
+    height: 18px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.15);
+    position: relative;
+    transition: background 0.2s ease;
+}
+
+.settings-toggle__switch::before {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.2s ease;
+}
+
+.settings-toggle__input:checked + .settings-toggle__switch {
+    background: linear-gradient(135deg, #00c6ff, #00e29b);
+}
+
+.settings-toggle__input:checked + .settings-toggle__switch::before {
+    transform: translateX(14px);
+}
+
+.settings-toggle__label {
+    opacity: 0.9;
+}
+
+/* ===== Footer ===== */
+
+.settings-card__footer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    margin-top: 6px;
+}
+
+.settings-btn {
+    border-radius: 999px;
+    padding: 8px 16px;
+    font-size: 13px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    background: transparent;
+    color: #f5f7ff;
+}
+
+.settings-btn--primary {
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    border-color: transparent;
+}
+
+.settings-btn--primary:hover {
+    filter: brightness(1.05);
+}
+
+.settings-btn--ghost {
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(8, 14, 35, 0.9);
+}
+
+.settings-btn--ghost:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.settings-status {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+/* ===== Header / footer small tweaks (reuse существующую тему) ===== */
+
+.lvs-navtop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    background: radial-gradient(circle at 0 0, rgba(91, 255, 203, 0.1), transparent 55%),
+                rgba(4, 10, 28, 0.96);
+}
+
+.lvs-navtop-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.lvs-navtop-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.lvs-navtop-logo-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #6bffb7, #16a085);
+}
+
+.lvs-navtop-logo-text {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #f5f7ff;
+}
+
+.lvs-navtop-breadcrumb {
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+.lvs-navtop-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.lvs-navtop-link {
+    font-size: 13px;
+    opacity: 0.8;
+    text-decoration: none;
+}
+
+.lvs-navtop-link--active {
+    opacity: 1;
+    font-weight: 600;
+}
+
+.lvs-navtop-link:hover {
+    opacity: 1;
+}
+
+.lvs-navtop-profile {
+    position: relative;
+}
+
+.lvs-navtop-profile-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(3, 7, 24, 0.95);
+    cursor: pointer;
+    font-size: 13px;
+    color: #f5f7ff;
+}
+
+.lvs-navtop-profile-avatar {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #ffe66b, #ff8a3d);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lvs-navtop-profile-avatar-initial {
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.lvs-navtop-profile-name {
+    max-width: 140px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.lvs-navtop-profile-arrow {
+    font-size: 10px;
+    opacity: 0.7;
+}
+
+.lvs-navtop-profile-menu {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 6px);
+    min-width: 200px;
+    padding: 6px;
+    border-radius: 12px;
+    background: rgba(4, 10, 28, 0.98);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
+    display: none;
+}
+
+.lvs-navtop-profile-item {
+    display: block;
+    padding: 7px 9px;
+    border-radius: 8px;
+    font-size: 13px;
+    text-decoration: none;
+    color: #f5f7ff;
+}
+
+.lvs-navtop-profile-item:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.lvs-navtop-profile-item--danger {
+    color: #ff8a8a;
+}
+
+.lvs-navtop-profile--open .lvs-navtop-profile-menu {
+    display: block;
+}
+
+/* footer уже есть в lvs.css; здесь ничего не трогаем */
+
+/* ===== Adaptive ===== */
+
+@media (max-width: 960px) {
+    .settings-card__header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .settings-card__meta {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 24px;
+    }
+
+    .settings-two-columns {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 720px) {
+    .settings-page {
+        padding-inline: 16px;
+    }
+
+    .settings-avatar {
+        width: 132px;
+        height: 132px;
+    }
+}
