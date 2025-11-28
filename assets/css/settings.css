@@ -1,252 +1,327 @@
-/* ===== Layout for settings page ===== */
-
-html,
-body {
-    height: 100%;
-}
-
+/* Общий контейнер страницы настроек */
 .settings-page {
-    max-width: 1160px;
-    margin: 40px auto 32px;
-    padding: 0 24px 40px;
-    color: #f5f7ff;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+    padding: 32px 16px 80px;
 }
 
+@media (min-width: 1024px) {
+    .settings-page {
+        padding-top: 40px;
+        padding-bottom: 96px;
+    }
+}
+
+/* Центрируем и ограничиваем ширину, чтобы не было "во весь монитор" */
+.settings-layout {
+    max-width: 1120px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Breadcrumb LVS / Account */
 .settings-breadcrumb {
     font-size: 12px;
-    opacity: 0.65;
-    margin-bottom: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 4px;
 }
 
-/* main card */
-
+/* Карточки */
 .settings-card {
-    background: radial-gradient(circle at 0 0, rgba(67, 154, 255, 0.16), transparent 52%),
-                radial-gradient(circle at 100% 100%, rgba(112, 255, 195, 0.12), transparent 55%),
-                rgba(4, 11, 30, 0.96);
-    border-radius: 24px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.65);
-    padding: 28px 32px 28px;
+    background: rgba(4, 12, 24, 0.94);
+    border-radius: 18px;
+    padding: 20px 18px;
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.02);
 }
 
-/* ===== Top summary ===== */
+@media (min-width: 1024px) {
+    .settings-card {
+        padding: 24px 28px;
+    }
 
-.settings-summary {
-    display: flex;
-    justify-content: space-between;
-    gap: 32px;
-    margin-bottom: 32px;
+    .settings-card--top {
+        padding: 24px 28px 22px;
+    }
 }
 
-.settings-summary__left {
+/* Верхний блок: аватар + резюме + метрики */
+.settings-top {
     display: flex;
+    flex-direction: column;
     gap: 24px;
-    min-width: 0;
 }
 
+@media (min-width: 900px) {
+    .settings-top {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: stretch;
+        gap: 32px;
+    }
+}
+
+.settings-top__left {
+    display: flex;
+    gap: 20px;
+}
+
+@media (min-width: 900px) {
+    .settings-top__left {
+        flex: 1 1 auto;
+    }
+}
+
+/* Аватар */
 .settings-avatar {
-    position: relative;
-    width: 168px;
-    height: 168px;
-    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.settings-avatar__image {
+    width: 190px;
+    height: 190px;
+    border-radius: 24px;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    background: radial-gradient(circle at 20% 0, #6bffb7, #0074ff);
-    flex-shrink: 0;
-}
-
-.settings-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-.settings-avatar__overlay {
-    position: absolute;
-    inset: auto 0 0 0;
-    height: 46px;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+    background: radial-gradient(circle at 20% 0%, #18ffe6 0, #0b1220 55%);
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity 0.2s ease;
 }
 
-.settings-avatar:hover .settings-avatar__overlay {
-    opacity: 1;
+.settings-avatar__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-.settings-avatar__overlay input {
+.settings-avatar__input {
     display: none;
 }
 
-.settings-avatar__overlay span {
+.settings-avatar__upload {
     font-size: 13px;
-    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(15, 23, 42, 0.9);
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.18s ease, border-color 0.18s ease, transform 0.1s ease;
+    white-space: nowrap;
 }
 
-.settings-summary__identity {
+.settings-avatar__upload:hover {
+    background: rgba(37, 99, 235, 0.42);
+    border-color: rgba(96, 165, 250, 0.9);
+}
+
+.settings-avatar__upload:active {
+    transform: translateY(1px);
+}
+
+/* Основная инфа рядом с аватаром */
+.settings-summary {
     display: flex;
     flex-direction: column;
     gap: 8px;
     min-width: 0;
 }
 
-.settings-input--lg {
+/* Метрики справа */
+.settings-top__right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.settings-metrics {
+    display: flex;
+    flex-direction: row;
+    gap: 18px;
+}
+
+@media (max-width: 899px) {
+    .settings-top__right {
+        justify-content: flex-start;
+    }
+
+    .settings-metrics {
+        flex-wrap: wrap;
+    }
+}
+
+.settings-metric {
+    min-width: 90px;
+}
+
+.settings-metric__label {
+    font-size: 11px;
+    opacity: 0.7;
+    margin-bottom: 4px;
+}
+
+.settings-metric__value {
     font-size: 18px;
     font-weight: 600;
 }
 
+/* Теги Human / Builder */
 .settings-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    margin-top: 4px;
+    margin-top: 6px;
 }
 
 .settings-tag {
     font-size: 11px;
-    padding: 4px 8px;
+    padding: 4px 10px;
     border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    opacity: 0.9;
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(148, 163, 184, 0.4);
 }
 
-/* stats */
-
-.settings-summary__right {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-end;
-    min-width: 230px;
-}
-
-.settings-stats {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding-left: 18px;
-    border-left: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.settings-stat {
-    display: flex;
-    justify-content: space-between;
-    gap: 16px;
-    font-size: 13px;
-}
-
-.settings-stat__label {
-    opacity: 0.7;
-}
-
-.settings-stat__value {
+/* Заголовки секций */
+.settings-section-title {
+    font-size: 15px;
     font-weight: 600;
+    margin-bottom: 14px;
 }
 
-/* ===== Sections & fields ===== */
-
-.settings-section {
-    padding-top: 18px;
-    margin-top: 18px;
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.settings-section:first-of-type {
-    border-top: none;
-    padding-top: 0;
-    margin-top: 0;
-}
-
-.settings-section__title {
-    font-size: 16px;
-    font-weight: 600;
-    margin: 0 0 12px;
-}
-
-.settings-two-cols {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 16px 24px;
-    margin-top: 8px;
-}
-
+/* Поля формы */
 .settings-field {
     display: flex;
     flex-direction: column;
     gap: 6px;
-    margin-top: 8px;
+    margin-bottom: 12px;
 }
 
 .settings-field__label {
-    font-size: 13px;
+    font-size: 12px;
     opacity: 0.8;
 }
 
-/* inputs */
-
-.settings-input,
-.settings-textarea,
-.settings-select {
+/* Общий вид инпутов */
+.settings-input {
     width: 100%;
-    box-sizing: border-box;
     border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    background: rgba(3, 9, 26, 0.9);
-    color: #f5f7ff;
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    background: rgba(15, 23, 42, 0.9);
+    padding: 8px 10px;
     font-size: 13px;
-    padding: 9px 11px;
+    color: #f9fafb;
     outline: none;
+    transition: border-color 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
 }
 
-.settings-textarea {
+.settings-input:focus {
+    border-color: rgba(96, 165, 250, 0.98);
+    box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.6);
+    background: rgba(15, 23, 42, 1);
+}
+
+/* Однострочные поля вверху */
+.settings-input--line {
+    border-radius: 999px;
+}
+
+/* textarea */
+.settings-input--textarea {
     resize: vertical;
-    min-height: 72px;
-    line-height: 1.5;
+    min-height: 80px;
+    line-height: 1.4;
 }
 
-.settings-input::placeholder,
-.settings-textarea::placeholder {
-    opacity: 0.4;
+/* select */
+.settings-input--select {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, #9ca3af 50%),
+        linear-gradient(135deg, #9ca3af 50%, transparent 50%);
+    background-position: calc(100% - 14px) 50%,
+        calc(100% - 9px) 50%;
+    background-size: 6px 6px;
+    background-repeat: no-repeat;
+    padding-right: 28px;
 }
 
-.settings-input:focus,
-.settings-textarea:focus,
-.settings-select:focus {
-    border-color: rgba(104, 196, 255, 0.9);
-    box-shadow: 0 0 0 1px rgba(104, 196, 255, 0.4);
+/* Сетка 2 колонки */
+.settings-grid {
+    display: grid;
+    gap: 12px;
 }
 
-/* ===== Toggles ===== */
+.settings-grid--2 {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 900px) {
+    .settings-grid--2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+.settings-grid--stretch > .settings-field {
+    height: 100%;
+}
+
+/* Чекбоксы (driver license) */
+.settings-checkboxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.settings-checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.settings-checkbox input {
+    width: 14px;
+    height: 14px;
+    accent-color: #38bdf8;
+}
+
+/* Тогглы */
+.settings-toggles {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 8px 0 18px;
+}
 
 .settings-toggle {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 10px;
-    margin-top: 10px;
+    gap: 8px;
     cursor: pointer;
-    font-size: 13px;
+    user-select: none;
 }
 
 .settings-toggle input {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
+    display: none;
 }
 
 .settings-toggle__slider {
-    width: 34px;
-    height: 18px;
+    width: 38px;
+    height: 20px;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.18);
+    background: rgba(15, 23, 42, 0.9);
+    border: 1px solid rgba(148, 163, 184, 0.6);
     position: relative;
-    flex-shrink: 0;
-    transition: background 0.18s ease;
+    transition: background 0.18s ease, border-color 0.18s ease;
 }
 
 .settings-toggle__slider::before {
@@ -256,215 +331,68 @@ body {
     left: 2px;
     width: 14px;
     height: 14px;
-    border-radius: 50%;
-    background: #ffffff;
+    border-radius: 999px;
+    background: #e5e7eb;
     transition: transform 0.18s ease;
 }
 
 .settings-toggle input:checked + .settings-toggle__slider {
-    background: linear-gradient(135deg, #00c6ff, #00d27f);
+    background: rgba(34, 197, 94, 0.85);
+    border-color: rgba(34, 197, 94, 0.9);
 }
 
 .settings-toggle input:checked + .settings-toggle__slider::before {
     transform: translateX(16px);
 }
 
-.settings-toggle__text {
-    opacity: 0.9;
-}
-
-/* ===== Actions ===== */
-
-.settings-actions {
-    margin-top: 22px;
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-}
-
-/* reuse buttons from profile */
-
-.btn {
-    border-radius: 999px;
-    padding: 8px 16px;
-    border: 1px solid transparent;
-    background: transparent;
-    color: #f5f7ff;
+.settings-toggle__label {
     font-size: 13px;
+}
+
+/* Кнопки сохранения */
+.settings-card--actions .settings-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+/* Базовые кнопки, чтобы не зависеть от других стилей */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    border: 1px solid transparent;
     cursor: pointer;
+    user-select: none;
+    transition: background 0.18s ease, border-color 0.18s ease, transform 0.08s ease,
+        box-shadow 0.18s ease;
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #00c6ff, #0072ff);
-    border-color: transparent;
+    background: linear-gradient(135deg, #0ea5e9, #2563eb);
+    border-color: rgba(191, 219, 254, 0.5);
+    color: #f9fafb;
+    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.45);
 }
 
 .btn-primary:hover {
-    filter: brightness(1.07);
+    box-shadow: 0 16px 40px rgba(37, 99, 235, 0.65);
 }
 
-.btn-ghost {
-    border-color: rgba(255, 255, 255, 0.26);
-    background: rgba(4, 11, 30, 0.7);
+.btn-secondary {
+    background: rgba(15, 23, 42, 0.9);
+    border-color: rgba(148, 163, 184, 0.5);
+    color: #e5e7eb;
 }
 
-.btn-ghost:hover {
-    border-color: rgba(255, 255, 255, 0.45);
+.btn-secondary:hover {
+    background: rgba(30, 64, 175, 0.4);
 }
 
-/* ===== Header nav tweaks (reuse look of profile) ===== */
-
-.lvs-nav--main {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
-.lvs-nav__link {
-    font-size: 14px;
-    opacity: 0.8;
-    text-decoration: none;
-    color: #f5f7ff;
-}
-
-.lvs-nav__link--active {
-    opacity: 1;
-    font-weight: 600;
-}
-
-.lvs-nav__link:hover {
-    opacity: 1;
-}
-
-.lvs-nav__spacer {
-    flex: 1;
-}
-
-/* profile-menu reused */
-
-.profile-menu {
-    position: relative;
-}
-.profile-menu__trigger {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 10px;
-    border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(4, 11, 30, 0.7);
-    color: #f5f7ff;
-    cursor: pointer;
-    font-size: 13px;
-}
-.profile-menu__trigger:hover {
-    border-color: rgba(255, 255, 255, 0.25);
-}
-.profile-menu__avatar {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 20%, #ffe66b, #ff8a3d);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-.profile-menu__avatar-inner {
-    font-size: 11px;
-    font-weight: 600;
-}
-.profile-menu__name {
-    max-width: 140px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-.profile-menu__arrow {
-    font-size: 10px;
-    opacity: 0.7;
-}
-
-.profile-menu__dropdown {
-    position: absolute;
-    right: 0;
-    top: calc(100% + 8px);
-    min-width: 220px;
-    padding: 8px;
-    border-radius: 12px;
-    background: rgba(4, 11, 30, 0.98);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
-    display: none;
-    z-index: 30;
-}
-.profile-menu--open .profile-menu__dropdown {
-    display: block;
-}
-.profile-menu__item {
-    display: block;
-    padding: 8px 10px;
-    border-radius: 8px;
-    font-size: 13px;
-    color: #f5f7ff;
-    text-decoration: none;
-}
-.profile-menu__item:hover {
-    background: rgba(255, 255, 255, 0.04);
-}
-.profile-menu__item--danger {
-    color: #ff8a8a;
-}
-
-/* ===== Responsive ===== */
-
-@media (max-width: 960px) {
-    .settings-page {
-        padding-inline: 16px;
-        margin-top: 24px;
-    }
-
-    .settings-card {
-        padding-inline: 20px;
-    }
-
-    .settings-summary {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .settings-summary__right {
-        border-top: 1px solid rgba(255, 255, 255, 0.08);
-        margin-top: 16px;
-        padding-top: 12px;
-        justify-content: flex-start;
-        min-width: 0;
-    }
-
-    .settings-stats {
-        border-left: none;
-        padding-left: 0;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 12px 24px;
-    }
-
-    .settings-two-cols {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 720px) {
-    .settings-avatar {
-        width: 132px;
-        height: 132px;
-    }
-
-    .settings-summary__identity .settings-input--lg {
-        font-size: 16px;
-    }
-
-    .lvs-nav--main {
-        gap: 10px;
-    }
+.btn:active {
+    transform: translateY(1px);
 }
