@@ -1,421 +1,225 @@
-/* Общий контейнер страницы настроек */
-.settings-page {
-    padding: 32px 16px 80px;
-}
-
-@media (min-width: 1024px) {
-    .settings-page {
-        padding-top: 40px;
-        padding-bottom: 96px;
-    }
-}
-
-/* Центрируем и ограничиваем ширину, чтобы не было "во весь монитор" */
-.settings-layout {
-    max-width: 1120px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-}
-
-/* Breadcrumb LVS / Account */
-.settings-breadcrumb {
-    font-size: 12px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    opacity: 0.7;
-    margin-bottom: 4px;
-}
-
-/* Карточки */
-.settings-card {
-    background: rgba(4, 12, 24, 0.94);
-    border-radius: 18px;
-    padding: 20px 18px;
-    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.45);
-    border: 1px solid rgba(255, 255, 255, 0.02);
-}
-
-@media (min-width: 1024px) {
-    .settings-card {
-        padding: 24px 28px;
-    }
-
-    .settings-card--top {
-        padding: 24px 28px 22px;
-    }
-}
-
-/* Верхний блок: аватар + резюме + метрики */
-.settings-top {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-}
-
-@media (min-width: 900px) {
-    .settings-top {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: stretch;
-        gap: 32px;
-    }
-}
-
-.settings-top__left {
-    display: flex;
-    gap: 20px;
-}
-
-@media (min-width: 900px) {
-    .settings-top__left {
-        flex: 1 1 auto;
-    }
-}
-
-/* Аватар */
-.settings-avatar {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-}
-
-.settings-avatar__image {
-    width: 190px;
-    height: 190px;
-    border-radius: 24px;
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(140deg, #041226 0%, #002f2f 100%);
+    font-family: "Inter", sans-serif;
+    color: #d9e5f3;
+    height: 100vh;
     overflow: hidden;
-    background: radial-gradient(circle at 20% 0%, #18ffe6 0, #0b1220 55%);
+}
+
+/* HEADER */
+.lvs-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 52px;
+    background: rgba(0, 10, 25, 0.65);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+    border-bottom: 1px solid #0f1c33;
+    z-index: 100;
+}
+
+.lvs-header-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.brand-dot {
+    width: 8px;
+    height: 8px;
+    background: #21ffb3;
+    border-radius: 50%;
+}
+
+.lvs-header-right a {
+    margin-right: 22px;
+    color: #b7c9df;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.lvs-header-right a.active {
+    color: #fff;
+}
+
+.user-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: #092136;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+.user-dot {
+    width: 8px;
+    height: 8px;
+    background: orange;
+    border-radius: 50%;
+}
+
+/* FOOTER */
+.lvs-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    background: rgba(0, 10, 25, 0.65);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid #0f1c33;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 14px;
+    color: #8fa3bf;
+    z-index: 100;
 }
 
-.settings-avatar__image img {
-    width: 100%;
-    height: 100%;
+/* MAIN SCROLL SECTION */
+.content {
+    position: absolute;
+    top: 52px;
+    bottom: 40px;
+    left: 0;
+    right: 0;
+    overflow-y: auto;
+    padding: 40px 60px;
+}
+
+/* GENERAL BLOCKS */
+.section {
+    background: rgba(0, 0, 0, 0.28);
+    padding: 28px;
+    border-radius: 16px;
+    margin-bottom: 35px;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+/* PROFILE HEADER */
+.profile-header {
+    display: grid;
+    grid-template-columns: 220px 1fr 240px;
+    gap: 40px;
+    background: rgba(0, 0, 0, 0.28);
+    padding: 30px;
+    border-radius: 18px;
+    margin-bottom: 40px;
+}
+
+.avatar-block {
+    text-align: center;
+}
+
+.avatar-block img {
+    width: 200px;
+    height: 200px;
+    border-radius: 18px;
     object-fit: cover;
 }
 
-.settings-avatar__input {
+.avatar-upload {
+    display: block;
+    margin-top: 12px;
+    cursor: pointer;
+    color: #21ffb3;
+    font-size: 14px;
+}
+
+.avatar-upload input {
     display: none;
 }
 
-.settings-avatar__upload {
-    font-size: 13px;
-    padding: 6px 14px;
-    border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    background: rgba(15, 23, 42, 0.9);
-    cursor: pointer;
-    user-select: none;
-    transition: background 0.18s ease, border-color 0.18s ease, transform 0.1s ease;
-    white-space: nowrap;
-}
-
-.settings-avatar__upload:hover {
-    background: rgba(37, 99, 235, 0.42);
-    border-color: rgba(96, 165, 250, 0.9);
-}
-
-.settings-avatar__upload:active {
-    transform: translateY(1px);
-}
-
-/* Основная инфа рядом с аватаром */
-.settings-summary {
+.profile-meta {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    min-width: 0;
-}
-
-/* Метрики справа */
-.settings-top__right {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-}
-
-.settings-metrics {
-    display: flex;
-    flex-direction: row;
-    gap: 18px;
-}
-
-@media (max-width: 899px) {
-    .settings-top__right {
-        justify-content: flex-start;
-    }
-
-    .settings-metrics {
-        flex-wrap: wrap;
-    }
-}
-
-.settings-metric {
-    min-width: 90px;
-}
-
-.settings-metric__label {
-    font-size: 11px;
-    opacity: 0.7;
-    margin-bottom: 4px;
-}
-
-.settings-metric__value {
-    font-size: 18px;
-    font-weight: 600;
-}
-
-/* Теги Human / Builder */
-.settings-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 6px;
-}
-
-.settings-tag {
-    font-size: 11px;
-    padding: 4px 10px;
-    border-radius: 999px;
-    background: rgba(15, 23, 42, 0.85);
-    border: 1px solid rgba(148, 163, 184, 0.4);
-}
-
-/* Заголовки секций */
-.settings-section-title {
-    font-size: 15px;
-    font-weight: 600;
-    margin-bottom: 14px;
-}
-
-/* Поля формы */
-.settings-field {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: 12px;
-}
-
-.settings-field__label {
-    font-size: 12px;
-    opacity: 0.8;
-}
-
-/* Общий вид инпутов */
-.settings-input {
-    width: 100%;
-    border-radius: 10px;
-    border: 1px solid rgba(148, 163, 184, 0.4);
-    background: rgba(15, 23, 42, 0.9);
-    padding: 8px 10px;
-    font-size: 13px;
-    color: #f9fafb;
-    outline: none;
-    transition: border-color 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
-}
-
-.settings-input:focus {
-    border-color: rgba(96, 165, 250, 0.98);
-    box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.6);
-    background: rgba(15, 23, 42, 1);
-}
-
-/* Однострочные поля вверху */
-.settings-input--line {
-    border-radius: 999px;
-}
-
-/* textarea */
-.settings-input--textarea {
-    resize: vertical;
-    min-height: 80px;
-    line-height: 1.4;
-}
-
-/* select */
-.settings-input--select {
-    appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    background-image: linear-gradient(45deg, transparent 50%, #9ca3af 50%),
-        linear-gradient(135deg, #9ca3af 50%, transparent 50%);
-    background-position: calc(100% - 14px) 50%,
-        calc(100% - 9px) 50%;
-    background-size: 6px 6px;
-    background-repeat: no-repeat;
-    padding-right: 28px;
-}
-
-/* Сетка 2 колонки */
-.settings-grid {
-    display: grid;
     gap: 12px;
 }
 
-.settings-grid--2 {
-    grid-template-columns: minmax(0, 1fr);
+.profile-stats {
+    text-align: right;
 }
 
-@media (min-width: 900px) {
-    .settings-grid--2 {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
+.stat span {
+    color: #7fa0c7;
+    display: block;
 }
 
-.settings-grid--stretch > .settings-field {
-    height: 100%;
+/* ELEMENTS */
+.input-line {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid #19324d;
+    background: rgba(0, 0, 0, 0.22);
+    color: white;
+    font-size: 15px;
 }
 
-/* Чекбоксы (driver license) */
-.settings-checkboxes {
+.textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid #19324d;
+    background: rgba(0, 0, 0, 0.22);
+    color: white;
+    font-size: 15px;
+}
+
+.label {
+    display: block;
+    margin-bottom: 6px;
+    color: #9ab2d4;
+    font-size: 14px;
+}
+
+.row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* TAGS */
+.tag-row {
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 4px;
+    gap: 10px;
+    margin-top: 10px;
 }
 
-.settings-checkbox {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
+.tag {
+    padding: 4px 10px;
+    background: rgba(33, 255, 179, 0.12);
+    border: 1px solid #21ffb3;
+    border-radius: 12px;
     font-size: 12px;
+}
+
+/* ADD BUTTON */
+.add-btn {
+    margin-top: 18px;
+    padding: 10px 16px;
+    background: #113859;
+    border: 1px solid #1e5887;
+    border-radius: 8px;
+    color: #21ffb3;
     cursor: pointer;
-    user-select: none;
 }
 
-.settings-checkbox input {
-    width: 14px;
-    height: 14px;
-    accent-color: #38bdf8;
-}
-
-/* Тогглы */
-.settings-toggles {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin: 8px 0 18px;
-}
-
-.settings-toggle {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
+/* SAVE BUTTON */
+.save-btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    background: #21ffb3;
+    color: #002020;
+    border-radius: 10px;
+    border: none;
     cursor: pointer;
-    user-select: none;
-}
-
-.settings-toggle input {
-    display: none;
-}
-
-.settings-toggle__slider {
-    width: 38px;
-    height: 20px;
-    border-radius: 999px;
-    background: rgba(15, 23, 42, 0.9);
-    border: 1px solid rgba(148, 163, 184, 0.6);
-    position: relative;
-    transition: background 0.18s ease, border-color 0.18s ease;
-}
-
-.settings-toggle__slider::before {
-    content: "";
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    width: 14px;
-    height: 14px;
-    border-radius: 999px;
-    background: #e5e7eb;
-    transition: transform 0.18s ease;
-}
-
-.settings-toggle input:checked + .settings-toggle__slider {
-    background: rgba(34, 197, 94, 0.85);
-    border-color: rgba(34, 197, 94, 0.9);
-}
-
-.settings-toggle input:checked + .settings-toggle__slider::before {
-    transform: translateX(16px);
-}
-
-.settings-toggle__label {
-    font-size: 13px;
-}
-
-/* Кнопки сохранения */
-.settings-card--actions .settings-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 8px;
-}
-
-/* Базовые кнопки, чтобы не зависеть от других стилей */
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px 18px;
-    border-radius: 999px;
-    font-size: 13px;
-    border: 1px solid transparent;
-    cursor: pointer;
-    user-select: none;
-    transition: background 0.18s ease, border-color 0.18s ease, transform 0.08s ease,
-        box-shadow 0.18s ease;
-}
-
-.btn-primary {
-    background: linear-gradient(135deg, #0ea5e9, #2563eb);
-    border-color: rgba(191, 219, 254, 0.5);
-    color: #f9fafb;
-    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.45);
-}
-
-.btn-primary:hover {
-    box-shadow: 0 16px 40px rgba(37, 99, 235, 0.65);
-}
-
-.btn-secondary {
-    background: rgba(15, 23, 42, 0.9);
-    border-color: rgba(148, 163, 184, 0.5);
-    color: #e5e7eb;
-}
-
-.btn-secondary:hover {
-    background: rgba(30, 64, 175, 0.4);
-}
-
-.btn:active {
-    transform: translateY(1px);
-}
-/* --- Layout fix for settings page --- */
-
-html,
-body {
-    height: 100%;
-    overflow-y: auto; /* включаем нормальный скролл, если базовый css его режет */
-}
-
-/* Делаем layout: шапка сверху, контент растет, футер внизу */
-body.lvs-settings-page {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-body.lvs-settings-page .settings-page {
-    flex: 1 0 auto;   /* контент тянется и может скроллиться */
-}
-
-body.lvs-settings-page .lvs-footer {
-    flex: 0 0 auto;   /* футер прилично сидит внизу */
- }
+    margin-bottom: 40px;
 }
