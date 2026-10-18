@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LVS — задания рядом, оплата за результат</title>
+<meta name="description" content="LVS: выполняйте задания рядом с вами и получайте оплату за доказанный результат. Фото, видео и live с местом и временем.">
+<meta name="theme-color" content="#0a0f1e">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta property="og:title" content="LVS — задания рядом, оплата за результат">
+<meta property="og:description" content="Фото, видео и live с местом и временем. Оплата за доказанный результат.">
+<meta property="og:image" content="https://app.lvs.network/icon-512.png">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+  :root {
+    --bg: #0a0f1e; --bg2: #10172b; --card: #141c33; --line: #24304f;
+    --text: #e9eefb; --muted: #9aa6c4; --blue: #4f8cff; --mint: #38e1b0;
+    --amber: #ffc24b; --violet: #8b6cff; --radius: 20px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--text);
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+  header { position: sticky; top: 0; z-index: 5; backdrop-filter: blur(14px);
+    background: color-mix(in srgb, var(--bg) 78%, transparent); border-bottom: 1px solid var(--line); }
+  .bar { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 900; letter-spacing: 2px; font-size: 20px; text-decoration: none; }
+  .brand img { width: 30px; height: 30px; border-radius: 9px; }
+  .lang { display: flex; gap: 4px; }
+  .lang button { background: transparent; color: var(--muted); border: 1px solid var(--line);
+    border-radius: 10px; padding: 6px 10px; font-weight: 700; cursor: pointer; }
+  .lang button.on { color: var(--text); border-color: var(--blue); }
+  .hero { display: grid; grid-template-columns: 1.15fr .85fr; gap: 28px; align-items: center; padding: 56px 0 40px; }
+  .pill { display: inline-flex; gap: 8px; align-items: center; padding: 6px 12px; border-radius: 999px;
+    background: color-mix(in srgb, var(--mint) 14%, transparent); color: var(--mint); font-weight: 700; font-size: 13px; }
+  h1 { font-size: clamp(34px, 6vw, 58px); line-height: 1.04; margin: 16px 0 14px; letter-spacing: -1.5px; font-weight: 900; }
+  h1 span { background: linear-gradient(90deg, var(--blue), var(--mint)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .lead { color: var(--muted); font-size: 18px; line-height: 1.55; max-width: 560px; }
+  .cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 26px; }
+  .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 20px; border-radius: 14px;
+    font-weight: 800; text-decoration: none; border: 1px solid var(--line); cursor: pointer; font-size: 16px; }
+  .btn.primary { background: linear-gradient(135deg, var(--blue), #6b5cff); border: 0; color: white; }
+  .btn.ghost { background: var(--card); }
+  .orbit { width: 100%; max-width: 420px; justify-self: center; filter: drop-shadow(0 30px 80px rgba(79,140,255,.35));
+    animation: float 7s ease-in-out infinite; }
+  @keyframes float { 50% { transform: translateY(-10px) rotate(2deg); } }
+  section { padding: 34px 0; }
+  h2 { font-size: clamp(26px, 4vw, 36px); margin: 0 0 18px; letter-spacing: -.6px; }
+  .grid { display: grid; gap: 14px; grid-template-columns: repeat(3, 1fr); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
+  .card h3 { margin: 10px 0 6px; font-size: 18px; }
+  .card p { margin: 0; color: var(--muted); line-height: 1.5; }
+  .num { width: 36px; height: 36px; border-radius: 12px; display: grid; place-items: center; font-weight: 900;
+    background: color-mix(in srgb, var(--blue) 18%, transparent); color: var(--blue); }
+  .ico { font-size: 26px; }
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .unit { font-weight: 900; font-size: 30px; letter-spacing: 1px; }
+  .unit.vu { color: var(--mint); } .unit.bon { color: var(--amber); }
+  .bonus { background: linear-gradient(135deg, color-mix(in srgb, var(--amber) 22%, var(--card)), var(--card));
+    border-color: color-mix(in srgb, var(--amber) 40%, var(--line)); }
+  .invite { display: none; margin-top: 18px; }
+  .invite.on { display: block; }
+  .dl { display: flex; gap: 12px; flex-wrap: wrap; }
+  .soon { color: var(--muted); font-size: 14px; margin-top: 10px; }
+  footer { border-top: 1px solid var(--line); color: var(--muted); padding: 26px 0 40px; font-size: 14px; }
+  footer .row { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  @media (max-width: 820px) {
+    .hero { grid-template-columns: 1fr; padding-top: 28px; }
+    .orbit { max-width: 240px; order: -1; }
+    .grid, .split { grid-template-columns: 1fr; }
+  }
+  body.tg header { display: none; }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="#"><img src="icon-192.png" alt="">LVS</a>
+    <div class="lang"><button data-lang="ru">RU</button><button data-lang="en">EN</button></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <div>
+      <span class="pill" data-t="pill"></span>
+      <h1 data-t="h1"></h1>
+      <p class="lead" data-t="lead"></p>
+      <div class="cta">
+        <a class="btn primary" id="get" href="https://t.me/LVSNetworkBot" data-t="get"></a>
+        <a class="btn ghost" href="#how" data-t="how"></a>
+      </div>
+      <div class="card bonus invite" id="invite"><b data-t="invited"></b><p data-t="invitedText"></p></div>
+    </div>
+    <img class="orbit" src="lvs-orbit.png" alt="LVS">
+  </div>
+
+  <section id="how">
+    <h2 data-t="howTitle"></h2>
+    <div class="grid">
+      <div class="card"><div class="num">1</div><h3 data-t="s1"></h3><p data-t="s1t"></p></div>
+      <div class="card"><div class="num">2</div><h3 data-t="s2"></h3><p data-t="s2t"></p></div>
+      <div class="card"><div class="num">3</div><h3 data-t="s3"></h3><p data-t="s3t"></p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 data-t="whyTitle"></h2>
+    <div class="grid">
+      <div class="card"><div class="ico">📸</div><h3 data-t="w1"></h3><p data-t="w1t"></p></div>
+      <div class="card"><div class="ico">⚖️</div><h3 data-t="w2"></h3><p data-t="w2t"></p></div>
+      <div class="card"><div class="ico">🔒</div><h3 data-t="w3"></h3><p data-t="w3t"></p></div>
+      <div class="card"><div class="ico">🌍</div><h3 data-t="w4"></h3><p data-t="w4t"></p></div>
+      <div class="card"><div class="ico">💬</div><h3 data-t="w5"></h3><p data-t="w5t"></p></div>
+      <div class="card"><div class="ico">🛡️</div><h3 data-t="w6"></h3><p data-t="w6t"></p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 data-t="moneyTitle"></h2>
+    <div class="split">
+      <div class="card"><div class="unit vu">VU</div><p data-t="vu"></p></div>
+      <div class="card bonus"><div class="unit bon">BON</div><p data-t="bon"></p></div>
+    </div>
+  </section>
+
+  <section id="get-lvs">
+    <h2 data-t="getTitle"></h2>
+    <div class="card">
+      <p data-t="getText" style="margin-bottom:16px"></p>
+      <div class="dl">
+        <a class="btn primary" id="get2" href="https://t.me/LVSNetworkBot" data-t="android"></a>
+        <span class="btn ghost" data-t="iphone"></span>
+      </div>
+      <p class="soon" data-t="soon"></p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap row">
+    <span>© 2025–2026 LVS</span>
+    <span><a href="https://t.me/LVSNetworkBot">@LVSNetworkBot</a></span>
+  </div>
+</footer>
+
+<script>
+const T = {
+  ru: {
+    pill: '● Задания рядом с вами',
+    h1: 'Делайте реальные дела — <span>получайте оплату за доказанный результат</span>',
+    lead: 'Сфотографировать вывеску, проверить, открыт ли магазин, показать место в live — кто-то рядом делает, LVS подтверждает где и когда, заказчик платит.',
+    get: 'Получить LVS', how: 'Как это работает',
+    invited: 'Вас пригласили в LVS',
+    invitedText: 'Установите LVS и подтвердите телефон через нашего бота — получите 10 BON на первые задания.',
+    howTitle: 'Как это работает',
+    s1: 'Найдите или создайте задание', s1t: 'Задания рядом с вами: с ценой, сроком и тем, что нужно прислать — фото, видео или live.',
+    s2: 'Сделайте и докажите', s2t: 'Снимайте прямо в приложении: место и время подтверждаются автоматически.',
+    s3: 'Получите оплату', s3t: 'Заказчик принимает — деньги сразу ваши. Молчит до конца срока — оплата приходит сама.',
+    whyTitle: 'Почему LVS',
+    w1: 'Доказательства, а не слова', w1t: 'Фото, видео и live с местом и временем. Лица и номера машин можно скрыть.',
+    w2: 'Честные решения', w2t: 'Спорные случаи решаются по данным — место, время, снимки — а не по словам.',
+    w3: 'Приватно', w3t: 'Чат и материалы между сторонами зашифрованы. Серверы не хранят ваши фото и видео.',
+    w4: '30 языков', w4t: 'Приложение на вашем языке, а перевод чата и видео — для общения с кем угодно.',
+    w5: 'Чат по заданию', w5t: 'Переписка с исполнителем или заказчиком прямо в задании — как в Telegram.',
+    w6: 'Ваши деньги — у вас', w6t: 'Пополнение и вывод — на ваш собственный криптокошелёк.',
+    moneyTitle: 'VU и BON',
+    vu: 'VU — для платных заданий: 1 VU = 1 USDT/USDC. Пополняете и выводите на свой кошелёк.',
+    bon: 'BON — бонусы, чтобы попробовать LVS: 10 BON за подтверждённый телефон и +1 BON за каждого приглашённого друга. Ими платят за задания за BON.',
+    getTitle: 'Получить LVS',
+    getText: 'Наш бот в Telegram выдаст ссылку на приложение и поможет подтвердить телефон.',
+    android: 'Android — через бота', iphone: 'iPhone — скоро',
+    soon: 'Версия для iPhone готовится. Windows-версия — по запросу в боте.',
+  },
+  en: {
+    pill: '● Tasks near you',
+    h1: 'Do real things — <span>get paid for proven results</span>',
+    lead: 'Snap a shop sign, check if a store is open, show a place live — someone nearby does it, LVS proves where and when, the requester pays.',
+    get: 'Get LVS', how: 'How it works',
+    invited: 'You are invited to LVS',
+    invitedText: 'Install LVS and confirm your phone with our bot — get 10 BON for your first tasks.',
+    howTitle: 'How it works',
+    s1: 'Find or post a task', s1t: 'Tasks around you, with a price, a deadline and what to send — photo, video or live.',
+    s2: 'Do it and prove it', s2t: 'Capture right in the app: place and time are confirmed automatically.',
+    s3: 'Get paid', s3t: 'The requester accepts — the money is yours at once. Silent until the deadline — you are paid anyway.',
+    whyTitle: 'Why LVS',
+    w1: 'Proof, not words', w1t: 'Photos, videos and live calls with place and time. Faces and plates can be hidden.',
+    w2: 'Fair decisions', w2t: 'Disputes are decided from the data — place, time, media — not from words.',
+    w3: 'Private', w3t: 'Chats and media between the two sides are encrypted. Servers do not keep your photos and videos.',
+    w4: '30 languages', w4t: 'The app speaks your language, and chat and video translation lets you work with anyone.',
+    w5: 'Task chat', w5t: 'Talk to the worker or requester right inside the task — like Telegram.',
+    w6: 'Your money stays yours', w6t: 'Deposits and withdrawals go to your own crypto wallet.',
+    moneyTitle: 'VU and BON',
+    vu: 'VU — for paid tasks: 1 VU = 1 USDT/USDC. Deposit and withdraw to your own wallet.',
+    bon: 'BON — bonuses to try LVS: 10 BON for a confirmed phone and +1 BON for every invited friend. They pay for BON tasks.',
+    getTitle: 'Get LVS',
+    getText: 'Our Telegram bot gives you the app link and helps you confirm your phone.',
+    android: 'Android — via the bot', iphone: 'iPhone — soon',
+    soon: 'The iPhone version is on its way. Windows version on request in the bot.',
+  },
+};
+const tg = window.Telegram && window.Telegram.WebApp;
+const inTelegram = !!(tg && tg.initData);
+if (inTelegram) { document.body.classList.add('tg'); tg.ready(); tg.expand(); }
+function pick() {
+  const saved = (() => { try { return localStorage.getItem('lvs.lang'); } catch (_) { return null; } })();
+  const fromTg = inTelegram && tg.initDataUnsafe.user && tg.initDataUnsafe.user.language_code;
+  const lang = saved || fromTg || navigator.language || 'en';
+  return /^(ru|be|kk)/i.test(lang) ? 'ru' : (saved === 'ru' ? 'ru' : 'en');
+}
+function apply(lang) {
+  document.documentElement.lang = lang;
+  for (const el of document.querySelectorAll('[data-t]')) el.innerHTML = T[lang][el.dataset.t] || '';
+  for (const b of document.querySelectorAll('.lang button')) b.classList.toggle('on', b.dataset.lang === lang);
+}
+for (const b of document.querySelectorAll('.lang button')) b.onclick = () => {
+  try { localStorage.setItem('lvs.lang', b.dataset.lang); } catch (_) {}
+  apply(b.dataset.lang);
+};
+apply(pick());
+// An invite (?ref=CODE on the web, startapp=ref_CODE in Telegram) goes to the
+// bot, which remembers who invited this person.
+const params = new URLSearchParams(location.search);
+const start = (inTelegram && tg.initDataUnsafe.start_param) || params.get('ref') || params.get('startapp') || '';
+const code = (start.match(/^(?:ref_)?([a-z0-9]{8})$/) || [])[1];
+const bot = code ? 'https://t.me/LVSNetworkBot?start=ref_' + code : 'https://t.me/LVSNetworkBot';
+for (const id of ['get', 'get2']) {
+  const a = document.getElementById(id);
+  a.href = bot;
+  if (inTelegram) a.onclick = (e) => { e.preventDefault(); tg.openTelegramLink(bot); if (code) tg.close(); };
+}
+if (code) document.getElementById('invite').classList.add('on');
+</script>
+</body>
+</html>
