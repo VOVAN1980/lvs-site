@@ -3,340 +3,429 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#070b14">
+<meta name="theme-color" content="#0A1226">
 <title>LVS — задания рядом, оплата за результат</title>
 <meta name="description" content="LVS: делайте реальные дела рядом с вами и получайте оплату за доказанный результат.">
-<link rel="icon" href="lvs-orbit.png">
+<link rel="icon" href="img/orbit.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap&subset=cyrillic" rel="stylesheet">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
-:root{--bg:#070b14;--s1:#0e1526;--s2:#141d33;--line:rgba(255,255,255,.07);--tx:#e9eefc;--mu:#8793b5;--ac:#4f8cff;--ac2:#22d3ee;--vi:#7c5cff;--bon:#fbbf24;--ok:#34d399;--r:18px}
+@property --ang{syntax:'<angle>';initial-value:0deg;inherits:false}
+:root{
+  --bg0:#0A1226;--bg1:#0B1534;--bg2:#02040A;
+  --glass:rgba(255,255,255,.08);--stroke:rgba(255,255,255,.14);
+  --tx:#fff;--tx2:rgba(255,255,255,.85);--tx3:rgba(255,255,255,.6);
+  --accent:#3D6BF0;--blue:#5B8CFF;--mint:#31D6A3;--orange:#FFA54B;--violet:#7856EA;--red:#FF5E6C;--gold:#FBBF24;
+  --deep:#141c30;
+}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 [hidden]{display:none!important}
-html{background:var(--bg);color-scheme:dark}
-body{background:var(--bg);color:var(--tx);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-body::before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(60% 40% at 85% -5%,rgba(79,140,255,.22),transparent 70%),radial-gradient(50% 35% at -5% 30%,rgba(124,92,255,.14),transparent 70%),radial-gradient(40% 30% at 70% 100%,rgba(34,211,238,.10),transparent 70%)}
+html{background:var(--bg2);color-scheme:dark}
+body{background:linear-gradient(180deg,var(--bg0),var(--bg1) 50%,var(--bg2)) fixed;color:var(--tx);font:15px/1.4 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+#bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+.layer{position:relative;z-index:1}
 svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
-h1,h2,h3{line-height:1.15;letter-spacing:-.02em}
+h1,h2,h3{line-height:1.12;letter-spacing:-.03em}
 a{color:inherit}
-.mu{color:var(--mu)}
-.grad{background:linear-gradient(120deg,var(--ac),var(--ac2));-webkit-background-clip:text;background-clip:text;color:transparent}
-.card{background:linear-gradient(180deg,var(--s2),var(--s1));border:1px solid var(--line);border-radius:var(--r);padding:16px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:14px;padding:13px 20px;font:600 15px/1 inherit;color:#fff;background:linear-gradient(135deg,var(--ac),var(--vi));cursor:pointer;text-decoration:none;box-shadow:0 8px 24px rgba(79,140,255,.28)}
+.mu{color:var(--tx3)}
+
+/* ---- glass, mirror, shimmer ---- */
+.glass{background:var(--glass);border:1px solid var(--stroke);border-radius:22px;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.mirror{position:relative;border-radius:26px;background:linear-gradient(135deg,#1C2A4D,#0E1630 55%,#131D3B);box-shadow:0 0 60px rgba(59,108,255,.30),0 18px 40px rgba(0,0,0,.4)}
+.mirror::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.5px;pointer-events:none;background:conic-gradient(from var(--ang),#EAF1FF,#5B8CFF 25%,#BFD0FF 55%,#243A78 80%,#EAF1FF);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:spin 9s linear infinite}
+.mirror::after{content:"";position:absolute;inset:4px;border-radius:calc(26px - 4px);border:1px solid rgba(220,230,255,.22);pointer-events:none}
+@keyframes spin{to{--ang:360deg}}
+.mirror>*{position:relative;z-index:1}
+
+/* ---- controls ---- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 20px;border:0;border-radius:16px;font:700 15px/1 inherit;color:#fff;background:linear-gradient(135deg,#4A78F5,#3058D8);box-shadow:0 10px 28px rgba(61,107,240,.35);cursor:pointer;text-decoration:none;position:relative;overflow:hidden}
+.btn::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.28) 50%,transparent 65%);transform:translateX(-120%);animation:glint 5s ease-in-out infinite}
+@keyframes glint{0%,60%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
 .btn:active{transform:scale(.98)}
-.btn.ghost{background:var(--s2);border:1px solid var(--line);box-shadow:none}
+.btn.out{background:var(--glass);border:1px solid var(--stroke);box-shadow:none;font-weight:600}
+.btn.out::after{display:none}
 .btn.block{width:100%}
-.btn svg{width:18px;height:18px}
-.ic{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:rgba(79,140,255,.14);color:var(--ac);flex:none}
-.ic.c2{background:rgba(34,211,238,.14);color:var(--ac2)}
-.ic.c3{background:rgba(124,92,255,.16);color:#a794ff}
-.ic.c4{background:rgba(251,191,36,.14);color:var(--bon)}
-.ic.c5{background:rgba(52,211,153,.14);color:var(--ok)}
-.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:99px;font-size:12px;font-weight:600;background:rgba(52,211,153,.14);color:var(--ok)}
-.chip.gold{background:rgba(251,191,36,.16);color:var(--bon)}
+.btn svg{width:19px;height:19px}
+.ic{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;flex:none;background:rgba(91,140,255,.18);color:var(--blue)}
+.ic svg{width:20px;height:20px}
+.ic.mint{background:rgba(49,214,163,.16);color:var(--mint)}
+.ic.org{background:rgba(255,165,75,.16);color:var(--orange)}
+.ic.vio{background:rgba(120,86,234,.2);color:#A794FF}
+.ic.gold{background:rgba(251,191,36,.16);color:var(--gold)}
+.ic.red{background:rgba(255,94,108,.16);color:var(--red)}
+.ic.round{border-radius:50%}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:99px;font-size:12px;font-weight:700;background:rgba(49,214,163,.16);color:var(--mint)}
+.chip.gold{background:rgba(251,191,36,.16);color:var(--gold)}
 .chip svg{width:14px;height:14px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 0 rgba(49,214,163,.6);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(49,214,163,0)}100%{box-shadow:0 0 0 0 rgba(49,214,163,0)}}
+.sec{font-size:18px;font-weight:900;letter-spacing:-.4px;display:flex;align-items:center;gap:9px;margin:10px 4px 0}
+.sec::before{content:"";width:3px;height:16px;border-radius:2px;background:var(--blue)}
+.sec.o::before{background:var(--orange)}.sec.m::before{background:var(--mint)}.sec.v::before{background:var(--violet)}
 
-/* ---------- Mini App ---------- */
-body.web .app{display:none}
+/* ================= MINI APP ================= */
+body.web .app,body.web #tabbar,body.web .sheet{display:none}
 body.tg .web{display:none}
-.app{max-width:520px;margin:0 auto;padding:16px 16px calc(96px + env(safe-area-inset-bottom));position:relative}
-.tab{display:flex;flex-direction:column;gap:14px;animation:in .25s ease}
-@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.top{display:flex;align-items:center;gap:12px}
-.ava{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--vi));display:grid;place-items:center;font-weight:700;font-size:18px;overflow:hidden;flex:none}
-.ava img{width:100%;height:100%;object-fit:cover}
-.top h2{font-size:19px}
-.top .sub{font-size:13px;color:var(--mu)}
-.bal{position:relative;overflow:hidden;border-radius:22px;padding:20px;background:linear-gradient(135deg,#1a3a94 0%,#0f5f86 55%,#0e1c36 100%);border:1px solid rgba(255,255,255,.12);box-shadow:0 18px 50px rgba(34,211,238,.12)}
-.bal::after{content:"";position:absolute;right:-40px;top:-40px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(34,211,238,.45),transparent 70%)}
-.bal>*{position:relative;z-index:1}
-.bal .lab{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.8}
-.bal .big{font-size:44px;font-weight:800;letter-spacing:-.03em;margin:6px 0 4px;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
-.bal .big small{font-size:18px;font-weight:700;color:var(--bon)}
-.bal p{font-size:13px;opacity:.85;margin-bottom:14px;max-width:34ch}
-.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.tile{display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 6px;border-radius:16px;background:var(--s1);border:1px solid var(--line);font:600 13px/1.2 inherit;color:var(--tx);cursor:pointer}
-.tile:active{transform:scale(.97)}
-h3.sec{font-size:17px;margin-top:6px}
-.steps{display:flex;flex-direction:column;gap:12px}
-.step{display:flex;gap:14px;align-items:flex-start}
-.step .n{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#04101f;flex:none}
-.step b{display:block;font-size:15px}
-.step span{font-size:13px;color:var(--mu)}
-.hs{display:flex;gap:10px;overflow-x:auto;margin:0 -16px;padding:2px 16px 4px;scrollbar-width:none}
-.hs::-webkit-scrollbar{display:none}
-.hs .card{min-width:150px;display:flex;flex-direction:column;gap:10px}
-.hs b{font-size:14px}
-.hs span{font-size:12px;color:var(--mu)}
-.row{display:flex;align-items:center;gap:12px}
-.row .grow{flex:1;min-width:0}
-.row b{display:block;font-size:15px}
-.row span.d{font-size:13px;color:var(--mu)}
-.kv{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:13px 0;border-bottom:1px solid var(--line)}
-.kv:last-child{border-bottom:0}
-.kv .k{color:var(--mu)}
-.who{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:22px 16px}
-.who .ava{width:84px;height:84px;font-size:34px;box-shadow:0 0 0 4px rgba(79,140,255,.25)}
-.who h2{font-size:22px}
-.idbox{display:inline-flex;gap:8px;align-items:center;padding:6px 12px;border-radius:10px;background:var(--bg);border:1px solid var(--line);font-size:13px;color:var(--mu);cursor:pointer}
-.idbox svg{width:14px;height:14px}
-.link{display:flex;gap:8px;align-items:center;padding:12px 14px;border-radius:14px;background:var(--bg);border:1px dashed rgba(255,255,255,.18);font-size:13px;word-break:break-all;color:var(--ac2)}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.stat{text-align:center}
-.stat b{font-size:28px;display:block}
-.stat span{font-size:12px;color:var(--mu)}
-.hero-friends{text-align:center;padding:26px 16px;background:linear-gradient(135deg,rgba(251,191,36,.16),rgba(124,92,255,.14));border:1px solid rgba(251,191,36,.25);border-radius:22px}
-.hero-friends .big{font-size:42px;font-weight:800;color:var(--bon);letter-spacing:-.03em}
-.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:20;justify-content:center;padding:8px 12px calc(8px + env(safe-area-inset-bottom));background:rgba(7,11,20,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--line)}
-.tabbar .in{display:flex;width:100%;max-width:520px}
-.tabbar button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;background:none;border:0;color:var(--mu);font:600 11px/1 inherit;cursor:pointer;position:relative}
-.tabbar button.on{color:var(--ac)}
-.tabbar button.on::before{content:"";position:absolute;top:-9px;width:26px;height:3px;border-radius:0 0 4px 4px;background:linear-gradient(90deg,var(--ac),var(--ac2))}
-.skel{height:44px;border-radius:12px;background:linear-gradient(90deg,rgba(255,255,255,.06),rgba(255,255,255,.12),rgba(255,255,255,.06));background-size:200% 100%;animation:sk 1.2s infinite}
-@keyframes sk{to{background-position:-200% 0}}
-.toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);background:#fff;color:#07101f;padding:10px 16px;border-radius:12px;font-weight:600;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:50}
-.toast.on{opacity:1;transform:translateX(-50%)}
-.lang{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
-.lang button{background:none;border:0;color:var(--mu);padding:7px 11px;font:700 12px/1 inherit;cursor:pointer}
-.lang button.on{background:var(--s2);color:var(--tx)}
+.app{max-width:520px;margin:0 auto;padding:12px 16px calc(100px + env(safe-area-inset-bottom))}
+.tab{display:flex;flex-direction:column;gap:14px;animation:in .3s ease both}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.pagehead h2{font-size:30px;font-weight:900;letter-spacing:-1.1px}
+.pagehead p{color:var(--tx3);margin-top:4px}
 
-/* ---------- Website ---------- */
-.wrap{max-width:1080px;margin:0 auto;padding:0 20px;position:relative}
+.hero{position:relative;height:270px;border-radius:26px;overflow:hidden;box-shadow:0 22px 50px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.1)}
+.hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% center;animation:kb 18s ease-in-out infinite alternate}
+@keyframes kb{from{transform:scale(1.02)}to{transform:scale(1.1) translateX(-1.5%)}}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,8,15,.15),rgba(4,8,15,0) 40%,rgba(5,9,17,.82))}
+.hero .top{position:absolute;z-index:2;left:14px;right:12px;top:12px;display:flex;align-items:center;justify-content:space-between}
+.mark{width:46px;height:46px;border-radius:50%;background:rgba(0,0,0,.34);border:1px solid rgba(255,255,255,.2);display:grid;place-items:center;overflow:hidden;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.mark img{width:100%;height:100%;object-fit:cover}
+.gbtn{width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.34);color:#fff;display:grid;place-items:center;cursor:pointer;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.hero .bot{position:absolute;z-index:2;left:16px;right:16px;bottom:14px}
+.hero .gr{font-size:15px;font-weight:600;text-shadow:0 1px 6px #000}
+.hero .nm{font-size:34px;font-weight:900;letter-spacing:-1.2px;line-height:1.05;text-shadow:0 2px 16px rgba(0,0,0,.6);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pill{display:inline-flex;align-items:center;gap:8px;margin-top:8px;padding:6px 12px;border-radius:99px;background:rgba(0,0,0,.42);border:1px solid rgba(255,255,255,.16);font-size:12px;font-weight:700;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+
+.gate{display:flex;flex-direction:column;gap:16px;padding:16px}
+.gate .r{display:flex;gap:14px;align-items:center}
+.gate img{width:76px;height:76px;border-radius:18px;object-fit:cover;flex:none}
+.gate b{display:block;font-size:18px;font-weight:700;line-height:1.25}
+.gate span{font-size:12px;color:var(--tx3)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+.bal{padding:20px;cursor:pointer}
+.bal .row1{display:flex;justify-content:space-between;align-items:flex-start}
+.bal .brand{font-size:30px;font-weight:900;letter-spacing:-.5px}
+.bal .sub{font-size:13px;color:var(--tx3);margin-top:2px}
+.bal .big{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin:16px 0 4px;font-size:46px;font-weight:900;letter-spacing:-1.5px;line-height:1}
+.bal .big small{font-size:20px;font-weight:800;color:var(--gold);letter-spacing:0}
+.bal .note{font-size:13px;color:var(--tx2);max-width:36ch}
+.stats{display:flex;margin-top:16px;border-top:1px solid rgba(255,255,255,.1);padding-top:14px}
+.stats>div{flex:1;min-width:0}
+
+.stats b{display:block;font-size:20px;font-weight:800}
+.stats span{font-size:12px;color:var(--tx3)}
+.skel{height:48px;border-radius:14px;background:linear-gradient(90deg,rgba(255,255,255,.06),rgba(255,255,255,.14),rgba(255,255,255,.06));background-size:200% 100%;animation:sk 1.3s infinite}
+@keyframes sk{to{background-position:-200% 0}}
+
+.hs{display:flex;gap:12px;overflow-x:auto;margin:0 -16px;padding:4px 16px 8px;scroll-snap-type:x mandatory;scrollbar-width:none}
+.hs::-webkit-scrollbar{display:none}
+.tcard{flex:none;width:236px;scroll-snap-align:start;overflow:hidden;cursor:pointer;padding:0;text-align:left;color:inherit;font:inherit}
+.tcard .im{position:relative;height:126px}
+.tcard .im img{width:100%;height:100%;object-fit:cover;display:block}
+.tcard .im::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(5,9,17,.7))}
+.tcard .im .chip{position:absolute;left:10px;top:10px;z-index:1;background:rgba(0,0,0,.5);color:#fff;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.tcard .tb{padding:12px 14px 14px}
+.tcard b{display:block;font-size:15px;font-weight:700;line-height:1.25;min-height:38px}
+.tcard .m{display:flex;justify-content:space-between;margin-top:8px;font-size:13px;color:var(--tx3)}
+.tcard .m em{font-style:normal;color:var(--mint);font-weight:800}
+.world{position:relative;overflow:hidden;border-radius:24px;min-height:170px;padding:18px;display:flex;flex-direction:column;justify-content:flex-end;gap:12px;box-shadow:0 0 0 1px rgba(255,255,255,.12)}
+.world>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.world::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,8,15,.1),rgba(4,8,15,.88))}
+.world>*:not(img){position:relative;z-index:1}
+.world b{font-size:21px;font-weight:900;letter-spacing:-.6px}
+
+.rowc{display:flex;align-items:center;gap:14px;padding:14px;cursor:pointer;width:100%;text-align:left;color:inherit;font:inherit;border:0}
+.rowc .g{flex:1;min-width:0}
+.rowc b{display:block;font-size:15px;font-weight:700}
+.rowc span.d{font-size:13px;color:var(--tx3)}
+.rowc .go{color:var(--tx3);width:18px;height:18px}
+.field{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09)}
+.field .k{font-size:12px;color:var(--tx3)}
+.field b{display:block;font-size:15px;font-weight:600;color:var(--tx2)}
+.field .lk{margin-left:auto;color:var(--tx3);width:18px;height:18px}
+.stack{display:flex;flex-direction:column;gap:10px}
+
+.who{display:flex;align-items:center;gap:16px;padding:18px}
+.ava{width:68px;height:68px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:28px;font-weight:800;background:linear-gradient(135deg,#4A78F5,#7856EA);overflow:hidden;box-shadow:0 0 0 3px rgba(91,140,255,.35)}
+.ava img{width:100%;height:100%;object-fit:cover}
+.who h2{font-size:22px;font-weight:800;letter-spacing:-.6px}
+.idb{display:inline-flex;align-items:center;gap:7px;margin-top:8px;padding:5px 11px;border-radius:10px;background:rgba(0,0,0,.3);border:1px solid var(--stroke);font-size:12px;color:var(--tx3);cursor:pointer}
+.idb svg{width:13px;height:13px}
+.kv{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 16px}
+.kv+.kv{border-top:1px solid rgba(255,255,255,.08)}
+.kv .k{color:var(--tx3)}
+.seg{display:inline-flex;border:1px solid var(--stroke);border-radius:12px;overflow:hidden}
+.seg button{background:none;border:0;color:var(--tx3);padding:8px 13px;font:700 12px/1 inherit;cursor:pointer}
+.seg button.on{background:rgba(91,140,255,.25);color:#fff}
+.link{padding:12px 14px;border-radius:14px;background:rgba(0,0,0,.3);border:1px dashed rgba(255,255,255,.2);font-size:13px;word-break:break-all;color:#9FC0FF}
+.banner{display:flex;gap:14px;align-items:center;padding:16px;border-radius:22px;background:linear-gradient(135deg,rgba(251,191,36,.16),rgba(120,86,234,.14));border:1px solid rgba(251,191,36,.3)}
+.banner b{display:block;font-size:16px;font-weight:800}
+.banner span{font-size:13px;color:var(--tx2)}
+.card{padding:16px}
+
+/* wallet */
+.whead{display:flex;align-items:center;gap:14px}
+.whead h2{font-size:22px;font-weight:800}
+.acts{display:flex;justify-content:space-between;padding:6px 4px}
+.act{display:flex;flex-direction:column;align-items:center;gap:10px;width:76px;background:none;border:0;color:var(--tx);font:600 12px/1.2 inherit;text-align:center;cursor:pointer}
+.shape{width:64px;height:64px;display:grid;place-items:center;position:relative;background:rgba(255,255,255,.09);border:1px solid var(--stroke)}
+.shape.c{border-radius:50%}
+.shape.r{border-radius:22px}
+.shape.h{border:0;background:var(--stroke);clip-path:polygon(50% 0,93% 25%,93% 75%,50% 100%,7% 75%,7% 25%)}
+.shape.h::before{content:"";position:absolute;inset:1px;background:#18223a;clip-path:polygon(50% 0,93% 25%,93% 75%,50% 100%,7% 75%,7% 25%)}
+.shape.d{border-radius:16px;transform:rotate(45deg);width:54px;height:54px;margin:5px}
+.shape.d svg{transform:rotate(-45deg)}
+.shape svg{position:relative;z-index:1;width:26px;height:26px}
+.hist{padding:22px 16px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px}
+
+/* tab bar */
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;justify-content:center;padding:8px 12px calc(10px + env(safe-area-inset-bottom));background:linear-gradient(180deg,rgba(2,4,10,0),rgba(2,4,10,.7) 40%)}
+.tabbar .in{display:flex;width:100%;max-width:496px;padding:6px;border-radius:26px;background:rgba(15,22,38,.78);border:1px solid var(--stroke);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.tabbar button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 0 7px;background:none;border:0;border-radius:20px;color:var(--tx3);font:600 11px/1 inherit;cursor:pointer;transition:.2s}
+.tabbar button.on{color:#fff;background:rgba(61,107,240,.28);box-shadow:inset 0 0 0 1px rgba(140,170,255,.25)}
+.sheet{position:fixed;inset:0;z-index:60;display:flex;align-items:flex-end;justify-content:center;background:rgba(2,4,10,.6);opacity:0;pointer-events:none;transition:.25s;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.sheet.on{opacity:1;pointer-events:auto}
+.sheet .p{width:100%;max-width:520px;padding:22px 20px calc(22px + env(safe-area-inset-bottom));border-radius:28px 28px 0 0;background:#0F1626;border:1px solid var(--stroke);border-bottom:0;transform:translateY(40px);transition:.3s;display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px}
+.sheet.on .p{transform:none}
+.sheet .p h3{font-size:21px;font-weight:900}
+.sheet .p p{color:var(--tx2);font-size:14px;max-width:36ch}
+.toast{position:fixed;left:50%;bottom:calc(104px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);background:#fff;color:#07101f;padding:10px 16px;border-radius:12px;font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:80}
+.toast.on{opacity:1;transform:translateX(-50%)}
+
+/* ================= WEBSITE ================= */
+.wrap{max-width:1100px;margin:0 auto;padding:0 22px}
 .nav{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
-.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;letter-spacing:-.02em;text-decoration:none}
-.logo img{width:34px;height:34px;border-radius:10px}
-.nav .right{display:flex;align-items:center;gap:10px}
-.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding:36px 0 70px}
-.hero h1{font-size:clamp(34px,5.2vw,58px);font-weight:800;margin-bottom:18px}
-.hero p.lead{font-size:18px;color:var(--mu);max-width:46ch;margin-bottom:26px}
-.hero .cta{display:flex;gap:12px;flex-wrap:wrap}
-.hero .btn{padding:16px 26px;font-size:16px}
-.stage{display:flex;justify-content:center;position:relative}
-.stage::before{content:"";position:absolute;inset:8% 4%;border-radius:50%;background:radial-gradient(circle,rgba(34,211,238,.28),transparent 68%);filter:blur(10px)}
-.phone{width:282px;height:560px;border-radius:42px;border:9px solid #1a2342;background:var(--bg);overflow:hidden;position:relative;box-shadow:0 40px 90px rgba(79,140,255,.25),inset 0 0 0 1px rgba(255,255,255,.06);transform:rotate(3deg)}
-.phone .screen{padding:26px 14px 0;display:flex;flex-direction:column;gap:12px;pointer-events:none}
-.phone .bal{padding:16px}
-.phone .bal .big{font-size:36px}
-.phone .bal p{font-size:12px;margin-bottom:0}
-.phone .tiles .tile{padding:10px 4px;font-size:11px}
-.phone .tiles .ic{width:34px;height:34px;border-radius:11px}
-.phone .tiles svg{width:18px;height:18px}
-.phone .tb{position:absolute;left:0;right:0;bottom:0;display:flex;padding:10px 8px 14px;background:rgba(14,21,38,.95);border-top:1px solid var(--line)}
-.phone .tb span{flex:1;text-align:center;font-size:10px;color:var(--mu);font-weight:600}
-.phone .tb span.on{color:var(--ac)}
-.phone .tb svg{width:20px;height:20px;display:block;margin:0 auto 3px}
-.sectionW{padding:60px 0}
-.sectionW>h2,.cta-band h2{font-size:clamp(26px,3.6vw,38px);margin-bottom:10px;font-weight:800}
-.sectionW>p.sub{color:var(--mu);margin-bottom:28px;max-width:60ch}
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:21px;letter-spacing:-.04em;text-decoration:none}
+.logo img{width:36px;height:36px;border-radius:50%}
+.nav .r{display:flex;align-items:center;gap:10px}
+.wh{display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:center;padding:34px 0 70px}
+.wh h1{font-size:clamp(34px,5.4vw,60px);font-weight:900;letter-spacing:-.045em;margin-bottom:18px}
+.wh h1 em{font-style:normal;background:linear-gradient(120deg,#EAF1FF,#7FA6FF 45%,#BFD0FF);-webkit-background-clip:text;background-clip:text;color:transparent}
+.wh .lead{font-size:18px;color:var(--tx2);max-width:46ch;margin-bottom:26px}
+.wh .cta{display:flex;gap:12px;flex-wrap:wrap}
+.wh .btn{min-height:56px;padding:0 26px;font-size:16px}
+.stage{display:flex;justify-content:center}
+.phone{width:290px;border-radius:44px;padding:9px;background:linear-gradient(135deg,#EAF1FF,#5B8CFF 30%,#BFD0FF 68%,#243A78);box-shadow:0 0 90px rgba(59,108,255,.4),0 40px 80px rgba(0,0,0,.6);transform:rotate(2.5deg)}
+.phone .scr{border-radius:36px;background:linear-gradient(180deg,#0A1226,#0B1534 60%,#02040A);padding:14px 12px 78px;position:relative;overflow:hidden;min-height:590px;display:flex;flex-direction:column;gap:12px;pointer-events:none}
+.phone .hero{height:190px;border-radius:22px}
+.phone .hero .nm{font-size:26px}
+.phone .mirror{border-radius:22px}
+.phone .bal{padding:14px}
+.phone .bal .brand{font-size:22px}.phone .bal .big{font-size:36px;margin:10px 0 2px}
+.phone .tabbar{position:absolute;padding:0 8px 10px;display:flex}
+.phone .tabbar .in{padding:4px;border-radius:20px}
+.phone .tabbar button{padding:6px 0 5px;font-size:10px}
+.phone .tabbar svg{width:20px;height:20px}
+.ws{padding:56px 0}
+.ws>h2{font-size:clamp(26px,3.8vw,40px);font-weight:900;margin-bottom:10px}
+.ws>p.sub{color:var(--tx3);margin-bottom:28px;max-width:60ch}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
 .feat{display:flex;flex-direction:column;gap:12px;padding:22px}
-.feat h3{font-size:18px}
-.feat p{color:var(--mu);font-size:14px}
-.num{font-size:44px;font-weight:800;letter-spacing:-.04em}
-.cur{padding:26px}
-.cur h3{font-size:22px;margin:10px 0 8px}
-.cur p{color:var(--mu)}
-.cta-band{margin:40px 0 60px;text-align:center;padding:48px 20px;border-radius:28px;background:linear-gradient(135deg,rgba(79,140,255,.22),rgba(124,92,255,.18));border:1px solid rgba(255,255,255,.1)}
-.cta-band p{color:var(--mu);margin-bottom:22px}
-footer.fw{padding:28px 0 40px;color:var(--mu);font-size:13px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
-@media(max-width:860px){
-  .hero{grid-template-columns:1fr;padding:18px 0 50px;gap:30px}
-  .grid3,.grid4{grid-template-columns:1fr 1fr}
-  .grid2{grid-template-columns:1fr}
-}
-@media(max-width:560px){
-  .grid3,.grid4{grid-template-columns:1fr}
-  .hero .cta .btn{flex:1}
-  .nav .btn{display:none}
-  .phone{transform:none}
-}
+.feat h3{font-size:18px;font-weight:800}
+.feat p{color:var(--tx3);font-size:14px}
+.feat .n{font-size:46px;font-weight:900;letter-spacing:-.05em;background:linear-gradient(120deg,#EAF1FF,#5B8CFF);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+.cur{padding:26px}.cur h3{font-size:24px;font-weight:900;margin:12px 0 8px}.cur p{color:var(--tx3)}
+.band{margin:30px 0 60px;text-align:center;padding:54px 22px}
+.band h2{font-size:clamp(26px,3.6vw,38px);font-weight:900;margin-bottom:10px}
+.band p{color:var(--tx2);margin-bottom:24px}
+.wf{padding:26px 0 40px;color:var(--tx3);font-size:13px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+@media(max-width:860px){.wh{grid-template-columns:1fr;padding:14px 0 50px}.g3,.g4{grid-template-columns:1fr 1fr}.g2{grid-template-columns:1fr}.phone{transform:none}}
+@media(max-width:560px){.g3,.g4{grid-template-columns:1fr}.wh .cta .btn{flex:1}.nav .btn{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
+<canvas id="bg"></canvas>
 
-<!-- ================= Mini App ================= -->
-<div class="app">
+<!-- ================= MINI APP ================= -->
+<div class="app layer">
 
+  <!-- HOME -->
   <section class="tab" data-tab="home">
-    <div class="top">
-      <div class="ava" data-ava></div>
-      <div><h2 id="hello"></h2><div class="sub" data-i="brand_tag"></div></div>
+    <div class="hero">
+      <img src="img/hero-city.webp" alt="">
+      <div class="top">
+        <div class="mark"><img src="img/orbit.webp" alt=""></div>
+        <button class="gbtn" data-go="me" aria-label="Settings"><i data-ic="tune"></i></button>
+      </div>
+      <div class="bot">
+        <div class="gr" id="greet"></div>
+        <div class="nm" id="nick"></div>
+        <div class="pill"><span class="dot"></span><span data-i="mini"></span></div>
+      </div>
     </div>
 
-    <div class="bal">
-      <div class="lab" data-i="bal_label"></div>
-      <div id="balBox"><div class="skel"></div></div>
+    <div class="glass gate">
+      <div class="r"><img src="img/task-address.webp" alt="">
+        <div><b data-i="gate_t"></b><span data-i="gate_d"></span></div></div>
+      <div class="two">
+        <button class="btn out" data-go="tasks"><i data-ic="tasks"></i><span data-i="tb_tasks"></span></button>
+        <button class="btn out" data-go="create"><i data-ic="plus"></i><span data-i="tb_create"></span></button>
+      </div>
     </div>
 
-    <div class="tiles">
-      <button class="tile" data-go="tasks"><span class="ic c2"><svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M3.5 6l1.5 1.5L7 5M3.5 12l1.5 1.5L7 11M3.5 18l1.5 1.5L7 17"/></svg></span><span data-i="q_tasks"></span></button>
-      <button class="tile" data-go="friends"><span class="ic c4"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.4c1.9.8 3 2.7 3 5.6"/></svg></span><span data-i="q_friends"></span></button>
-      <button class="tile" data-bot="app"><span class="ic c3"><svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10.5 18.5h3"/></svg></span><span data-i="q_app"></span></button>
+    <div class="mirror bal" id="homeBal" data-go="wallet">
+      <div class="row1"><div><div class="brand">LVS</div><div class="sub" data-i="acct"></div></div><i data-ic="flip" style="color:var(--tx3)"></i></div>
+      <div id="homeBalBox"><div class="skel" style="margin-top:16px"></div></div>
     </div>
 
-    <h3 class="sec" data-i="how_t"></h3>
-    <div class="card steps">
-      <div class="step"><div class="n">1</div><div><b data-i="s1_t"></b><span data-i="s1_d"></span></div></div>
-      <div class="step"><div class="n">2</div><div><b data-i="s2_t"></b><span data-i="s2_d"></span></div></div>
-      <div class="step"><div class="n">3</div><div><b data-i="s3_t"></b><span data-i="s3_d"></span></div></div>
-    </div>
-
-    <h3 class="sec" data-i="do_t"></h3>
+    <h3 class="sec o" data-i="ex_t"></h3>
     <div class="hs">
-      <div class="card"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span><b data-i="d1"></b><span data-i="d1d"></span></div>
-      <div class="card"><span class="ic c5"><svg viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span><b data-i="d2"></b><span data-i="d2d"></span></div>
-      <div class="card"><span class="ic c3"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="3"/><path d="M16 10.5l5-3v9l-5-3"/></svg></span><b data-i="d3"></b><span data-i="d3d"></span></div>
-      <div class="card"><span class="ic c4"><svg viewBox="0 0 24 24"><path d="M4 4h7l9 9-7 7-9-9z"/><circle cx="8.5" cy="8.5" r="1.2"/></svg></span><b data-i="d4"></b><span data-i="d4d"></span></div>
+      <button class="glass tcard" data-sheet="feed"><div class="im"><img src="img/task-product.webp" alt=""><span class="chip" data-i="c_check"></span></div><div class="tb"><b data-i="e1"></b><div class="m"><em>0.50 VU</em><span>1.8 km</span></div></div></button>
+      <button class="glass tcard" data-sheet="feed"><div class="im"><img src="img/task-auto.webp" alt=""><span class="chip" data-i="c_auto"></span></div><div class="tb"><b data-i="e2"></b><div class="m"><em>0.80 VU</em><span>2.4 km</span></div></div></button>
+      <button class="glass tcard" data-sheet="feed"><div class="im"><img src="img/task-address.webp" alt=""><span class="chip" data-i="c_addr"></span></div><div class="tb"><b data-i="e3"></b><div class="m"><em>0.40 VU</em><span>1.5 km</span></div></div></button>
+      <button class="glass tcard" data-sheet="feed"><div class="im"><img src="img/task-delivery.webp" alt=""><span class="chip" data-i="c_deliv"></span></div><div class="tb"><b data-i="e4"></b><div class="m"><em>0.60 VU</em><span>2.1 km</span></div></div></button>
+    </div>
+
+    <div class="world">
+      <img src="img/hero-worker.webp" alt="">
+      <b data-i="world_t"></b>
+      <button class="btn" data-sheet="app"><i data-ic="phone"></i><span data-i="app_btn"></span></button>
     </div>
   </section>
 
+  <!-- TASKS -->
   <section class="tab" data-tab="tasks" hidden>
-    <div><h2 style="font-size:26px" data-i="tk_t"></h2><div class="mu" data-i="tk_sub"></div></div>
-    <div class="card row"><span class="ic c2"><svg viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span><div class="grow"><b data-i="tk_w_t"></b><span class="d" data-i="tk_w_d"></span></div></div>
-    <div class="card row"><span class="ic c3"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span><div class="grow"><b data-i="tk_c_t"></b><span class="d" data-i="tk_c_d"></span></div></div>
-    <h3 class="sec" data-i="cur_t"></h3>
-    <div class="card row"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 8l4 8 4-8"/></svg></span><div class="grow"><b>VU</b><span class="d" data-i="vu_d"></span></div></div>
-    <div class="card row"><span class="ic c4"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 8h4a2 2 0 0 1 0 4H9m0 0h5a2 2 0 0 1 0 4H9V8"/></svg></span><div class="grow"><b>BON</b><span class="d" data-i="bon_d"></span></div></div>
-    <div class="card" style="text-align:center;display:flex;flex-direction:column;gap:10px;align-items:center;padding:22px 16px">
-      <span class="ic c3" style="width:54px;height:54px"><svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10.5 18.5h3"/></svg></span>
-      <b style="font-size:17px" data-i="app_t"></b>
-      <span class="mu" style="font-size:13px" data-i="app_d"></span>
-      <button class="btn block" data-bot="app"><span data-i="app_btn"></span></button>
+    <div class="pagehead"><h2 data-i="tb_tasks"></h2><p data-i="tk_sub"></p></div>
+    <div class="glass card stack">
+      <div class="rowc" style="padding:0;cursor:default"><span class="ic mint round"><i data-ic="pin"></i></span><div class="g"><b data-i="tk_w_t"></b><span class="d" data-i="tk_w_d"></span></div></div>
+      <button class="btn block" data-sheet="feed"><i data-ic="map"></i><span data-i="feed_btn"></span></button>
     </div>
+    <h3 class="sec" data-i="ex_t"></h3>
+    <div class="stack">
+      <button class="glass rowc" data-sheet="feed"><img src="img/task-product.webp" alt="" style="width:64px;height:64px;border-radius:16px;object-fit:cover"><div class="g"><b data-i="e1"></b><span class="d"><span style="color:var(--mint);font-weight:800">0.50 VU</span> · 1.8 km</span></div><i class="go" data-ic="chev"></i></button>
+      <button class="glass rowc" data-sheet="feed"><img src="img/task-auto.webp" alt="" style="width:64px;height:64px;border-radius:16px;object-fit:cover"><div class="g"><b data-i="e2"></b><span class="d"><span style="color:var(--mint);font-weight:800">0.80 VU</span> · 2.4 km</span></div><i class="go" data-ic="chev"></i></button>
+      <button class="glass rowc" data-sheet="feed"><img src="img/task-inspection.webp" alt="" style="width:64px;height:64px;border-radius:16px;object-fit:cover"><div class="g"><b data-i="e5"></b><span class="d"><span style="color:var(--mint);font-weight:800">0.70 VU</span> · 3.0 km</span></div><i class="go" data-ic="chev"></i></button>
+      <button class="glass rowc" data-sheet="feed"><img src="img/task-delivery.webp" alt="" style="width:64px;height:64px;border-radius:16px;object-fit:cover"><div class="g"><b data-i="e4"></b><span class="d"><span style="color:var(--mint);font-weight:800">0.60 VU</span> · 2.1 km</span></div><i class="go" data-ic="chev"></i></button>
+    </div>
+    <div class="mu" style="font-size:12px;text-align:center" data-i="ex_note"></div>
   </section>
 
-  <section class="tab" data-tab="friends" hidden>
-    <div class="hero-friends">
-      <div class="big">+1 BON</div>
-      <div data-i="fr_sub"></div>
-    </div>
-    <div class="two" id="frStats" hidden>
-      <div class="card stat"><b id="stInv">0</b><span data-i="fr_inv"></span></div>
-      <div class="card stat"><b id="stOk">0</b><span data-i="fr_ok"></span></div>
-    </div>
-    <div class="card" id="frLinkCard" style="display:flex;flex-direction:column;gap:12px"></div>
-    <h3 class="sec" data-i="how_t"></h3>
-    <div class="card steps">
-      <div class="step"><div class="n">1</div><div><b data-i="f1_t"></b><span data-i="f1_d"></span></div></div>
-      <div class="step"><div class="n">2</div><div><b data-i="f2_t"></b><span data-i="f2_d"></span></div></div>
-      <div class="step"><div class="n">3</div><div><b data-i="f3_t"></b><span data-i="f3_d"></span></div></div>
-    </div>
-    <div class="mu" style="font-size:13px" data-i="fr_note"></div>
+  <!-- CREATE -->
+  <section class="tab" data-tab="create" hidden>
+    <div class="pagehead"><h2 data-i="tb_create"></h2><p data-i="cr_sub"></p></div>
+    <div class="field"><span class="ic"><i data-ic="edit"></i></span><div><div class="k" data-i="cr_f1"></div><b data-i="cr_f1v"></b></div><i class="lk" data-ic="lock"></i></div>
+    <div class="field"><span class="ic mint"><i data-ic="pin"></i></span><div><div class="k" data-i="cr_f2"></div><b data-i="cr_f2v"></b></div><i class="lk" data-ic="lock"></i></div>
+    <div class="field"><span class="ic gold"><i data-ic="bolt"></i></span><div><div class="k" data-i="cr_f3"></div><b data-i="cr_f3v"></b></div><i class="lk" data-ic="lock"></i></div>
+    <div class="field"><span class="ic org"><i data-ic="clock"></i></span><div><div class="k" data-i="cr_f4"></div><b data-i="cr_f4v"></b></div><i class="lk" data-ic="lock"></i></div>
+    <div class="field"><span class="ic vio"><i data-ic="cam"></i></span><div><div class="k" data-i="cr_f5"></div><b data-i="cr_f5v"></b></div><i class="lk" data-ic="lock"></i></div>
+    <button class="btn block" data-sheet="app"><i data-ic="phone"></i><span data-i="cr_btn"></span></button>
+    <div class="mu" style="font-size:13px;text-align:center" data-i="cr_note"></div>
   </section>
 
+  <!-- PROFILE -->
   <section class="tab" data-tab="me" hidden>
-    <div class="card who">
+    <div class="glass who">
       <div class="ava" data-ava></div>
-      <h2 id="meName"></h2>
-      <div class="mu" id="meUser"></div>
-      <div class="idbox" id="meId" data-copy=""><span id="meIdTxt"></span><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/></svg></div>
+      <div style="min-width:0"><h2 id="meName"></h2><div class="mu" id="meUser"></div>
+        <div class="idb" id="meId" data-copy=""><span id="meIdTxt"></span><i data-ic="copy"></i></div></div>
     </div>
-    <div class="card">
+    <div id="phoneCard"></div>
+    <div class="glass" style="padding:0;overflow:hidden">
+      <div class="kv"><span class="k" style="display:flex;align-items:center;gap:10px"><span class="ic gold"><i data-ic="bolt"></i></span>BON</span><b id="meBon" style="font-size:18px">—</b></div>
       <div class="kv"><span class="k" data-i="pr_phone"></span><span id="mePhone"></span></div>
-      <div class="kv"><span class="k">BON</span><b id="meBon">—</b></div>
-      <div class="kv"><span class="k" data-i="pr_lang"></span>
-        <span class="lang"><button data-lang="ru">RU</button><button data-lang="en">EN</button></span></div>
+      <div class="kv"><span class="k" data-i="pr_lang"></span><span class="seg"><button data-lang="ru">RU</button><button data-lang="en">EN</button></span></div>
     </div>
+    <h3 class="sec v" data-i="inv_t"></h3>
+    <div class="glass card stack" id="invCard"></div>
     <div class="two">
-      <a class="btn ghost" href="https://lvs.network" target="_blank" rel="noopener"><span data-i="pr_site"></span></a>
-      <button class="btn ghost" data-bot=""><span data-i="pr_bot"></span></button>
+      <a class="btn out" href="https://lvs.network" target="_blank" rel="noopener"><span data-i="pr_site"></span></a>
+      <button class="btn out" data-bot=""><span data-i="pr_bot"></span></button>
     </div>
     <div class="mu" style="text-align:center;font-size:12px" data-i="pr_ver"></div>
   </section>
 
+  <!-- WALLET -->
+  <section class="tab" data-tab="wallet" hidden>
+    <div class="whead"><button class="gbtn" data-go="home" aria-label="Back"><i data-ic="back"></i></button><h2 data-i="w_t"></h2></div>
+    <div class="mirror bal">
+      <div class="row1"><div><div class="brand">LVS</div><div class="sub" data-i="acct"></div></div><i data-ic="flip" style="color:var(--tx3)"></i></div>
+      <div id="walBalBox"></div>
+    </div>
+    <div class="acts">
+      <button class="act" data-sheet="money"><span class="shape c"><i data-ic="plus"></i></span><span data-i="a_top"></span></button>
+      <button class="act" data-sheet="money"><span class="shape r"><i data-ic="upright"></i></span><span data-i="a_out"></span></button>
+      <button class="act" data-sheet="money"><span class="shape h"><i data-ic="send"></i></span><span data-i="a_send"></span></button>
+      <button class="act" data-sheet="money"><span class="shape d"><i data-ic="qr"></i></span><span data-i="a_recv"></span></button>
+    </div>
+    <h3 class="sec" data-i="hist_t"></h3>
+    <div class="glass hist"><span class="ic vio round"><i data-ic="clock"></i></span><b data-i="hist_d"></b><button class="btn out" data-sheet="money" style="min-height:44px"><span data-i="app_btn"></span></button></div>
+  </section>
 </div>
 
-<nav class="tabbar" style="display:none" id="tabbar"><div class="in">
-  <button data-go="home" class="on"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span data-i="tb_home"></span></button>
-  <button data-go="tasks"><svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M3.5 6l1.5 1.5L7 5M3.5 12l1.5 1.5L7 11M3.5 18l1.5 1.5L7 17"/></svg><span data-i="tb_tasks"></span></button>
-  <button data-go="friends"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.4c1.9.8 3 2.7 3 5.6"/></svg><span data-i="tb_friends"></span></button>
-  <button data-go="me"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg><span data-i="tb_me"></span></button>
+<nav class="tabbar layer" id="tabbar" style="display:none"><div class="in">
+  <button data-go="home" class="on"><i data-ic="home"></i><span data-i="tb_home"></span></button>
+  <button data-go="tasks"><i data-ic="tasks"></i><span data-i="tb_tasks"></span></button>
+  <button data-go="create"><i data-ic="plusc"></i><span data-i="tb_create"></span></button>
+  <button data-go="me"><i data-ic="user"></i><span data-i="tb_me"></span></button>
 </div></nav>
+
+<div class="sheet" id="sheet"><div class="p">
+  <span class="ic vio round" style="width:56px;height:56px"><i data-ic="phone"></i></span>
+  <h3 id="shT"></h3><p id="shD"></p>
+  <button class="btn block" data-bot="app"><span data-i="app_btn"></span></button>
+  <button class="btn out block" id="shX"><span data-i="close"></span></button>
+</div></div>
 <div class="toast" id="toast"></div>
 
-<!-- ================= Website ================= -->
-<div class="web">
+<!-- ================= WEBSITE ================= -->
+<div class="web layer">
   <div class="wrap">
     <header class="nav">
-      <a class="logo" href="/"><img src="lvs-orbit.png" alt="">LVS</a>
-      <div class="right">
-        <span class="lang"><button data-lang="ru">RU</button><button data-lang="en">EN</button></span>
-        <a class="btn" data-bot="" href="https://t.me/LVSNetworkBot"><span data-i="w_cta"></span></a>
-      </div>
+      <a class="logo" href="/"><img src="img/orbit.webp" alt="">LVS</a>
+      <div class="r"><span class="seg"><button data-lang="ru">RU</button><button data-lang="en">EN</button></span>
+        <a class="btn" data-bot="" href="https://t.me/LVSNetworkBot"><span data-i="w_cta"></span></a></div>
     </header>
 
-    <section class="hero">
+    <section class="wh">
       <div>
-        <h1><span data-i="w_h1a"></span> <span class="grad" data-i="w_h1b"></span></h1>
+        <h1><span data-i="w_h1a"></span> <em data-i="w_h1b"></em></h1>
         <p class="lead" data-i="w_lead"></p>
         <div class="cta">
-          <a class="btn" data-bot="" href="https://t.me/LVSNetworkBot"><svg viewBox="0 0 24 24"><path d="M21 4L3 11l6 2 2 6 3-4 5 4z"/></svg><span data-i="w_cta"></span></a>
-          <a class="btn ghost" href="#how"><span data-i="w_how_btn"></span></a>
+          <a class="btn" data-bot="" href="https://t.me/LVSNetworkBot"><i data-ic="send"></i><span data-i="w_cta"></span></a>
+          <a class="btn out" href="#how"><span data-i="w_how_btn"></span></a>
         </div>
       </div>
-      <div class="stage">
-        <div class="phone">
-          <div class="screen">
-            <div class="top"><div class="ava" style="width:36px;height:36px;font-size:15px">L</div><div><h2 style="font-size:15px">LVS</h2><div class="sub" style="font-size:11px" data-i="brand_tag"></div></div></div>
-            <div class="bal"><div class="lab" data-i="bal_label"></div><div class="big">10 <small>BON</small></div><p data-i="gift_text"></p></div>
-            <div class="tiles">
-              <div class="tile"><span class="ic c2"><svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M3.5 6l1.5 1.5L7 5M3.5 12l1.5 1.5L7 11M3.5 18l1.5 1.5L7 17"/></svg></span><span data-i="q_tasks"></span></div>
-              <div class="tile"><span class="ic c4"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/></svg></span><span data-i="q_friends"></span></div>
-              <div class="tile"><span class="ic c3"><svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="3"/></svg></span><span data-i="q_app"></span></div>
-            </div>
-            <div class="card steps" style="padding:12px;gap:8px">
-              <div class="step"><div class="n" style="width:26px;height:26px;font-size:12px">1</div><div><b style="font-size:13px" data-i="s1_t"></b></div></div>
-              <div class="step"><div class="n" style="width:26px;height:26px;font-size:12px">2</div><div><b style="font-size:13px" data-i="s2_t"></b></div></div>
-            </div>
-          </div>
-          <div class="tb">
-            <span class="on"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span data-i="tb_home"></span></span>
-            <span><svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11"/></svg><span data-i="tb_tasks"></span></span>
-            <span><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/></svg><span data-i="tb_friends"></span></span>
-            <span><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg><span data-i="tb_me"></span></span>
-          </div>
-        </div>
+      <div class="stage"><div class="phone"><div class="scr">
+        <div class="hero"><img src="img/hero-city.webp" alt="">
+          <div class="top"><div class="mark" style="width:38px;height:38px"><img src="img/orbit.webp" alt=""></div></div>
+          <div class="bot"><div class="gr" data-i="w_gr"></div><div class="nm">LVS</div><div class="pill"><span class="dot"></span><span data-i="mini"></span></div></div></div>
+        <div class="mirror bal"><div class="brand">LVS</div><div class="sub" data-i="acct"></div><div class="big">10 <small>BON</small></div></div>
+        <div class="tabbar"><div class="in">
+          <button class="on"><i data-ic="home"></i><span data-i="tb_home"></span></button>
+          <button><i data-ic="tasks"></i><span data-i="tb_tasks"></span></button>
+          <button><i data-ic="plusc"></i><span data-i="tb_create"></span></button>
+          <button><i data-ic="user"></i><span data-i="tb_me"></span></button>
+        </div></div>
+      </div></div></div>
+    </section>
+
+    <section class="ws" id="how">
+      <h2 data-i="how_t"></h2><p class="sub" data-i="w_how_sub"></p>
+      <div class="g3">
+        <div class="glass feat"><div class="n">1</div><h3 data-i="s1_t"></h3><p data-i="s1_d"></p></div>
+        <div class="glass feat"><div class="n">2</div><h3 data-i="s2_t"></h3><p data-i="s2_d"></p></div>
+        <div class="glass feat"><div class="n">3</div><h3 data-i="s3_t"></h3><p data-i="s3_d"></p></div>
       </div>
     </section>
 
-    <section class="sectionW" id="how">
-      <h2 data-i="how_t"></h2>
-      <p class="sub" data-i="w_how_sub"></p>
-      <div class="grid3">
-        <div class="card feat"><div class="num grad">1</div><h3 data-i="s1_t"></h3><p data-i="s1_d"></p></div>
-        <div class="card feat"><div class="num grad">2</div><h3 data-i="s2_t"></h3><p data-i="s2_d"></p></div>
-        <div class="card feat"><div class="num grad">3</div><h3 data-i="s3_t"></h3><p data-i="s3_d"></p></div>
+    <section class="ws">
+      <h2 data-i="w_why"></h2><p class="sub" data-i="w_why_sub"></p>
+      <div class="g4">
+        <div class="glass feat"><span class="ic"><i data-ic="pin"></i></span><h3 data-i="f_a"></h3><p data-i="f_ad"></p></div>
+        <div class="glass feat"><span class="ic mint"><i data-ic="shield"></i></span><h3 data-i="f_b"></h3><p data-i="f_bd"></p></div>
+        <div class="glass feat"><span class="ic vio"><i data-ic="lock"></i></span><h3 data-i="f_c"></h3><p data-i="f_cd"></p></div>
+        <div class="glass feat"><span class="ic org"><i data-ic="globe"></i></span><h3 data-i="f_d"></h3><p data-i="f_dd"></p></div>
       </div>
     </section>
 
-    <section class="sectionW">
-      <h2 data-i="w_why"></h2>
-      <p class="sub" data-i="w_why_sub"></p>
-      <div class="grid4">
-        <div class="card feat"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span><h3 data-i="f_a"></h3><p data-i="f_ad"></p></div>
-        <div class="card feat"><span class="ic c5"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5L15.5 10"/></svg></span><h3 data-i="f_b"></h3><p data-i="f_bd"></p></div>
-        <div class="card feat"><span class="ic c3"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><h3 data-i="f_c"></h3><p data-i="f_cd"></p></div>
-        <div class="card feat"><span class="ic c2"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg></span><h3 data-i="f_d"></h3><p data-i="f_dd"></p></div>
+    <section class="ws">
+      <h2 data-i="cur_t"></h2><p class="sub" data-i="w_cur_sub"></p>
+      <div class="g2">
+        <div class="mirror cur"><span class="ic"><i data-ic="vu"></i></span><h3>VU</h3><p data-i="vu_d"></p></div>
+        <div class="mirror cur"><span class="ic gold"><i data-ic="bolt"></i></span><h3>BON</h3><p data-i="bon_d"></p></div>
       </div>
     </section>
 
-    <section class="sectionW">
-      <h2 data-i="cur_t"></h2>
-      <p class="sub" data-i="w_cur_sub"></p>
-      <div class="grid2">
-        <div class="card cur"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 8l4 8 4-8"/></svg></span><h3>VU</h3><p data-i="vu_d"></p></div>
-        <div class="card cur"><span class="ic c4"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 8h4a2 2 0 0 1 0 4H9m0 0h5a2 2 0 0 1 0 4H9V8"/></svg></span><h3>BON</h3><p data-i="bon_d"></p></div>
-      </div>
-    </section>
-
-    <div class="cta-band">
-      <h2 data-i="w_final"></h2>
-      <p data-i="w_final_d"></p>
-      <a class="btn" data-bot="" href="https://t.me/LVSNetworkBot" style="padding:16px 28px;font-size:16px"><svg viewBox="0 0 24 24"><path d="M21 4L3 11l6 2 2 6 3-4 5 4z"/></svg><span data-i="w_cta"></span></a>
+    <div class="mirror band">
+      <h2 data-i="w_final"></h2><p data-i="w_final_d"></p>
+      <a class="btn" data-bot="" href="https://t.me/LVSNetworkBot" style="min-height:56px;padding:0 28px;font-size:16px"><i data-ic="send"></i><span data-i="w_cta"></span></a>
     </div>
-
-    <footer class="fw"><span>© 2025–2026 LVS</span><span data-i="pr_ver"></span></footer>
+    <footer class="wf"><span>© 2025–2026 LVS</span><span data-i="pr_ver"></span></footer>
   </div>
 </div>
 
@@ -350,64 +439,99 @@ const preview=q.get('preview')==='app';
 const appMode=inTg||preview;
 document.body.classList.add(appMode?'tg':'web');
 
+/* ---------- icons ---------- */
+const I={
+home:'<path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
+tasks:'<path d="M9 6h11M9 12h11M9 18h11M3.5 6l1.5 1.5L7 5M3.5 12l1.5 1.5L7 11M3.5 18l1.5 1.5L7 17"/>',
+plusc:'<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>',
+plus:'<path d="M12 5v14M5 12h14"/>',
+user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>',
+tune:'<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>',
+back:'<path d="M15 5l-7 7 7 7"/>',
+chev:'<path d="M9 5l7 7-7 7"/>',
+upright:'<path d="M7 17L17 7M8 7h9v9"/>',
+send:'<path d="M21 3L10 14M21 3l-7 18-4-8-8-4z"/>',
+qr:'<path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 14h2v2M14 18h2v2h4v-2"/>',
+bolt:'<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>',
+phone:'<rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10.5 18.5h3"/>',
+pin:'<path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
+map:'<path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2zM9 4v14M15 6v14"/>',
+copy:'<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/>',
+share:'<circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.2 10.8l7.6-4.4M8.2 13.2l7.6 4.4"/>',
+check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+lock:'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+edit:'<path d="M4 20h4L19 9l-4-4L4 16z"/>',
+clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+cam:'<path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>',
+flip:'<rect x="3" y="5" width="7" height="14" rx="2"/><path d="M14 5h4a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-4"/>',
+shield:'<path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5L15.5 10"/>',
+globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/>',
+vu:'<circle cx="12" cy="12" r="9"/><path d="M8 8l4 8 4-8"/>'
+};
+const ic=n=>'<svg viewBox="0 0 24 24">'+(I[n]||'')+'</svg>';
+document.querySelectorAll('[data-ic]').forEach(e=>{e.innerHTML=ic(e.dataset.ic);e.style.display=e.style.display||'inline-flex'});
+
+/* ---------- texts ---------- */
 const T={
-ru:{brand_tag:'Задания рядом. Оплата за результат.',
- bal_label:'Ваши BON',bal_note:'Бонусные единицы: тратятся на задания, не выводятся и не переводятся.',
- gift_badge:'Подарок',gift_text:'Подтвердите номер в боте — без SMS, одним нажатием.',gift_btn:'Получить 10 BON',ok_chip:'Номер подтверждён',
- q_tasks:'Задания',q_friends:'Друзья',q_app:'Приложение',
- how_t:'Как это работает',s1_t:'Найдите или создайте задание',s1_d:'Рядом с вами или там, где нужно.',
- s2_t:'Сделайте и докажите',s2_d:'Фото или видео с местом и временем — прямо в приложении.',
- s3_t:'Получите оплату',s3_d:'Принято — платим сразу. Заказчик молчит — платим сами.',
- do_t:'Что можно делать',d1:'Фото вывески',d1d:'Снять вывеску или витрину',d2:'Проверка на месте',d2d:'Работает ли место сейчас',d3:'Live-видео',d3d:'Короткий показ из точки',d4:'Цена в магазине',d4d:'Сверить ценник',
- tk_t:'Задания',tk_sub:'Всё происходит в приложении LVS',
- tk_w_t:'Исполнителю',tk_w_d:'Берите задания рядом, снимайте прямо в приложении — место и время подтверждаются сами.',
- tk_c_t:'Заказчику',tk_c_d:'Опишите, что нужно, поставьте цену и срок — платите только за принятый результат.',
- cur_t:'Две единицы',vu_d:'1 VU = 1 USDT/USDC. Пополнение и вывод на ваш крипто-кошелёк.',bon_d:'Бонус за старт: 10 за номер, +1 за друга. Тратится на задания, не выводится.',
- app_t:'Задания живут в приложении',app_d:'Установите LVS на Android или Windows — аккаунт тот же.',app_btn:'Получить приложение',
- fr_sub:'за каждого друга, который подтвердил номер',fr_inv:'Приглашено',fr_ok:'Подтвердили',
- fr_link:'Ваша ссылка',fr_nolink:'Ссылка появится после подтверждения вашего номера в боте.',fr_open:'Открыть бота',fr_copy:'Копировать',fr_share:'Поделиться',
- f1_t:'Отправьте ссылку',f1_d:'Другу, в чат или в соцсеть.',f2_t:'Друг подтверждает номер',f2_d:'Одним нажатием в боте.',f3_t:'Вы получаете +1 BON',f3_d:'Сразу после подтверждения.',
- fr_note:'Сначала подтвердите свой номер — тогда реферальная ссылка откроется. Один номер — один бонус.',
+ru:{mini:'Мини-версия LVS',acct:'Внутренний счёт',
+ gm:'Доброе утро,',gd:'Добрый день,',ge:'Добрый вечер,',gn:'Доброй ночи,',
+ gate_t:'Задания рядом с вами',gate_d:'Лента и карта — в приложении LVS',
+ tb_home:'Главная',tb_tasks:'Задания',tb_create:'Создать',tb_me:'Профиль',
+ ex_t:'Примеры заданий',ex_note:'Это примеры. Настоящая лента — в приложении LVS.',
+ c_check:'Проверка',c_auto:'Авто',c_addr:'Адрес',c_deliv:'Доставка',
+ e1:'Проверить наличие товара',e2:'Осмотреть автомобиль',e3:'Проверить адрес',e4:'Забрать заказ',e5:'Осмотреть объект',
+ world_t:'Всё остальное — в приложении LVS',app_btn:'Получить приложение',close:'Закрыть',
+ tk_sub:'Берите задания рядом, снимайте прямо в приложении',tk_w_t:'Исполнителю',tk_w_d:'Место и время подтверждаются сами. Принято — платим сразу.',feed_btn:'Открыть ленту рядом',
+ cr_sub:'Опишите, что нужно, — это увидят рядом',
+ cr_f1:'Что нужно сделать',cr_f1v:'Проверить, открыт ли магазин',cr_f2:'Где',cr_f2v:'Адрес на карте',cr_f3:'Цена',cr_f3v:'В BON или VU',cr_f4:'Срок',cr_f4v:'До какого времени',cr_f5:'Чем подтвердить',cr_f5v:'Фото, видео, Live, место',
+ cr_btn:'Создать в приложении',cr_note:'Задание создаётся и оплачивается в приложении LVS.',
+ bal_gift:'Подарок',gift_text:'Подтвердите номер в боте — без SMS, одним нажатием.',gift_btn:'Получить 10 BON',bon_note:'Бонусные единицы: тратятся на задания, не выводятся и не переводятся.',ok_chip:'Номер подтверждён',
+ st_vu_d:'Деньги и вывод — в приложении',
+ w_t:'Кошелёк',a_top:'Пополнить',a_out:'Вывести',a_send:'Перевести',a_recv:'Получить',hist_t:'История',hist_d:'Операции и вывод денег — в приложении LVS',
  pr_phone:'Номер телефона',pr_ph_ok:'Подтверждён',pr_ph_no:'Не подтверждён',pr_ph_unk:'Проверьте в боте',pr_lang:'Язык',pr_site:'Сайт',pr_bot:'Бот',pr_ver:'LVS · тестовая сеть',
- tb_home:'Главная',tb_tasks:'Задания',tb_friends:'Друзья',tb_me:'Профиль',
- hello:'Привет, {n}',copied:'Скопировано',
- w_cta:'Открыть в Telegram',w_how_btn:'Как это работает',w_h1a:'Делайте реальные дела —',w_h1b:'получайте оплату за доказанный результат',
+ ph_t:'Подтвердите номер — получите 10 BON',ph_d:'Одним нажатием в Telegram, без SMS.',
+ inv_t:'Пригласить друзей',inv_d:'+1 BON за каждого, кто подтвердит свой номер.',inv_link:'Ваша ссылка',inv_nolink:'Ссылка появится после подтверждения вашего номера.',inv_open:'Открыть бота',inv_copy:'Копировать',inv_share:'Поделиться',inv_cnt:'Приглашено: {a} · подтвердили: {b}',
+ sh_feed_t:'Лента заданий — в приложении',sh_feed_d:'Установите LVS на Android или Windows: задания рядом, карта и создание. Аккаунт тот же.',
+ sh_app_t:'Это делается в приложении',sh_app_d:'Установите LVS на Android или Windows и войдите — аккаунт тот же.',
+ sh_money_t:'Деньги — в приложении',sh_money_d:'Пополнение, вывод и переводы доступны только в приложении LVS: так ваши деньги под защитой.',
+ hello:'Привет',copied:'Скопировано',
+ w_cta:'Открыть в Telegram',w_how_btn:'Как это работает',w_gr:'Добрый вечер,',w_h1a:'Делайте реальные дела —',w_h1b:'получайте оплату за доказанный результат',
  w_lead:'Сфотографировать вывеску, проверить, открыт ли магазин, показать место в Live — кто-то рядом делает, LVS подтверждает где и когда, заказчик платит.',
- w_how_sub:'Три шага от задачи до оплаты.',w_why:'Почему LVS',w_why_sub:'Результат подтверждается данными, а не словами.',
- f_a:'Доказательства, а не обещания',f_ad:'Фото, видео и Live снимаются внутри приложения и привязаны к месту и времени.',
- f_b:'Честный исход',f_bd:'Принятое оплачивается сразу. Споры решаются по данным: место, время, материалы.',
- f_c:'Приватность',f_cd:'Чаты и медиа между двумя сторонами шифруются. Серверы не хранят ваши файлы.',
- f_d:'30 языков',f_dd:'Интерфейс на вашем языке и живой перевод чата между сторонами.',
- w_cur_sub:'Одна единица — для денег, другая — чтобы попробовать.',
+ how_t:'Как это работает',w_how_sub:'Три шага от задачи до оплаты.',
+ s1_t:'Найдите или создайте задание',s1_d:'Рядом с вами или там, где нужно.',s2_t:'Сделайте и докажите',s2_d:'Фото или видео с местом и временем — прямо в приложении.',s3_t:'Получите оплату',s3_d:'Принято — платим сразу. Заказчик молчит — платим сами.',
+ w_why:'Почему LVS',w_why_sub:'Результат подтверждается данными, а не словами.',
+ f_a:'Доказательства, а не обещания',f_ad:'Фото, видео и Live снимаются внутри приложения и привязаны к месту и времени.',f_b:'Честный исход',f_bd:'Принятое оплачивается сразу. Споры решаются по данным: место, время, материалы.',f_c:'Приватность',f_cd:'Чаты и медиа между двумя сторонами шифруются. Серверы не хранят ваши файлы.',f_d:'30 языков',f_dd:'Интерфейс на вашем языке и живой перевод чата между сторонами.',
+ cur_t:'Две единицы',w_cur_sub:'Одна единица — для денег, другая — чтобы попробовать.',vu_d:'1 VU = 1 USDT/USDC. Пополнение и вывод на ваш крипто-кошелёк.',bon_d:'Бонус за старт: 10 за номер, +1 за друга. Тратится на задания, не выводится.',
  w_final:'Начните в Telegram — это минута',w_final_d:'Подтвердите номер в боте и получите 10 BON на первые задания.'},
-en:{brand_tag:'Tasks nearby. Paid for the result.',
- bal_label:'Your BON',bal_note:'Bonus units: spend them on tasks. Not withdrawable, not transferable.',
- gift_badge:'Gift',gift_text:'Confirm your number in the bot — no SMS, one tap.',gift_btn:'Get 10 BON',ok_chip:'Phone confirmed',
- q_tasks:'Tasks',q_friends:'Friends',q_app:'App',
- how_t:'How it works',s1_t:'Find or create a task',s1_d:'Near you or wherever it is needed.',
- s2_t:'Do it and prove it',s2_d:'Photo or video with place and time — right in the app.',
- s3_t:'Get paid',s3_d:'Accepted — paid at once. Requester silent — we pay for them.',
- do_t:'What you can do',d1:'Shop sign photo',d1d:'Shoot a sign or a window',d2:'On-site check',d2d:'Is the place open now',d3:'Live video',d3d:'A short show from the spot',d4:'Store price',d4d:'Check a price tag',
- tk_t:'Tasks',tk_sub:'Everything happens in the LVS app',
- tk_w_t:'For workers',tk_w_d:'Take tasks nearby and shoot right in the app — place and time prove themselves.',
- tk_c_t:'For requesters',tk_c_d:'Describe what you need, set price and deadline — pay only for accepted results.',
- cur_t:'Two units',vu_d:'1 VU = 1 USDT/USDC. Deposit and withdraw to your own crypto wallet.',bon_d:'Starter bonus: 10 for a phone, +1 per friend. Spend on tasks, never withdrawn.',
- app_t:'Tasks live in the app',app_d:'Install LVS on Android or Windows — same account.',app_btn:'Get the app',
- fr_sub:'for every friend who confirms a phone',fr_inv:'Invited',fr_ok:'Confirmed',
- fr_link:'Your link',fr_nolink:'The link appears once you confirm your number in the bot.',fr_open:'Open the bot',fr_copy:'Copy',fr_share:'Share',
- f1_t:'Send the link',f1_d:'To a friend, in a chat or a social network.',f2_t:'Friend confirms a number',f2_d:'One tap in the bot.',f3_t:'You get +1 BON',f3_d:'Right after the confirmation.',
- fr_note:'Confirm your own number first — then the referral link unlocks. One number, one bonus.',
+en:{mini:'LVS mini version',acct:'Internal account',
+ gm:'Good morning,',gd:'Good afternoon,',ge:'Good evening,',gn:'Good night,',
+ gate_t:'Tasks near you',gate_d:'Feed and map live in the LVS app',
+ tb_home:'Home',tb_tasks:'Tasks',tb_create:'Create',tb_me:'Profile',
+ ex_t:'Task examples',ex_note:'These are examples. The real feed lives in the LVS app.',
+ c_check:'Check',c_auto:'Auto',c_addr:'Address',c_deliv:'Delivery',
+ e1:'Check product availability',e2:'Inspect a car',e3:'Check an address',e4:'Pick up an order',e5:'Inspect a site',
+ world_t:'Everything else lives in the LVS app',app_btn:'Get the app',close:'Close',
+ tk_sub:'Take tasks nearby and shoot right in the app',tk_w_t:'For workers',tk_w_d:'Place and time prove themselves. Accepted — paid at once.',feed_btn:'Open the nearby feed',
+ cr_sub:'Describe what you need — people nearby will see it',
+ cr_f1:'What to do',cr_f1v:'Check if a store is open',cr_f2:'Where',cr_f2v:'Address on the map',cr_f3:'Price',cr_f3v:'In BON or VU',cr_f4:'Deadline',cr_f4v:'Until when',cr_f5:'Proof',cr_f5v:'Photo, video, Live, place',
+ cr_btn:'Create in the app',cr_note:'Tasks are created and paid in the LVS app.',
+ bal_gift:'Gift',gift_text:'Confirm your number in the bot — no SMS, one tap.',gift_btn:'Get 10 BON',bon_note:'Bonus units: spend them on tasks. Not withdrawable, not transferable.',ok_chip:'Phone confirmed',
+ st_vu_d:'Money and withdrawals — in the app',
+ w_t:'Wallet',a_top:'Top up',a_out:'Withdraw',a_send:'Send',a_recv:'Receive',hist_t:'History',hist_d:'Operations and withdrawals live in the LVS app',
  pr_phone:'Phone number',pr_ph_ok:'Confirmed',pr_ph_no:'Not confirmed',pr_ph_unk:'Check in the bot',pr_lang:'Language',pr_site:'Website',pr_bot:'Bot',pr_ver:'LVS · test network',
- tb_home:'Home',tb_tasks:'Tasks',tb_friends:'Friends',tb_me:'Profile',
- hello:'Hi, {n}',copied:'Copied',
- w_cta:'Open in Telegram',w_how_btn:'How it works',w_h1a:'Do real things —',w_h1b:'get paid for proven results',
+ ph_t:'Confirm your number — get 10 BON',ph_d:'One tap in Telegram, no SMS.',
+ inv_t:'Invite friends',inv_d:'+1 BON for every friend who confirms a phone.',inv_link:'Your link',inv_nolink:'The link appears once you confirm your number.',inv_open:'Open the bot',inv_copy:'Copy',inv_share:'Share',inv_cnt:'Invited: {a} · confirmed: {b}',
+ sh_feed_t:'The task feed lives in the app',sh_feed_d:'Install LVS on Android or Windows: tasks nearby, the map and task creation. Same account.',
+ sh_app_t:'This is done in the app',sh_app_d:'Install LVS on Android or Windows and sign in — same account.',
+ sh_money_t:'Money lives in the app',sh_money_d:'Top up, withdrawals and transfers are only in the LVS app — that keeps your money safe.',
+ hello:'Hi',copied:'Copied',
+ w_cta:'Open in Telegram',w_how_btn:'How it works',w_gr:'Good evening,',w_h1a:'Do real things —',w_h1b:'get paid for proven results',
  w_lead:'Photograph a shop sign, check if a store is open, show a place Live — someone nearby does it, LVS proves where and when, the requester pays.',
- w_how_sub:'Three steps from task to payment.',w_why:'Why LVS',w_why_sub:'Results are confirmed by data, not by words.',
- f_a:'Proof, not promises',f_ad:'Photos, video and Live are captured inside the app and bound to place and time.',
- f_b:'Fair outcomes',f_bd:'Accepted work is paid at once. Disputes are decided by data: place, time, media.',
- f_c:'Private by design',f_cd:'Chats and media between the two sides are encrypted. Servers do not keep your files.',
- f_d:'30 languages',f_dd:'The interface in your language and live chat translation between the two sides.',
- w_cur_sub:'One unit is for money, the other is for trying it out.',
+ how_t:'How it works',w_how_sub:'Three steps from task to payment.',
+ s1_t:'Find or create a task',s1_d:'Near you or wherever it is needed.',s2_t:'Do it and prove it',s2_d:'Photo or video with place and time — right in the app.',s3_t:'Get paid',s3_d:'Accepted — paid at once. Requester silent — we pay for them.',
+ w_why:'Why LVS',w_why_sub:'Results are confirmed by data, not by words.',
+ f_a:'Proof, not promises',f_ad:'Photos, video and Live are captured inside the app and bound to place and time.',f_b:'Fair outcomes',f_bd:'Accepted work is paid at once. Disputes are decided by data: place, time, media.',f_c:'Private by design',f_cd:'Chats and media between the two sides are encrypted. Servers do not keep your files.',f_d:'30 languages',f_dd:'The interface in your language and live chat translation between the two sides.',
+ cur_t:'Two units',w_cur_sub:'One unit is for money, the other is for trying it out.',vu_d:'1 VU = 1 USDT/USDC. Deposit and withdraw to your own crypto wallet.',bon_d:'Starter bonus: 10 for a phone, +1 per friend. Spend on tasks, never withdrawn.',
  w_final:'Start in Telegram — it takes a minute',w_final_d:'Confirm your number in the bot and get 10 BON for your first tasks.'}
 };
 const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
@@ -415,91 +539,99 @@ const user=(inTg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||(preview?{id:12345
 const pick=l=>/^(ru|be|kk|uk)/i.test(l||'')?'ru':'en';
 let lang=store.get('lvs_lang')||pick((user&&user.language_code)||navigator.language);
 const t=k=>(T[lang]&&T[lang][k])||T.en[k]||k;
-
 const startParam=((inTg&&tg.initDataUnsafe&&tg.initDataUnsafe.start_param)||q.get('ref')||'').replace(/^ref_/,'');
 const refCode=/^[A-Za-z0-9_-]{4,40}$/.test(startParam)?startParam:'';
-const botUrl=(payload)=>'https://t.me/'+BOT+(payload?'?start='+payload:'');
+const botUrl=p=>'https://t.me/'+BOT+(p?'?start='+p:'');
 const botStart=()=>botUrl(refCode?'ref_'+refCode:'');
-const $=s=>document.querySelector(s);
-const $$=s=>[].slice.call(document.querySelectorAll(s));
-let me=null;
+const $=s=>document.querySelector(s), $$=s=>[].slice.call(document.querySelectorAll(s));
+let me=null, cur='home';
 
-function openUrl(url){
-  if(inTg&&tg.openTelegramLink&&/^https:\/\/t\.me\//.test(url)){tg.openTelegramLink(url)}
-  else{window.open(url,'_blank','noopener')}
-}
+function openUrl(u){ if(inTg&&tg.openTelegramLink&&/^https:\/\/t\.me\//.test(u)) tg.openTelegramLink(u); else window.open(u,'_blank','noopener'); }
 function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),1600)}
 function haptic(){try{tg.HapticFeedback.selectionChanged()}catch(e){}}
 function copy(text){
   const done=()=>toast(t('copied'));
-  function fallback(){const a=document.createElement('textarea');a.value=text;document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(e){}a.remove();done()}
-  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done,fallback)}else fallback();
+  function fb(){const a=document.createElement('textarea');a.value=text;document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(e){}a.remove();done()}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done,fb)}else fb();
 }
-const bonText=a=>{const v=a/1e6;return (Math.round(v*100)/100).toString()};
+const bonText=a=>(Math.round(a/1e6*100)/100).toString();
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function greetKey(){const h=new Date().getHours();return h>=5&&h<11?'gm':h<17&&h>=11?'gd':h>=17&&h<23?'ge':'gn'}
 
-function applyLang(){
-  document.documentElement.lang=lang;
-  $$('[data-i]').forEach(el=>{el.textContent=t(el.dataset.i)});
-  $$('[data-lang]').forEach(b=>b.classList.toggle('on',b.dataset.lang===lang));
-  if(appMode)renderAll();
+/* ---------- render ---------- */
+function balHtml(){
+  const v=me&&me.verified;
+  const bon=v?bonText(me.bon_atoms||0):'10';
+  let h='<div class="big">'+bon+' <small>BON</small>'+(v?'':' <span class="chip gold">'+esc(t('bal_gift'))+'</span>')+'</div>';
+  h+='<div class="note">'+esc(v?t('bon_note'):t('gift_text'))+'</div>';
+  if(!v)h+='<button class="btn block" style="margin-top:14px" data-open="'+esc(botStart())+'">'+esc(t('gift_btn'))+'</button>';
+  h+='<div class="stats" data-sheet="money" style="cursor:pointer;align-items:center;gap:10px"><span class="ic gold">'+ic('vu')+'</span><div style="flex:1"><b style="font-size:15px">VU</b><span>'+esc(t('st_vu_d'))+'</span></div>'+ic('chev')+'</div>';
+  return h;
 }
 function renderAva(){
-  const first=(user&&user.first_name)||'L';
-  $$('[data-ava]').forEach(e=>{
-    e.textContent='';
-    if(user&&user.photo_url){const i=new Image();i.src=user.photo_url;i.alt='';i.onerror=()=>{e.textContent=first[0].toUpperCase()};e.appendChild(i)}
-    else e.textContent=first[0].toUpperCase();
-  });
+  const f=(user&&user.first_name)||'L';
+  $$('[data-ava]').forEach(e=>{e.textContent='';
+    if(user&&user.photo_url){const i=new Image();i.src=user.photo_url;i.alt='';i.onerror=()=>{e.textContent=f[0].toUpperCase()};e.appendChild(i)}else e.textContent=f[0].toUpperCase()});
 }
 function renderHome(){
-  $('#hello').textContent=t('hello').replace('{n}',(user&&user.first_name)||'');
-  const box=$('#balBox');
-  if(me&&me.verified){
-    box.innerHTML='<div class="big">'+bonText(me.bon_atoms||0)+' <small>BON</small></div><p>'+esc(t('bal_note'))+'</p><span class="chip"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'+esc(t('ok_chip'))+'</span>';
-  }else{
-    box.innerHTML='<div class="big">10 <small>BON</small> <span class="chip gold">'+esc(t('gift_badge'))+'</span></div><p>'+esc(t('gift_text'))+'</p><button class="btn block" data-open="'+esc(botStart())+'">'+esc(t('gift_btn'))+'</button>';
-  }
-}
-function renderFriends(){
-  const c=$('#frLinkCard');
-  const link=me&&me.invite_link;
-  $('#frStats').hidden=!(me&&me.verified);
-  if(me&&me.verified){$('#stInv').textContent=me.invited||0;$('#stOk').textContent=me.confirmed||0}
-  if(link){
-    c.innerHTML='<b>'+esc(t('fr_link'))+'</b><div class="link">'+esc(link)+'</div><div class="two"><button class="btn ghost" data-copy="'+esc(link)+'">'+esc(t('fr_copy'))+'</button><button class="btn" data-share="'+esc(link)+'">'+esc(t('fr_share'))+'</button></div>';
-  }else{
-    c.innerHTML='<b>'+esc(t('fr_link'))+'</b><span class="mu" style="font-size:13px">'+esc(t('fr_nolink'))+'</span><button class="btn block" data-open="'+esc(botStart())+'">'+esc(t('fr_open'))+'</button>';
-  }
+  $('#greet').textContent=t(greetKey());
+  $('#nick').textContent=(user&&user.first_name)||t('hello');
+  $('#homeBalBox').innerHTML=balHtml();
+  $('#walBalBox').innerHTML=balHtml();
 }
 function renderProfile(){
-  const u=user||{};
+  const u=user||{}, v=me&&me.verified;
   $('#meName').textContent=[u.first_name,u.last_name].filter(Boolean).join(' ')||'LVS';
   $('#meUser').textContent=u.username?'@'+u.username:'';
   $('#meIdTxt').textContent=u.id?'ID: '+u.id:'';
   $('#meId').dataset.copy=u.id?String(u.id):'';
   $('#meId').hidden=!u.id;
-  const ph=$('#mePhone');
-  if(me&&me.verified){ph.innerHTML='<span class="chip"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'+esc(t('pr_ph_ok'))+'</span>'}
-  else if(me){ph.textContent=t('pr_ph_no')}
-  else{ph.textContent=t('pr_ph_unk')}
   $('#meBon').textContent=me?bonText(me.bon_atoms||0):'—';
+  $('#mePhone').innerHTML=v?'<span class="chip">'+ic('check')+esc(t('pr_ph_ok'))+'</span>':esc(me?t('pr_ph_no'):t('pr_ph_unk'));
+  $('#phoneCard').innerHTML=v?'':'<div class="banner"><span class="ic gold">'+ic('bolt')+'</span><div style="flex:1"><b>'+esc(t('ph_t'))+'</b><span>'+esc(t('ph_d'))+'</span></div><button class="btn" style="min-height:44px;padding:0 16px" data-open="'+esc(botStart())+'">'+ic('chev')+'</button></div>';
+  const link=me&&me.invite_link;
+  let h='<div class="rowc" style="padding:0;cursor:default"><span class="ic vio round">'+ic('user')+'</span><div class="g"><b>'+esc(t('inv_t'))+'</b><span class="d">'+esc(t('inv_d'))+'</span></div></div>';
+  if(link){
+    h+='<div class="link">'+esc(link)+'</div><div class="two"><button class="btn out" data-copy="'+esc(link)+'">'+ic('copy')+esc(t('inv_copy'))+'</button><button class="btn" data-share="'+esc(link)+'">'+ic('share')+esc(t('inv_share'))+'</button></div>';
+    if(me&&me.verified)h+='<div class="mu" style="font-size:13px;text-align:center">'+esc(t('inv_cnt').replace('{a}',me.invited||0).replace('{b}',me.confirmed||0))+'</div>';
+  }else{
+    h+='<div class="mu" style="font-size:13px">'+esc(t('inv_nolink'))+'</div><button class="btn block" data-open="'+esc(botStart())+'">'+esc(t('inv_open'))+'</button>';
+  }
+  $('#invCard').innerHTML=h;
 }
-function renderAll(){renderAva();renderHome();renderFriends();renderProfile()}
+function renderAll(){renderAva();renderHome();renderProfile()}
+function applyLang(){
+  document.documentElement.lang=lang;
+  $$('[data-i]').forEach(e=>{e.textContent=t(e.dataset.i)});
+  $$('[data-lang]').forEach(b=>b.classList.toggle('on',b.dataset.lang===lang));
+  if(appMode)renderAll();
+}
 
+/* ---------- navigation ---------- */
 function go(tab){
+  cur=tab;
   $$('.tab').forEach(s=>{s.hidden=s.dataset.tab!==tab});
   $$('#tabbar button').forEach(b=>b.classList.toggle('on',b.dataset.go===tab));
+  $('#tabbar').style.display=(tab==='wallet')?'none':'flex';
   window.scrollTo(0,0);haptic();
+  if(tg&&tg.BackButton){try{tab==='wallet'?tg.BackButton.show():tg.BackButton.hide()}catch(e){}}
+}
+function sheet(kind){
+  const k=kind==='money'?'money':kind==='feed'?'feed':'app';
+  $('#shT').textContent=t('sh_'+k+'_t');$('#shD').textContent=t('sh_'+k+'_d');
+  $('#sheet').classList.add('on');haptic();
 }
 document.addEventListener('click',e=>{
-  const el=e.target.closest('[data-go],[data-open],[data-bot],[data-copy],[data-share],[data-lang]');
+  if(e.target===$('#sheet')||e.target.closest('#shX')){$('#sheet').classList.remove('on');return}
+  const el=e.target.closest('[data-go],[data-open],[data-bot],[data-copy],[data-share],[data-lang],[data-sheet]');
   if(!el)return;
   if(el.dataset.lang){lang=el.dataset.lang;store.set('lvs_lang',lang);applyLang();return}
+  if(el.dataset.sheet){sheet(el.dataset.sheet);return}
   if(el.dataset.go!==undefined){go(el.dataset.go);return}
   if(el.dataset.open){openUrl(el.dataset.open);return}
   if(el.dataset.bot!==undefined){
     if(el.tagName==='A')e.preventDefault();
+    $('#sheet').classList.remove('on');
     openUrl(el.dataset.bot==='app'?botUrl('app'):botStart());return}
   if(el.dataset.copy){copy(el.dataset.copy);return}
   if(el.dataset.share){
@@ -520,11 +652,59 @@ async function loadMe(){
   renderAll();
 }
 
+/* ---------- living background (stars, gems, rings; breathing glow; tap ripples) ---------- */
+function startBg(){
+  const c=$('#bg'),g=c.getContext('2d');
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let w,h,dpr,parts=[],ripples=[],raf=0,last=0;
+  const cols=['220,230,255','91,140,255','167,148,255','49,214,163'];
+  function size(){dpr=Math.min(window.devicePixelRatio||1,2);w=innerWidth;h=innerHeight;c.width=w*dpr;c.height=h*dpr;g.setTransform(dpr,0,0,dpr,0,0);
+    const n=w<600?34:64;parts=[];for(let i=0;i<n;i++)parts.push(mk(true))}
+  function mk(init){const r=Math.random();return{x:Math.random()*w,y:init?Math.random()*h:h+20,kind:r<.5?0:r<.8?1:2,s:4+Math.random()*9,rot:Math.random()*6.28,vr:(Math.random()-.5)*.0006,
+    vy:-(.006+Math.random()*.018),vx:(Math.random()-.5)*.01,ph:Math.random()*6.28,sp:.0006+Math.random()*.0016,col:cols[Math.random()<.7?0:1+Math.floor(Math.random()*3)],ix:0,iy:0}}
+  function star(p,a){g.strokeStyle='rgba('+p.col+','+a+')';g.lineWidth=1;g.beginPath();
+    g.moveTo(p.x-p.s,p.y);g.lineTo(p.x+p.s,p.y);g.moveTo(p.x,p.y-p.s*1.5);g.lineTo(p.x,p.y+p.s*1.5);
+    const d=p.s*.55;g.moveTo(p.x-d,p.y-d);g.lineTo(p.x+d,p.y+d);g.moveTo(p.x-d,p.y+d);g.lineTo(p.x+d,p.y-d);g.stroke()}
+  function gem(p,a){g.save();g.translate(p.x,p.y);g.rotate(p.rot);g.strokeStyle='rgba('+p.col+','+a+')';g.lineWidth=1;
+    const s=p.s;g.beginPath();g.moveTo(0,-s);g.lineTo(s*.8,0);g.lineTo(0,s);g.lineTo(-s*.8,0);g.closePath();g.moveTo(-s*.8,0);g.lineTo(s*.8,0);g.moveTo(0,-s);g.lineTo(0,s);g.stroke();g.restore()}
+  function ring(p,a){g.strokeStyle='rgba('+p.col+','+a+')';g.lineWidth=1;g.beginPath();g.arc(p.x,p.y,p.s,0,6.283);g.stroke()}
+  function frame(now){
+    raf=requestAnimationFrame(frame);
+    if(now-last<33)return;const dt=Math.min(now-last,80);last=now;
+    g.clearRect(0,0,w,h);
+    const k=(Math.sin(now/6500)+1)/2;
+    let gr=g.createRadialGradient(w*(.15+.6*k),h*.18,0,w*(.15+.6*k),h*.18,Math.max(w,h)*.75);
+    gr.addColorStop(0,'rgba(59,108,255,'+(.17+.07*k)+')');gr.addColorStop(1,'rgba(59,108,255,0)');g.fillStyle=gr;g.fillRect(0,0,w,h);
+    gr=g.createRadialGradient(w*(.85-.55*k),h*.88,0,w*(.85-.55*k),h*.88,Math.max(w,h)*.7);
+    gr.addColorStop(0,'rgba(120,86,234,'+(.14+.05*(1-k))+')');gr.addColorStop(1,'rgba(120,86,234,0)');g.fillStyle=gr;g.fillRect(0,0,w,h);
+    for(const p of parts){
+      p.x+=p.vx*dt+p.ix;p.y+=p.vy*dt+p.iy;p.rot+=p.vr*dt;p.ix*=.92;p.iy*=.92;
+      if(p.y<-24||p.x<-24||p.x>w+24){Object.assign(p,mk(false),{x:Math.random()*w})}
+      const a=.18+.55*(.5+.5*Math.sin(now*p.sp+p.ph));
+      p.kind===0?star(p,a):p.kind===1?gem(p,a*.9):ring(p,a*.7);
+    }
+    for(let i=ripples.length-1;i>=0;i--){const r=ripples[i];r.t+=dt;const f=r.t/900;if(f>=1){ripples.splice(i,1);continue}
+      g.strokeStyle='rgba(180,205,255,'+(.5*(1-f))+')';g.lineWidth=1.5;g.beginPath();g.arc(r.x,r.y,10+f*110,0,6.283);g.stroke();
+      for(const p of parts){const dx=p.x-r.x,dy=p.y-r.y,d=Math.hypot(dx,dy);if(d<140&&d>1){p.ix+=dx/d*.05*(1-f);p.iy+=dy/d*.05*(1-f)}}}
+  }
+  function still(){g.clearRect(0,0,w,h);const gr=g.createRadialGradient(w*.5,h*.2,0,w*.5,h*.2,Math.max(w,h)*.75);gr.addColorStop(0,'rgba(59,108,255,.2)');gr.addColorStop(1,'rgba(59,108,255,0)');g.fillStyle=gr;g.fillRect(0,0,w,h);
+    for(const p of parts){const a=.4;p.kind===0?star(p,a):p.kind===1?gem(p,a):ring(p,a*.7)}}
+  size();
+  addEventListener('resize',()=>{size();if(reduce)still()});
+  if(reduce){still();return}
+  addEventListener('pointerdown',e=>{ripples.push({x:e.clientX,y:e.clientY,t:0})},{passive:true});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(raf)}else{last=0;raf=requestAnimationFrame(frame)}});
+  raf=requestAnimationFrame(frame);
+}
+
+/* ---------- start ---------- */
 if(appMode){
   $('#tabbar').style.display='flex';
-  if(tg){try{tg.ready();tg.expand();tg.setHeaderColor('#070b14');tg.setBackgroundColor('#070b14');if(tg.setBottomBarColor)tg.setBottomBarColor('#070b14')}catch(e){}}
+  if(tg){try{tg.ready();tg.expand();tg.setHeaderColor('#0A1226');tg.setBackgroundColor('#0A1226');if(tg.setBottomBarColor)tg.setBottomBarColor('#02040A');
+    if(tg.BackButton)tg.BackButton.onClick(()=>go('home'))}catch(e){}}
 }
 applyLang();
+startBg();
 loadMe();
 })();
 </script>
