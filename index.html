@@ -3,236 +3,530 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#070b14">
 <title>LVS — задания рядом, оплата за результат</title>
-<meta name="description" content="LVS: выполняйте задания рядом с вами и получайте оплату за доказанный результат. Фото, видео и live с местом и временем.">
-<meta name="theme-color" content="#0a0f1e">
-<link rel="icon" href="icon-192.png">
-<link rel="apple-touch-icon" href="icon-192.png">
-<meta property="og:title" content="LVS — задания рядом, оплата за результат">
-<meta property="og:description" content="Фото, видео и live с местом и временем. Оплата за доказанный результат.">
-<meta property="og:image" content="https://app.lvs.network/icon-512.png">
+<meta name="description" content="LVS: делайте реальные дела рядом с вами и получайте оплату за доказанный результат.">
+<link rel="icon" href="lvs-orbit.png">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
-  :root {
-    --bg: #0a0f1e; --bg2: #10172b; --card: #141c33; --line: #24304f;
-    --text: #e9eefb; --muted: #9aa6c4; --blue: #4f8cff; --mint: #38e1b0;
-    --amber: #ffc24b; --violet: #8b6cff; --radius: 20px;
-  }
-  * { box-sizing: border-box; }
-  html, body { margin: 0; background: var(--bg); color: var(--text);
-    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    -webkit-font-smoothing: antialiased; }
-  a { color: inherit; }
-  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
-  header { position: sticky; top: 0; z-index: 5; backdrop-filter: blur(14px);
-    background: color-mix(in srgb, var(--bg) 78%, transparent); border-bottom: 1px solid var(--line); }
-  .bar { display: flex; align-items: center; justify-content: space-between; height: 60px; }
-  .brand { display: flex; align-items: center; gap: 10px; font-weight: 900; letter-spacing: 2px; font-size: 20px; text-decoration: none; }
-  .brand img { width: 30px; height: 30px; border-radius: 9px; }
-  .lang { display: flex; gap: 4px; }
-  .lang button { background: transparent; color: var(--muted); border: 1px solid var(--line);
-    border-radius: 10px; padding: 6px 10px; font-weight: 700; cursor: pointer; }
-  .lang button.on { color: var(--text); border-color: var(--blue); }
-  .hero { display: grid; grid-template-columns: 1.15fr .85fr; gap: 28px; align-items: center; padding: 56px 0 40px; }
-  .pill { display: inline-flex; gap: 8px; align-items: center; padding: 6px 12px; border-radius: 999px;
-    background: color-mix(in srgb, var(--mint) 14%, transparent); color: var(--mint); font-weight: 700; font-size: 13px; }
-  h1 { font-size: clamp(34px, 6vw, 58px); line-height: 1.04; margin: 16px 0 14px; letter-spacing: -1.5px; font-weight: 900; }
-  h1 span { background: linear-gradient(90deg, var(--blue), var(--mint)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .lead { color: var(--muted); font-size: 18px; line-height: 1.55; max-width: 560px; }
-  .cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 26px; }
-  .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 20px; border-radius: 14px;
-    font-weight: 800; text-decoration: none; border: 1px solid var(--line); cursor: pointer; font-size: 16px; }
-  .btn.primary { background: linear-gradient(135deg, var(--blue), #6b5cff); border: 0; color: white; }
-  .btn.ghost { background: var(--card); }
-  .orbit { width: 100%; max-width: 420px; justify-self: center; filter: drop-shadow(0 30px 80px rgba(79,140,255,.35));
-    animation: float 7s ease-in-out infinite; }
-  @keyframes float { 50% { transform: translateY(-10px) rotate(2deg); } }
-  section { padding: 34px 0; }
-  h2 { font-size: clamp(26px, 4vw, 36px); margin: 0 0 18px; letter-spacing: -.6px; }
-  .grid { display: grid; gap: 14px; grid-template-columns: repeat(3, 1fr); }
-  .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
-  .card h3 { margin: 10px 0 6px; font-size: 18px; }
-  .card p { margin: 0; color: var(--muted); line-height: 1.5; }
-  .num { width: 36px; height: 36px; border-radius: 12px; display: grid; place-items: center; font-weight: 900;
-    background: color-mix(in srgb, var(--blue) 18%, transparent); color: var(--blue); }
-  .ico { font-size: 26px; }
-  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  .unit { font-weight: 900; font-size: 30px; letter-spacing: 1px; }
-  .unit.vu { color: var(--mint); } .unit.bon { color: var(--amber); }
-  .bonus { background: linear-gradient(135deg, color-mix(in srgb, var(--amber) 22%, var(--card)), var(--card));
-    border-color: color-mix(in srgb, var(--amber) 40%, var(--line)); }
-  .invite { display: none; margin-top: 18px; }
-  .invite.on { display: block; }
-  .dl { display: flex; gap: 12px; flex-wrap: wrap; }
-  .soon { color: var(--muted); font-size: 14px; margin-top: 10px; }
-  footer { border-top: 1px solid var(--line); color: var(--muted); padding: 26px 0 40px; font-size: 14px; }
-  footer .row { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-  @media (max-width: 820px) {
-    .hero { grid-template-columns: 1fr; padding-top: 28px; }
-    .orbit { max-width: 240px; order: -1; }
-    .grid, .split { grid-template-columns: 1fr; }
-  }
-  body.tg header { display: none; }
+:root{--bg:#070b14;--s1:#0e1526;--s2:#141d33;--line:rgba(255,255,255,.07);--tx:#e9eefc;--mu:#8793b5;--ac:#4f8cff;--ac2:#22d3ee;--vi:#7c5cff;--bon:#fbbf24;--ok:#34d399;--r:18px}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html{background:var(--bg);color-scheme:dark}
+body{background:var(--bg);color:var(--tx);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(60% 40% at 85% -5%,rgba(79,140,255,.22),transparent 70%),radial-gradient(50% 35% at -5% 30%,rgba(124,92,255,.14),transparent 70%),radial-gradient(40% 30% at 70% 100%,rgba(34,211,238,.10),transparent 70%)}
+svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+h1,h2,h3{line-height:1.15;letter-spacing:-.02em}
+a{color:inherit}
+.mu{color:var(--mu)}
+.grad{background:linear-gradient(120deg,var(--ac),var(--ac2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.card{background:linear-gradient(180deg,var(--s2),var(--s1));border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:14px;padding:13px 20px;font:600 15px/1 inherit;color:#fff;background:linear-gradient(135deg,var(--ac),var(--vi));cursor:pointer;text-decoration:none;box-shadow:0 8px 24px rgba(79,140,255,.28)}
+.btn:active{transform:scale(.98)}
+.btn.ghost{background:var(--s2);border:1px solid var(--line);box-shadow:none}
+.btn.block{width:100%}
+.btn svg{width:18px;height:18px}
+.ic{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:rgba(79,140,255,.14);color:var(--ac);flex:none}
+.ic.c2{background:rgba(34,211,238,.14);color:var(--ac2)}
+.ic.c3{background:rgba(124,92,255,.16);color:#a794ff}
+.ic.c4{background:rgba(251,191,36,.14);color:var(--bon)}
+.ic.c5{background:rgba(52,211,153,.14);color:var(--ok)}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:99px;font-size:12px;font-weight:600;background:rgba(52,211,153,.14);color:var(--ok)}
+.chip.gold{background:rgba(251,191,36,.16);color:var(--bon)}
+.chip svg{width:14px;height:14px}
+
+/* ---------- Mini App ---------- */
+body.web .app{display:none}
+body.tg .web{display:none}
+.app{max-width:520px;margin:0 auto;padding:16px 16px calc(96px + env(safe-area-inset-bottom));position:relative}
+.tab{display:flex;flex-direction:column;gap:14px;animation:in .25s ease}
+@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.top{display:flex;align-items:center;gap:12px}
+.ava{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--vi));display:grid;place-items:center;font-weight:700;font-size:18px;overflow:hidden;flex:none}
+.ava img{width:100%;height:100%;object-fit:cover}
+.top h2{font-size:19px}
+.top .sub{font-size:13px;color:var(--mu)}
+.bal{position:relative;overflow:hidden;border-radius:22px;padding:20px;background:linear-gradient(135deg,#1a3a94 0%,#0f5f86 55%,#0e1c36 100%);border:1px solid rgba(255,255,255,.12);box-shadow:0 18px 50px rgba(34,211,238,.12)}
+.bal::after{content:"";position:absolute;right:-40px;top:-40px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(34,211,238,.45),transparent 70%)}
+.bal>*{position:relative;z-index:1}
+.bal .lab{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.8}
+.bal .big{font-size:44px;font-weight:800;letter-spacing:-.03em;margin:6px 0 4px;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.bal .big small{font-size:18px;font-weight:700;color:var(--bon)}
+.bal p{font-size:13px;opacity:.85;margin-bottom:14px;max-width:34ch}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.tile{display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 6px;border-radius:16px;background:var(--s1);border:1px solid var(--line);font:600 13px/1.2 inherit;color:var(--tx);cursor:pointer}
+.tile:active{transform:scale(.97)}
+h3.sec{font-size:17px;margin-top:6px}
+.steps{display:flex;flex-direction:column;gap:12px}
+.step{display:flex;gap:14px;align-items:flex-start}
+.step .n{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#04101f;flex:none}
+.step b{display:block;font-size:15px}
+.step span{font-size:13px;color:var(--mu)}
+.hs{display:flex;gap:10px;overflow-x:auto;margin:0 -16px;padding:2px 16px 4px;scrollbar-width:none}
+.hs::-webkit-scrollbar{display:none}
+.hs .card{min-width:150px;display:flex;flex-direction:column;gap:10px}
+.hs b{font-size:14px}
+.hs span{font-size:12px;color:var(--mu)}
+.row{display:flex;align-items:center;gap:12px}
+.row .grow{flex:1;min-width:0}
+.row b{display:block;font-size:15px}
+.row span.d{font-size:13px;color:var(--mu)}
+.kv{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:13px 0;border-bottom:1px solid var(--line)}
+.kv:last-child{border-bottom:0}
+.kv .k{color:var(--mu)}
+.who{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:22px 16px}
+.who .ava{width:84px;height:84px;font-size:34px;box-shadow:0 0 0 4px rgba(79,140,255,.25)}
+.who h2{font-size:22px}
+.idbox{display:inline-flex;gap:8px;align-items:center;padding:6px 12px;border-radius:10px;background:var(--bg);border:1px solid var(--line);font-size:13px;color:var(--mu);cursor:pointer}
+.idbox svg{width:14px;height:14px}
+.link{display:flex;gap:8px;align-items:center;padding:12px 14px;border-radius:14px;background:var(--bg);border:1px dashed rgba(255,255,255,.18);font-size:13px;word-break:break-all;color:var(--ac2)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{text-align:center}
+.stat b{font-size:28px;display:block}
+.stat span{font-size:12px;color:var(--mu)}
+.hero-friends{text-align:center;padding:26px 16px;background:linear-gradient(135deg,rgba(251,191,36,.16),rgba(124,92,255,.14));border:1px solid rgba(251,191,36,.25);border-radius:22px}
+.hero-friends .big{font-size:42px;font-weight:800;color:var(--bon);letter-spacing:-.03em}
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:20;justify-content:center;padding:8px 12px calc(8px + env(safe-area-inset-bottom));background:rgba(7,11,20,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--line)}
+.tabbar .in{display:flex;width:100%;max-width:520px}
+.tabbar button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;background:none;border:0;color:var(--mu);font:600 11px/1 inherit;cursor:pointer;position:relative}
+.tabbar button.on{color:var(--ac)}
+.tabbar button.on::before{content:"";position:absolute;top:-9px;width:26px;height:3px;border-radius:0 0 4px 4px;background:linear-gradient(90deg,var(--ac),var(--ac2))}
+.skel{height:44px;border-radius:12px;background:linear-gradient(90deg,rgba(255,255,255,.06),rgba(255,255,255,.12),rgba(255,255,255,.06));background-size:200% 100%;animation:sk 1.2s infinite}
+@keyframes sk{to{background-position:-200% 0}}
+.toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);background:#fff;color:#07101f;padding:10px 16px;border-radius:12px;font-weight:600;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:50}
+.toast.on{opacity:1;transform:translateX(-50%)}
+.lang{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.lang button{background:none;border:0;color:var(--mu);padding:7px 11px;font:700 12px/1 inherit;cursor:pointer}
+.lang button.on{background:var(--s2);color:var(--tx)}
+
+/* ---------- Website ---------- */
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px;position:relative}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;letter-spacing:-.02em;text-decoration:none}
+.logo img{width:34px;height:34px;border-radius:10px}
+.nav .right{display:flex;align-items:center;gap:10px}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding:36px 0 70px}
+.hero h1{font-size:clamp(34px,5.2vw,58px);font-weight:800;margin-bottom:18px}
+.hero p.lead{font-size:18px;color:var(--mu);max-width:46ch;margin-bottom:26px}
+.hero .cta{display:flex;gap:12px;flex-wrap:wrap}
+.hero .btn{padding:16px 26px;font-size:16px}
+.stage{display:flex;justify-content:center;position:relative}
+.stage::before{content:"";position:absolute;inset:8% 4%;border-radius:50%;background:radial-gradient(circle,rgba(34,211,238,.28),transparent 68%);filter:blur(10px)}
+.phone{width:282px;height:560px;border-radius:42px;border:9px solid #1a2342;background:var(--bg);overflow:hidden;position:relative;box-shadow:0 40px 90px rgba(79,140,255,.25),inset 0 0 0 1px rgba(255,255,255,.06);transform:rotate(3deg)}
+.phone .screen{padding:26px 14px 0;display:flex;flex-direction:column;gap:12px;pointer-events:none}
+.phone .bal{padding:16px}
+.phone .bal .big{font-size:36px}
+.phone .bal p{font-size:12px;margin-bottom:0}
+.phone .tiles .tile{padding:10px 4px;font-size:11px}
+.phone .tiles .ic{width:34px;height:34px;border-radius:11px}
+.phone .tiles svg{width:18px;height:18px}
+.phone .tb{position:absolute;left:0;right:0;bottom:0;display:flex;padding:10px 8px 14px;background:rgba(14,21,38,.95);border-top:1px solid var(--line)}
+.phone .tb span{flex:1;text-align:center;font-size:10px;color:var(--mu);font-weight:600}
+.phone .tb span.on{color:var(--ac)}
+.phone .tb svg{width:20px;height:20px;display:block;margin:0 auto 3px}
+.sectionW{padding:60px 0}
+.sectionW>h2,.cta-band h2{font-size:clamp(26px,3.6vw,38px);margin-bottom:10px;font-weight:800}
+.sectionW>p.sub{color:var(--mu);margin-bottom:28px;max-width:60ch}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.feat{display:flex;flex-direction:column;gap:12px;padding:22px}
+.feat h3{font-size:18px}
+.feat p{color:var(--mu);font-size:14px}
+.num{font-size:44px;font-weight:800;letter-spacing:-.04em}
+.cur{padding:26px}
+.cur h3{font-size:22px;margin:10px 0 8px}
+.cur p{color:var(--mu)}
+.cta-band{margin:40px 0 60px;text-align:center;padding:48px 20px;border-radius:28px;background:linear-gradient(135deg,rgba(79,140,255,.22),rgba(124,92,255,.18));border:1px solid rgba(255,255,255,.1)}
+.cta-band p{color:var(--mu);margin-bottom:22px}
+footer.fw{padding:28px 0 40px;color:var(--mu);font-size:13px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+@media(max-width:860px){
+  .hero{grid-template-columns:1fr;padding:18px 0 50px;gap:30px}
+  .grid3,.grid4{grid-template-columns:1fr 1fr}
+  .grid2{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  .grid3,.grid4{grid-template-columns:1fr}
+  .hero .cta .btn{flex:1}
+  .nav .btn{display:none}
+  .phone{transform:none}
+}
 </style>
 </head>
 <body>
-<header>
-  <div class="wrap bar">
-    <a class="brand" href="#"><img src="icon-192.png" alt="">LVS</a>
-    <div class="lang"><button data-lang="ru">RU</button><button data-lang="en">EN</button></div>
-  </div>
-</header>
 
-<main class="wrap">
-  <div class="hero">
-    <div>
-      <span class="pill" data-t="pill"></span>
-      <h1 data-t="h1"></h1>
-      <p class="lead" data-t="lead"></p>
-      <div class="cta">
-        <a class="btn primary" id="get" href="https://t.me/LVSNetworkBot" data-t="get"></a>
-        <a class="btn ghost" href="#how" data-t="how"></a>
-      </div>
-      <div class="card bonus invite" id="invite"><b data-t="invited"></b><p data-t="invitedText"></p></div>
+<!-- ================= Mini App ================= -->
+<div class="app">
+
+  <section class="tab" data-tab="home">
+    <div class="top">
+      <div class="ava" data-ava></div>
+      <div><h2 id="hello"></h2><div class="sub" data-i="brand_tag"></div></div>
     </div>
-    <img class="orbit" src="lvs-orbit.png" alt="LVS">
-  </div>
 
-  <section id="how">
-    <h2 data-t="howTitle"></h2>
-    <div class="grid">
-      <div class="card"><div class="num">1</div><h3 data-t="s1"></h3><p data-t="s1t"></p></div>
-      <div class="card"><div class="num">2</div><h3 data-t="s2"></h3><p data-t="s2t"></p></div>
-      <div class="card"><div class="num">3</div><h3 data-t="s3"></h3><p data-t="s3t"></p></div>
+    <div class="bal">
+      <div class="lab" data-i="bal_label"></div>
+      <div id="balBox"><div class="skel"></div></div>
     </div>
-  </section>
 
-  <section>
-    <h2 data-t="whyTitle"></h2>
-    <div class="grid">
-      <div class="card"><div class="ico">📸</div><h3 data-t="w1"></h3><p data-t="w1t"></p></div>
-      <div class="card"><div class="ico">⚖️</div><h3 data-t="w2"></h3><p data-t="w2t"></p></div>
-      <div class="card"><div class="ico">🔒</div><h3 data-t="w3"></h3><p data-t="w3t"></p></div>
-      <div class="card"><div class="ico">🌍</div><h3 data-t="w4"></h3><p data-t="w4t"></p></div>
-      <div class="card"><div class="ico">💬</div><h3 data-t="w5"></h3><p data-t="w5t"></p></div>
-      <div class="card"><div class="ico">🛡️</div><h3 data-t="w6"></h3><p data-t="w6t"></p></div>
+    <div class="tiles">
+      <button class="tile" data-go="tasks"><span class="ic c2"><svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M3.5 6l1.5 1.5L7 5M3.5 12l1.5 1.5L7 11M3.5 18l1.5 1.5L7 17"/></svg></span><span data-i="q_tasks"></span></button>
+      <button class="tile" data-go="friends"><span class="ic c4"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.4c1.9.8 3 2.7 3 5.6"/></svg></span><span data-i="q_friends"></span></button>
+      <button class="tile" data-bot="app"><span class="ic c3"><svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10.5 18.5h3"/></svg></span><span data-i="q_app"></span></button>
+    </div>
+
+    <h3 class="sec" data-i="how_t"></h3>
+    <div class="card steps">
+      <div class="step"><div class="n">1</div><div><b data-i="s1_t"></b><span data-i="s1_d"></span></div></div>
+      <div class="step"><div class="n">2</div><div><b data-i="s2_t"></b><span data-i="s2_d"></span></div></div>
+      <div class="step"><div class="n">3</div><div><b data-i="s3_t"></b><span data-i="s3_d"></span></div></div>
+    </div>
+
+    <h3 class="sec" data-i="do_t"></h3>
+    <div class="hs">
+      <div class="card"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span><b data-i="d1"></b><span data-i="d1d"></span></div>
+      <div class="card"><span class="ic c5"><svg viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span><b data-i="d2"></b><span data-i="d2d"></span></div>
+      <div class="card"><span class="ic c3"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="3"/><path d="M16 10.5l5-3v9l-5-3"/></svg></span><b data-i="d3"></b><span data-i="d3d"></span></div>
+      <div class="card"><span class="ic c4"><svg viewBox="0 0 24 24"><path d="M4 4h7l9 9-7 7-9-9z"/><circle cx="8.5" cy="8.5" r="1.2"/></svg></span><b data-i="d4"></b><span data-i="d4d"></span></div>
     </div>
   </section>
 
-  <section>
-    <h2 data-t="moneyTitle"></h2>
-    <div class="split">
-      <div class="card"><div class="unit vu">VU</div><p data-t="vu"></p></div>
-      <div class="card bonus"><div class="unit bon">BON</div><p data-t="bon"></p></div>
+  <section class="tab" data-tab="tasks" hidden>
+    <div><h2 style="font-size:26px" data-i="tk_t"></h2><div class="mu" data-i="tk_sub"></div></div>
+    <div class="card row"><span class="ic c2"><svg viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span><div class="grow"><b data-i="tk_w_t"></b><span class="d" data-i="tk_w_d"></span></div></div>
+    <div class="card row"><span class="ic c3"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span><div class="grow"><b data-i="tk_c_t"></b><span class="d" data-i="tk_c_d"></span></div></div>
+    <h3 class="sec" data-i="cur_t"></h3>
+    <div class="card row"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 8l4 8 4-8"/></svg></span><div class="grow"><b>VU</b><span class="d" data-i="vu_d"></span></div></div>
+    <div class="card row"><span class="ic c4"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 8h4a2 2 0 0 1 0 4H9m0 0h5a2 2 0 0 1 0 4H9V8"/></svg></span><div class="grow"><b>BON</b><span class="d" data-i="bon_d"></span></div></div>
+    <div class="card" style="text-align:center;display:flex;flex-direction:column;gap:10px;align-items:center;padding:22px 16px">
+      <span class="ic c3" style="width:54px;height:54px"><svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10.5 18.5h3"/></svg></span>
+      <b style="font-size:17px" data-i="app_t"></b>
+      <span class="mu" style="font-size:13px" data-i="app_d"></span>
+      <button class="btn block" data-bot="app"><span data-i="app_btn"></span></button>
     </div>
   </section>
 
-  <section id="get-lvs">
-    <h2 data-t="getTitle"></h2>
+  <section class="tab" data-tab="friends" hidden>
+    <div class="hero-friends">
+      <div class="big">+1 BON</div>
+      <div data-i="fr_sub"></div>
+    </div>
+    <div class="two" id="frStats" hidden>
+      <div class="card stat"><b id="stInv">0</b><span data-i="fr_inv"></span></div>
+      <div class="card stat"><b id="stOk">0</b><span data-i="fr_ok"></span></div>
+    </div>
+    <div class="card" id="frLinkCard" style="display:flex;flex-direction:column;gap:12px"></div>
+    <h3 class="sec" data-i="how_t"></h3>
+    <div class="card steps">
+      <div class="step"><div class="n">1</div><div><b data-i="f1_t"></b><span data-i="f1_d"></span></div></div>
+      <div class="step"><div class="n">2</div><div><b data-i="f2_t"></b><span data-i="f2_d"></span></div></div>
+      <div class="step"><div class="n">3</div><div><b data-i="f3_t"></b><span data-i="f3_d"></span></div></div>
+    </div>
+    <div class="mu" style="font-size:13px" data-i="fr_note"></div>
+  </section>
+
+  <section class="tab" data-tab="me" hidden>
+    <div class="card who">
+      <div class="ava" data-ava></div>
+      <h2 id="meName"></h2>
+      <div class="mu" id="meUser"></div>
+      <div class="idbox" id="meId" data-copy=""><span id="meIdTxt"></span><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/></svg></div>
+    </div>
     <div class="card">
-      <p data-t="getText" style="margin-bottom:16px"></p>
-      <div class="dl">
-        <a class="btn primary" id="get2" href="https://t.me/LVSNetworkBot" data-t="android"></a>
-        <span class="btn ghost" data-t="iphone"></span>
-      </div>
-      <p class="soon" data-t="soon"></p>
+      <div class="kv"><span class="k" data-i="pr_phone"></span><span id="mePhone"></span></div>
+      <div class="kv"><span class="k">BON</span><b id="meBon">—</b></div>
+      <div class="kv"><span class="k" data-i="pr_lang"></span>
+        <span class="lang"><button data-lang="ru">RU</button><button data-lang="en">EN</button></span></div>
     </div>
+    <div class="two">
+      <a class="btn ghost" href="https://lvs.network" target="_blank" rel="noopener"><span data-i="pr_site"></span></a>
+      <button class="btn ghost" data-bot=""><span data-i="pr_bot"></span></button>
+    </div>
+    <div class="mu" style="text-align:center;font-size:12px" data-i="pr_ver"></div>
   </section>
-</main>
 
-<footer>
-  <div class="wrap row">
-    <span>© 2025–2026 LVS</span>
-    <span><a href="https://t.me/LVSNetworkBot">@LVSNetworkBot</a></span>
+</div>
+
+<nav class="tabbar" style="display:none" id="tabbar"><div class="in">
+  <button data-go="home" class="on"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span data-i="tb_home"></span></button>
+  <button data-go="tasks"><svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M3.5 6l1.5 1.5L7 5M3.5 12l1.5 1.5L7 11M3.5 18l1.5 1.5L7 17"/></svg><span data-i="tb_tasks"></span></button>
+  <button data-go="friends"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.4c1.9.8 3 2.7 3 5.6"/></svg><span data-i="tb_friends"></span></button>
+  <button data-go="me"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg><span data-i="tb_me"></span></button>
+</div></nav>
+<div class="toast" id="toast"></div>
+
+<!-- ================= Website ================= -->
+<div class="web">
+  <div class="wrap">
+    <header class="nav">
+      <a class="logo" href="/"><img src="lvs-orbit.png" alt="">LVS</a>
+      <div class="right">
+        <span class="lang"><button data-lang="ru">RU</button><button data-lang="en">EN</button></span>
+        <a class="btn" data-bot="" href="https://t.me/LVSNetworkBot"><span data-i="w_cta"></span></a>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div>
+        <h1><span data-i="w_h1a"></span> <span class="grad" data-i="w_h1b"></span></h1>
+        <p class="lead" data-i="w_lead"></p>
+        <div class="cta">
+          <a class="btn" data-bot="" href="https://t.me/LVSNetworkBot"><svg viewBox="0 0 24 24"><path d="M21 4L3 11l6 2 2 6 3-4 5 4z"/></svg><span data-i="w_cta"></span></a>
+          <a class="btn ghost" href="#how"><span data-i="w_how_btn"></span></a>
+        </div>
+      </div>
+      <div class="stage">
+        <div class="phone">
+          <div class="screen">
+            <div class="top"><div class="ava" style="width:36px;height:36px;font-size:15px">L</div><div><h2 style="font-size:15px">LVS</h2><div class="sub" style="font-size:11px" data-i="brand_tag"></div></div></div>
+            <div class="bal"><div class="lab" data-i="bal_label"></div><div class="big">10 <small>BON</small></div><p data-i="gift_text"></p></div>
+            <div class="tiles">
+              <div class="tile"><span class="ic c2"><svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M3.5 6l1.5 1.5L7 5M3.5 12l1.5 1.5L7 11M3.5 18l1.5 1.5L7 17"/></svg></span><span data-i="q_tasks"></span></div>
+              <div class="tile"><span class="ic c4"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/></svg></span><span data-i="q_friends"></span></div>
+              <div class="tile"><span class="ic c3"><svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="3"/></svg></span><span data-i="q_app"></span></div>
+            </div>
+            <div class="card steps" style="padding:12px;gap:8px">
+              <div class="step"><div class="n" style="width:26px;height:26px;font-size:12px">1</div><div><b style="font-size:13px" data-i="s1_t"></b></div></div>
+              <div class="step"><div class="n" style="width:26px;height:26px;font-size:12px">2</div><div><b style="font-size:13px" data-i="s2_t"></b></div></div>
+            </div>
+          </div>
+          <div class="tb">
+            <span class="on"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span data-i="tb_home"></span></span>
+            <span><svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11"/></svg><span data-i="tb_tasks"></span></span>
+            <span><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/></svg><span data-i="tb_friends"></span></span>
+            <span><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg><span data-i="tb_me"></span></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sectionW" id="how">
+      <h2 data-i="how_t"></h2>
+      <p class="sub" data-i="w_how_sub"></p>
+      <div class="grid3">
+        <div class="card feat"><div class="num grad">1</div><h3 data-i="s1_t"></h3><p data-i="s1_d"></p></div>
+        <div class="card feat"><div class="num grad">2</div><h3 data-i="s2_t"></h3><p data-i="s2_d"></p></div>
+        <div class="card feat"><div class="num grad">3</div><h3 data-i="s3_t"></h3><p data-i="s3_d"></p></div>
+      </div>
+    </section>
+
+    <section class="sectionW">
+      <h2 data-i="w_why"></h2>
+      <p class="sub" data-i="w_why_sub"></p>
+      <div class="grid4">
+        <div class="card feat"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span><h3 data-i="f_a"></h3><p data-i="f_ad"></p></div>
+        <div class="card feat"><span class="ic c5"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5L15.5 10"/></svg></span><h3 data-i="f_b"></h3><p data-i="f_bd"></p></div>
+        <div class="card feat"><span class="ic c3"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span><h3 data-i="f_c"></h3><p data-i="f_cd"></p></div>
+        <div class="card feat"><span class="ic c2"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg></span><h3 data-i="f_d"></h3><p data-i="f_dd"></p></div>
+      </div>
+    </section>
+
+    <section class="sectionW">
+      <h2 data-i="cur_t"></h2>
+      <p class="sub" data-i="w_cur_sub"></p>
+      <div class="grid2">
+        <div class="card cur"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 8l4 8 4-8"/></svg></span><h3>VU</h3><p data-i="vu_d"></p></div>
+        <div class="card cur"><span class="ic c4"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 8h4a2 2 0 0 1 0 4H9m0 0h5a2 2 0 0 1 0 4H9V8"/></svg></span><h3>BON</h3><p data-i="bon_d"></p></div>
+      </div>
+    </section>
+
+    <div class="cta-band">
+      <h2 data-i="w_final"></h2>
+      <p data-i="w_final_d"></p>
+      <a class="btn" data-bot="" href="https://t.me/LVSNetworkBot" style="padding:16px 28px;font-size:16px"><svg viewBox="0 0 24 24"><path d="M21 4L3 11l6 2 2 6 3-4 5 4z"/></svg><span data-i="w_cta"></span></a>
+    </div>
+
+    <footer class="fw"><span>© 2025–2026 LVS</span><span data-i="pr_ver"></span></footer>
   </div>
-</footer>
+</div>
 
 <script>
-const T = {
-  ru: {
-    pill: '● Задания рядом с вами',
-    h1: 'Делайте реальные дела — <span>получайте оплату за доказанный результат</span>',
-    lead: 'Сфотографировать вывеску, проверить, открыт ли магазин, показать место в live — кто-то рядом делает, LVS подтверждает где и когда, заказчик платит.',
-    get: 'Получить LVS', how: 'Как это работает',
-    invited: 'Вас пригласили в LVS',
-    invitedText: 'Установите LVS и подтвердите телефон через нашего бота — получите 10 BON на первые задания.',
-    howTitle: 'Как это работает',
-    s1: 'Найдите или создайте задание', s1t: 'Задания рядом с вами: с ценой, сроком и тем, что нужно прислать — фото, видео или live.',
-    s2: 'Сделайте и докажите', s2t: 'Снимайте прямо в приложении: место и время подтверждаются автоматически.',
-    s3: 'Получите оплату', s3t: 'Заказчик принимает — деньги сразу ваши. Молчит до конца срока — оплата приходит сама.',
-    whyTitle: 'Почему LVS',
-    w1: 'Доказательства, а не слова', w1t: 'Фото, видео и live с местом и временем. Лица и номера машин можно скрыть.',
-    w2: 'Честные решения', w2t: 'Спорные случаи решаются по данным — место, время, снимки — а не по словам.',
-    w3: 'Приватно', w3t: 'Чат и материалы между сторонами зашифрованы. Серверы не хранят ваши фото и видео.',
-    w4: '30 языков', w4t: 'Приложение на вашем языке, а перевод чата и видео — для общения с кем угодно.',
-    w5: 'Чат по заданию', w5t: 'Переписка с исполнителем или заказчиком прямо в задании — как в Telegram.',
-    w6: 'Ваши деньги — у вас', w6t: 'Пополнение и вывод — на ваш собственный криптокошелёк.',
-    moneyTitle: 'VU и BON',
-    vu: 'VU — для платных заданий: 1 VU = 1 USDT/USDC. Пополняете и выводите на свой кошелёк.',
-    bon: 'BON — бонусы, чтобы попробовать LVS: 10 BON за подтверждённый телефон и +1 BON за каждого приглашённого друга. Ими платят за задания за BON.',
-    getTitle: 'Получить LVS',
-    getText: 'Наш бот в Telegram выдаст ссылку на приложение и поможет подтвердить телефон.',
-    android: 'Android — через бота', iphone: 'iPhone — скоро',
-    soon: 'Версия для iPhone готовится. Windows-версия — по запросу в боте.',
-  },
-  en: {
-    pill: '● Tasks near you',
-    h1: 'Do real things — <span>get paid for proven results</span>',
-    lead: 'Snap a shop sign, check if a store is open, show a place live — someone nearby does it, LVS proves where and when, the requester pays.',
-    get: 'Get LVS', how: 'How it works',
-    invited: 'You are invited to LVS',
-    invitedText: 'Install LVS and confirm your phone with our bot — get 10 BON for your first tasks.',
-    howTitle: 'How it works',
-    s1: 'Find or post a task', s1t: 'Tasks around you, with a price, a deadline and what to send — photo, video or live.',
-    s2: 'Do it and prove it', s2t: 'Capture right in the app: place and time are confirmed automatically.',
-    s3: 'Get paid', s3t: 'The requester accepts — the money is yours at once. Silent until the deadline — you are paid anyway.',
-    whyTitle: 'Why LVS',
-    w1: 'Proof, not words', w1t: 'Photos, videos and live calls with place and time. Faces and plates can be hidden.',
-    w2: 'Fair decisions', w2t: 'Disputes are decided from the data — place, time, media — not from words.',
-    w3: 'Private', w3t: 'Chats and media between the two sides are encrypted. Servers do not keep your photos and videos.',
-    w4: '30 languages', w4t: 'The app speaks your language, and chat and video translation lets you work with anyone.',
-    w5: 'Task chat', w5t: 'Talk to the worker or requester right inside the task — like Telegram.',
-    w6: 'Your money stays yours', w6t: 'Deposits and withdrawals go to your own crypto wallet.',
-    moneyTitle: 'VU and BON',
-    vu: 'VU — for paid tasks: 1 VU = 1 USDT/USDC. Deposit and withdraw to your own wallet.',
-    bon: 'BON — bonuses to try LVS: 10 BON for a confirmed phone and +1 BON for every invited friend. They pay for BON tasks.',
-    getTitle: 'Get LVS',
-    getText: 'Our Telegram bot gives you the app link and helps you confirm your phone.',
-    android: 'Android — via the bot', iphone: 'iPhone — soon',
-    soon: 'The iPhone version is on its way. Windows version on request in the bot.',
-  },
+(function(){
+const BOT='LVSNetworkBot', API='https://api.lvs.network';
+const tg=window.Telegram&&window.Telegram.WebApp;
+const q=new URLSearchParams(location.search);
+const inTg=!!(tg&&tg.initData);
+const preview=q.get('preview')==='app';
+const appMode=inTg||preview;
+document.body.classList.add(appMode?'tg':'web');
+
+const T={
+ru:{brand_tag:'Задания рядом. Оплата за результат.',
+ bal_label:'Ваши BON',bal_note:'Бонусные единицы: тратятся на задания, не выводятся и не переводятся.',
+ gift_badge:'Подарок',gift_text:'Подтвердите номер в боте — без SMS, одним нажатием.',gift_btn:'Получить 10 BON',ok_chip:'Номер подтверждён',
+ q_tasks:'Задания',q_friends:'Друзья',q_app:'Приложение',
+ how_t:'Как это работает',s1_t:'Найдите или создайте задание',s1_d:'Рядом с вами или там, где нужно.',
+ s2_t:'Сделайте и докажите',s2_d:'Фото или видео с местом и временем — прямо в приложении.',
+ s3_t:'Получите оплату',s3_d:'Принято — платим сразу. Заказчик молчит — платим сами.',
+ do_t:'Что можно делать',d1:'Фото вывески',d1d:'Снять вывеску или витрину',d2:'Проверка на месте',d2d:'Работает ли место сейчас',d3:'Live-видео',d3d:'Короткий показ из точки',d4:'Цена в магазине',d4d:'Сверить ценник',
+ tk_t:'Задания',tk_sub:'Всё происходит в приложении LVS',
+ tk_w_t:'Исполнителю',tk_w_d:'Берите задания рядом, снимайте прямо в приложении — место и время подтверждаются сами.',
+ tk_c_t:'Заказчику',tk_c_d:'Опишите, что нужно, поставьте цену и срок — платите только за принятый результат.',
+ cur_t:'Две единицы',vu_d:'1 VU = 1 USDT/USDC. Пополнение и вывод на ваш крипто-кошелёк.',bon_d:'Бонус за старт: 10 за номер, +1 за друга. Тратится на задания, не выводится.',
+ app_t:'Задания живут в приложении',app_d:'Установите LVS на Android или Windows — аккаунт тот же.',app_btn:'Получить приложение',
+ fr_sub:'за каждого друга, который подтвердил номер',fr_inv:'Приглашено',fr_ok:'Подтвердили',
+ fr_link:'Ваша ссылка',fr_nolink:'Ссылка появится после подтверждения вашего номера в боте.',fr_open:'Открыть бота',fr_copy:'Копировать',fr_share:'Поделиться',
+ f1_t:'Отправьте ссылку',f1_d:'Другу, в чат или в соцсеть.',f2_t:'Друг подтверждает номер',f2_d:'Одним нажатием в боте.',f3_t:'Вы получаете +1 BON',f3_d:'Сразу после подтверждения.',
+ fr_note:'Сначала подтвердите свой номер — тогда реферальная ссылка откроется. Один номер — один бонус.',
+ pr_phone:'Номер телефона',pr_ph_ok:'Подтверждён',pr_ph_no:'Не подтверждён',pr_ph_unk:'Проверьте в боте',pr_lang:'Язык',pr_site:'Сайт',pr_bot:'Бот',pr_ver:'LVS · тестовая сеть',
+ tb_home:'Главная',tb_tasks:'Задания',tb_friends:'Друзья',tb_me:'Профиль',
+ hello:'Привет, {n}',copied:'Скопировано',
+ w_cta:'Открыть в Telegram',w_how_btn:'Как это работает',w_h1a:'Делайте реальные дела —',w_h1b:'получайте оплату за доказанный результат',
+ w_lead:'Сфотографировать вывеску, проверить, открыт ли магазин, показать место в Live — кто-то рядом делает, LVS подтверждает где и когда, заказчик платит.',
+ w_how_sub:'Три шага от задачи до оплаты.',w_why:'Почему LVS',w_why_sub:'Результат подтверждается данными, а не словами.',
+ f_a:'Доказательства, а не обещания',f_ad:'Фото, видео и Live снимаются внутри приложения и привязаны к месту и времени.',
+ f_b:'Честный исход',f_bd:'Принятое оплачивается сразу. Споры решаются по данным: место, время, материалы.',
+ f_c:'Приватность',f_cd:'Чаты и медиа между двумя сторонами шифруются. Серверы не хранят ваши файлы.',
+ f_d:'30 языков',f_dd:'Интерфейс на вашем языке и живой перевод чата между сторонами.',
+ w_cur_sub:'Одна единица — для денег, другая — чтобы попробовать.',
+ w_final:'Начните в Telegram — это минута',w_final_d:'Подтвердите номер в боте и получите 10 BON на первые задания.'},
+en:{brand_tag:'Tasks nearby. Paid for the result.',
+ bal_label:'Your BON',bal_note:'Bonus units: spend them on tasks. Not withdrawable, not transferable.',
+ gift_badge:'Gift',gift_text:'Confirm your number in the bot — no SMS, one tap.',gift_btn:'Get 10 BON',ok_chip:'Phone confirmed',
+ q_tasks:'Tasks',q_friends:'Friends',q_app:'App',
+ how_t:'How it works',s1_t:'Find or create a task',s1_d:'Near you or wherever it is needed.',
+ s2_t:'Do it and prove it',s2_d:'Photo or video with place and time — right in the app.',
+ s3_t:'Get paid',s3_d:'Accepted — paid at once. Requester silent — we pay for them.',
+ do_t:'What you can do',d1:'Shop sign photo',d1d:'Shoot a sign or a window',d2:'On-site check',d2d:'Is the place open now',d3:'Live video',d3d:'A short show from the spot',d4:'Store price',d4d:'Check a price tag',
+ tk_t:'Tasks',tk_sub:'Everything happens in the LVS app',
+ tk_w_t:'For workers',tk_w_d:'Take tasks nearby and shoot right in the app — place and time prove themselves.',
+ tk_c_t:'For requesters',tk_c_d:'Describe what you need, set price and deadline — pay only for accepted results.',
+ cur_t:'Two units',vu_d:'1 VU = 1 USDT/USDC. Deposit and withdraw to your own crypto wallet.',bon_d:'Starter bonus: 10 for a phone, +1 per friend. Spend on tasks, never withdrawn.',
+ app_t:'Tasks live in the app',app_d:'Install LVS on Android or Windows — same account.',app_btn:'Get the app',
+ fr_sub:'for every friend who confirms a phone',fr_inv:'Invited',fr_ok:'Confirmed',
+ fr_link:'Your link',fr_nolink:'The link appears once you confirm your number in the bot.',fr_open:'Open the bot',fr_copy:'Copy',fr_share:'Share',
+ f1_t:'Send the link',f1_d:'To a friend, in a chat or a social network.',f2_t:'Friend confirms a number',f2_d:'One tap in the bot.',f3_t:'You get +1 BON',f3_d:'Right after the confirmation.',
+ fr_note:'Confirm your own number first — then the referral link unlocks. One number, one bonus.',
+ pr_phone:'Phone number',pr_ph_ok:'Confirmed',pr_ph_no:'Not confirmed',pr_ph_unk:'Check in the bot',pr_lang:'Language',pr_site:'Website',pr_bot:'Bot',pr_ver:'LVS · test network',
+ tb_home:'Home',tb_tasks:'Tasks',tb_friends:'Friends',tb_me:'Profile',
+ hello:'Hi, {n}',copied:'Copied',
+ w_cta:'Open in Telegram',w_how_btn:'How it works',w_h1a:'Do real things —',w_h1b:'get paid for proven results',
+ w_lead:'Photograph a shop sign, check if a store is open, show a place Live — someone nearby does it, LVS proves where and when, the requester pays.',
+ w_how_sub:'Three steps from task to payment.',w_why:'Why LVS',w_why_sub:'Results are confirmed by data, not by words.',
+ f_a:'Proof, not promises',f_ad:'Photos, video and Live are captured inside the app and bound to place and time.',
+ f_b:'Fair outcomes',f_bd:'Accepted work is paid at once. Disputes are decided by data: place, time, media.',
+ f_c:'Private by design',f_cd:'Chats and media between the two sides are encrypted. Servers do not keep your files.',
+ f_d:'30 languages',f_dd:'The interface in your language and live chat translation between the two sides.',
+ w_cur_sub:'One unit is for money, the other is for trying it out.',
+ w_final:'Start in Telegram — it takes a minute',w_final_d:'Confirm your number in the bot and get 10 BON for your first tasks.'}
 };
-const tg = window.Telegram && window.Telegram.WebApp;
-const inTelegram = !!(tg && tg.initData);
-if (inTelegram) { document.body.classList.add('tg'); tg.ready(); tg.expand(); }
-function pick() {
-  const saved = (() => { try { return localStorage.getItem('lvs.lang'); } catch (_) { return null; } })();
-  const fromTg = inTelegram && tg.initDataUnsafe.user && tg.initDataUnsafe.user.language_code;
-  const lang = saved || fromTg || navigator.language || 'en';
-  return /^(ru|be|kk)/i.test(lang) ? 'ru' : (saved === 'ru' ? 'ru' : 'en');
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+const user=(inTg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||(preview?{id:123456789,first_name:'Demo',username:'demo',language_code:'ru'}:null);
+const pick=l=>/^(ru|be|kk|uk)/i.test(l||'')?'ru':'en';
+let lang=store.get('lvs_lang')||pick((user&&user.language_code)||navigator.language);
+const t=k=>(T[lang]&&T[lang][k])||T.en[k]||k;
+
+const startParam=((inTg&&tg.initDataUnsafe&&tg.initDataUnsafe.start_param)||q.get('ref')||'').replace(/^ref_/,'');
+const refCode=/^[A-Za-z0-9_-]{4,40}$/.test(startParam)?startParam:'';
+const botUrl=(payload)=>'https://t.me/'+BOT+(payload?'?start='+payload:'');
+const botStart=()=>botUrl(refCode?'ref_'+refCode:'');
+const $=s=>document.querySelector(s);
+const $$=s=>[].slice.call(document.querySelectorAll(s));
+let me=null;
+
+function openUrl(url){
+  if(inTg&&tg.openTelegramLink&&/^https:\/\/t\.me\//.test(url)){tg.openTelegramLink(url)}
+  else{window.open(url,'_blank','noopener')}
 }
-function apply(lang) {
-  document.documentElement.lang = lang;
-  for (const el of document.querySelectorAll('[data-t]')) el.innerHTML = T[lang][el.dataset.t] || '';
-  for (const b of document.querySelectorAll('.lang button')) b.classList.toggle('on', b.dataset.lang === lang);
+function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),1600)}
+function haptic(){try{tg.HapticFeedback.selectionChanged()}catch(e){}}
+function copy(text){
+  const done=()=>toast(t('copied'));
+  function fallback(){const a=document.createElement('textarea');a.value=text;document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(e){}a.remove();done()}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done,fallback)}else fallback();
 }
-for (const b of document.querySelectorAll('.lang button')) b.onclick = () => {
-  try { localStorage.setItem('lvs.lang', b.dataset.lang); } catch (_) {}
-  apply(b.dataset.lang);
-};
-apply(pick());
-// An invite (?ref=CODE on the web, startapp=ref_CODE in Telegram) goes to the
-// bot, which remembers who invited this person.
-const params = new URLSearchParams(location.search);
-const start = (inTelegram && tg.initDataUnsafe.start_param) || params.get('ref') || params.get('startapp') || '';
-const code = (start.match(/^(?:ref_)?([a-z0-9]{8})$/) || [])[1];
-const bot = code ? 'https://t.me/LVSNetworkBot?start=ref_' + code : 'https://t.me/LVSNetworkBot';
-for (const id of ['get', 'get2']) {
-  const a = document.getElementById(id);
-  a.href = bot;
-  if (inTelegram) a.onclick = (e) => { e.preventDefault(); tg.openTelegramLink(bot); if (code) tg.close(); };
+const bonText=a=>{const v=a/1e6;return (Math.round(v*100)/100).toString()};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function applyLang(){
+  document.documentElement.lang=lang;
+  $$('[data-i]').forEach(el=>{el.textContent=t(el.dataset.i)});
+  $$('[data-lang]').forEach(b=>b.classList.toggle('on',b.dataset.lang===lang));
+  if(appMode)renderAll();
 }
-if (code) document.getElementById('invite').classList.add('on');
+function renderAva(){
+  const first=(user&&user.first_name)||'L';
+  $$('[data-ava]').forEach(e=>{
+    e.textContent='';
+    if(user&&user.photo_url){const i=new Image();i.src=user.photo_url;i.alt='';i.onerror=()=>{e.textContent=first[0].toUpperCase()};e.appendChild(i)}
+    else e.textContent=first[0].toUpperCase();
+  });
+}
+function renderHome(){
+  $('#hello').textContent=t('hello').replace('{n}',(user&&user.first_name)||'');
+  const box=$('#balBox');
+  if(me&&me.verified){
+    box.innerHTML='<div class="big">'+bonText(me.bon_atoms||0)+' <small>BON</small></div><p>'+esc(t('bal_note'))+'</p><span class="chip"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'+esc(t('ok_chip'))+'</span>';
+  }else{
+    box.innerHTML='<div class="big">10 <small>BON</small> <span class="chip gold">'+esc(t('gift_badge'))+'</span></div><p>'+esc(t('gift_text'))+'</p><button class="btn block" data-open="'+esc(botStart())+'">'+esc(t('gift_btn'))+'</button>';
+  }
+}
+function renderFriends(){
+  const c=$('#frLinkCard');
+  const link=me&&me.invite_link;
+  $('#frStats').hidden=!(me&&me.verified);
+  if(me&&me.verified){$('#stInv').textContent=me.invited||0;$('#stOk').textContent=me.confirmed||0}
+  if(link){
+    c.innerHTML='<b>'+esc(t('fr_link'))+'</b><div class="link">'+esc(link)+'</div><div class="two"><button class="btn ghost" data-copy="'+esc(link)+'">'+esc(t('fr_copy'))+'</button><button class="btn" data-share="'+esc(link)+'">'+esc(t('fr_share'))+'</button></div>';
+  }else{
+    c.innerHTML='<b>'+esc(t('fr_link'))+'</b><span class="mu" style="font-size:13px">'+esc(t('fr_nolink'))+'</span><button class="btn block" data-open="'+esc(botStart())+'">'+esc(t('fr_open'))+'</button>';
+  }
+}
+function renderProfile(){
+  const u=user||{};
+  $('#meName').textContent=[u.first_name,u.last_name].filter(Boolean).join(' ')||'LVS';
+  $('#meUser').textContent=u.username?'@'+u.username:'';
+  $('#meIdTxt').textContent=u.id?'ID: '+u.id:'';
+  $('#meId').dataset.copy=u.id?String(u.id):'';
+  $('#meId').hidden=!u.id;
+  const ph=$('#mePhone');
+  if(me&&me.verified){ph.innerHTML='<span class="chip"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'+esc(t('pr_ph_ok'))+'</span>'}
+  else if(me){ph.textContent=t('pr_ph_no')}
+  else{ph.textContent=t('pr_ph_unk')}
+  $('#meBon').textContent=me?bonText(me.bon_atoms||0):'—';
+}
+function renderAll(){renderAva();renderHome();renderFriends();renderProfile()}
+
+function go(tab){
+  $$('.tab').forEach(s=>{s.hidden=s.dataset.tab!==tab});
+  $$('#tabbar button').forEach(b=>b.classList.toggle('on',b.dataset.go===tab));
+  window.scrollTo(0,0);haptic();
+}
+document.addEventListener('click',e=>{
+  const el=e.target.closest('[data-go],[data-open],[data-bot],[data-copy],[data-share],[data-lang]');
+  if(!el)return;
+  if(el.dataset.lang){lang=el.dataset.lang;store.set('lvs_lang',lang);applyLang();return}
+  if(el.dataset.go!==undefined){go(el.dataset.go);return}
+  if(el.dataset.open){openUrl(el.dataset.open);return}
+  if(el.dataset.bot!==undefined){
+    if(el.tagName==='A')e.preventDefault();
+    openUrl(el.dataset.bot==='app'?botUrl('app'):botStart());return}
+  if(el.dataset.copy){copy(el.dataset.copy);return}
+  if(el.dataset.share){
+    const text=lang==='ru'?'Заходи в LVS — задания рядом, оплата за результат. Тебе подарок: 10 BON.':'Join LVS — tasks nearby, paid for the result. A gift for you: 10 BON.';
+    openUrl('https://t.me/share/url?url='+encodeURIComponent(el.dataset.share)+'&text='+encodeURIComponent(text));
+  }
+});
+
+async function loadMe(){
+  if(!inTg)return;
+  try{
+    const c=new AbortController();const to=setTimeout(()=>c.abort(),6000);
+    const r=await fetch(API+'/blob/bonus/miniapp/me',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({init_data:tg.initData}),signal:c.signal});
+    clearTimeout(to);
+    if(!r.ok)throw new Error(r.status);
+    me=await r.json();
+  }catch(e){me=null}
+  renderAll();
+}
+
+if(appMode){
+  $('#tabbar').style.display='flex';
+  if(tg){try{tg.ready();tg.expand();tg.setHeaderColor('#070b14');tg.setBackgroundColor('#070b14');if(tg.setBottomBarColor)tg.setBottomBarColor('#070b14')}catch(e){}}
+}
+applyLang();
+loadMe();
+})();
 </script>
 </body>
 </html>
