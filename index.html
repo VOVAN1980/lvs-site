@@ -170,6 +170,22 @@ body.tg .web{display:none}
 .shape svg{position:relative;z-index:1;width:26px;height:26px}
 .hist{padding:22px 16px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px}
 
+/* referral */
+.refhero{padding:24px 20px;text-align:center}
+.refhero .lab{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--tx3)}
+.refhero .big{font-size:56px;font-weight:900;letter-spacing:-2px;line-height:1;margin:10px 0 6px}
+.refhero .big small{font-size:24px;color:var(--gold);letter-spacing:0}
+.refhero p{color:var(--tx2);font-size:14px}
+.stat{padding:16px;display:flex;flex-direction:column;gap:6px;position:relative;min-width:0}
+.stat b{font-size:34px;font-weight:900;letter-spacing:-1px;line-height:1}
+.stat span.l{font-size:12px;color:var(--tx3)}
+.stat .plus{position:absolute;right:12px;top:14px;font-style:normal;font-weight:800;color:var(--gold);background:rgba(216,175,99,.14);border:1px solid rgba(226,188,119,.3);padding:4px 10px;border-radius:99px;font-size:13px}
+.share{display:grid;grid-template-columns:repeat(4,1fr);gap:12px 8px}
+.share button{display:flex;flex-direction:column;align-items:center;gap:7px;background:none;border:0;color:var(--tx2);font:600 11px/1.2 inherit;cursor:pointer}
+.share .b{width:54px;height:54px;border-radius:18px;display:grid;place-items:center;font:900 19px/1 inherit;color:#fff;box-shadow:0 8px 18px rgba(0,0,0,.35)}
+.share .b svg{width:24px;height:24px}
+.share button:active .b{transform:scale(.94)}
+.num{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:14px;color:#1a1206;background:linear-gradient(135deg,#F6E7C4,#D8AF63);flex:none}
 /* tab bar */
 .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;justify-content:center;padding:8px 12px calc(10px + env(safe-area-inset-bottom));background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.75) 40%)}
 .tabbar .in{display:flex;width:100%;max-width:496px;padding:6px;border-radius:26px;background:rgba(13,17,23,.82);border:1px solid var(--stroke);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:0 12px 40px rgba(0,0,0,.5)}
@@ -320,13 +336,30 @@ body.tg .web{display:none}
       <div class="kv"><span class="k" data-i="pr_phone"></span><span id="mePhone"></span></div>
       <div class="kv"><span class="k" data-i="pr_lang"></span><span class="seg"><button data-lang="ru">RU</button><button data-lang="en">EN</button></span></div>
     </div>
-    <h3 class="sec v" data-i="inv_t"></h3>
-    <div class="glass card stack" id="invCard"></div>
-    <div class="two">
-      <a class="btn out" href="https://lvs.network" target="_blank" rel="noopener"><span data-i="pr_site"></span></a>
-      <button class="btn out" data-bot=""><span data-i="pr_bot"></span></button>
+    <div class="glass" style="padding:4px 0">
+      <button class="rowc" data-go="ref" style="background:none"><span class="ic gold round"><i data-ic="gift"></i></span><div class="g"><b data-i="ref_t"></b><span class="d" id="refSub"></span></div><i class="go" data-ic="chev"></i></button>
+      <button class="rowc" data-site="download" style="background:none;border-top:1px solid rgba(255,255,255,.08)"><span class="ic vio round"><i data-ic="phone"></i></span><div class="g"><b data-i="full_t"></b><span class="d" data-i="full_d"></span></div><i class="go" data-ic="chev"></i></button>
+      <button class="rowc" data-site="top" style="background:none;border-top:1px solid rgba(255,255,255,.08)"><span class="ic round"><i data-ic="globe"></i></span><div class="g"><b data-i="pr_site"></b><span class="d">lvs.network</span></div><i class="go" data-ic="chev"></i></button>
+      <button class="rowc" data-bot="" style="background:none;border-top:1px solid rgba(255,255,255,.08)"><span class="ic mint round"><i data-ic="send"></i></span><div class="g"><b data-i="pr_bot"></b><span class="d">@LVSNetworkBot</span></div><i class="go" data-ic="chev"></i></button>
     </div>
     <div class="mu" style="text-align:center;font-size:12px" data-i="pr_ver"></div>
+  </section>
+
+  <!-- REFERRAL -->
+  <section class="tab" data-tab="ref" hidden>
+    <div class="whead"><button class="gbtn" data-go="me" aria-label="Back"><i data-ic="back"></i></button><h2 data-i="ref_t"></h2></div>
+    <div class="mirror refhero"><div class="lab" data-i="ref_lab"></div><div class="big">+<span id="refPer">1</span> <small>BON</small></div><p data-i="ref_per"></p></div>
+    <div class="two">
+      <div class="glass stat"><span class="ic round"><i data-ic="user"></i></span><b id="refInv">0</b><span class="l" data-i="ref_inv"></span></div>
+      <div class="glass stat"><span class="ic gold round"><i data-ic="check"></i></span><b id="refOk">0</b><span class="l" data-i="ref_ok"></span><em class="plus" id="refEarn">+0 BON</em></div>
+    </div>
+    <div class="glass card stack" id="refLink"></div>
+    <h3 class="sec" data-i="how_t"></h3>
+    <div class="glass card stack">
+      <div class="rowc" style="padding:0;cursor:default"><span class="num">1</span><div class="g"><b data-i="rs1"></b><span class="d" data-i="rs1d"></span></div></div>
+      <div class="rowc" style="padding:0;cursor:default"><span class="num">2</span><div class="g"><b data-i="rs2"></b><span class="d" data-i="rs2d"></span></div></div>
+      <div class="rowc" style="padding:0;cursor:default"><span class="num">3</span><div class="g"><b data-i="rs3"></b><span class="d" data-i="rs3d"></span></div></div>
+    </div>
   </section>
 
   <!-- WALLET -->
@@ -475,7 +508,9 @@ cam:'<path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>',
 flip:'<rect x="3" y="5" width="7" height="14" rx="2"/><path d="M14 5h4a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-4"/>',
 shield:'<path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5L15.5 10"/>',
 globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/>',
-vu:'<circle cx="12" cy="12" r="9"/><path d="M8 8l4 8 4-8"/>'
+vu:'<circle cx="12" cy="12" r="9"/><path d="M8 8l4 8 4-8"/>',
+gift:'<rect x="3" y="9" width="18" height="12" rx="2"/><path d="M3 13h18M12 9v12M12 9c-2-4-6-4-6-1.5S9 9 12 9zm0 0c2-4 6-4 6-1.5S15 9 12 9z"/>',
+more:'<circle cx="6" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="18" cy="12" r="1.6"/>'
 };
 const ic=n=>'<svg viewBox="0 0 24 24">'+(I[n]||'')+'</svg>';
 document.querySelectorAll('[data-ic]').forEach(e=>{e.innerHTML=ic(e.dataset.ic);e.style.display=e.style.display||'inline-flex'});
@@ -494,15 +529,16 @@ ru:{mini:'Мини-версия LVS',acct:'Внутренний счёт',
  cr_sub:'Опишите, что нужно, — это увидят рядом',
  cr_f1:'Что нужно сделать',cr_f1v:'Проверить, открыт ли магазин',cr_f2:'Где',cr_f2v:'Адрес на карте',cr_f3:'Цена',cr_f3v:'В BON или VU',cr_f4:'Срок',cr_f4v:'До какого времени',cr_f5:'Чем подтвердить',cr_f5v:'Фото, видео, Live, место',
  cr_btn:'Создать в приложении',cr_note:'Задание создаётся и оплачивается в приложении LVS.',
- bal_gift:'Подарок',gift_text:'Установите LVS и подтвердите номер в боте — без SMS, одним нажатием.',gift_btn:'Скачать и получить 10 BON',bon_note:'Бонусные единицы: тратятся на задания, не выводятся и не переводятся.',ok_chip:'Номер подтверждён',
+ bal_gift:'Подарок',gift_text:'Подтвердите номер в нашем боте — одним нажатием, без SMS.',gift_btn:'Получить 10 BON',bon_note:'Бонусные единицы: тратятся на задания, не выводятся и не переводятся.',ok_chip:'Номер подтверждён',
  st_vu_d:'Деньги и вывод — в приложении',
  w_t:'Кошелёк',a_top:'Пополнить',a_out:'Вывести',a_send:'Перевести',a_recv:'Получить',hist_t:'История',hist_d:'Операции и вывод денег — в приложении LVS',
  pr_phone:'Номер телефона',pr_ph_ok:'Подтверждён',pr_ph_no:'Не подтверждён',pr_ph_unk:'Проверьте в боте',pr_lang:'Язык',pr_site:'Сайт',pr_bot:'Бот',pr_ver:'LVS · тестовая сеть',
- ph_t:'Подтвердите номер — получите 10 BON',ph_d:'В приложении LVS, одним нажатием через Telegram.',
+ ph_t:'Подтвердите номер — получите 10 BON',ph_d:'Одним нажатием в нашем боте, без SMS.',
  inv_t:'Пригласить друзей',inv_d:'+1 BON за каждого, кто подтвердит свой номер.',inv_link:'Ваша ссылка',inv_nolink:'Ссылка появится, когда вы войдёте в приложение и подтвердите номер.',inv_open:'Скачать приложение',inv_copy:'Копировать',inv_share:'Поделиться',inv_cnt:'Приглашено: {a} · подтвердили: {b}',
  sh_feed_t:'Лента заданий — в приложении',sh_feed_d:'Установите LVS на Android или Windows: задания рядом, карта и создание. Аккаунт тот же.',
  sh_app_t:'Это делается в приложении',sh_app_d:'Установите LVS на Android или Windows и войдите — аккаунт тот же.',
  sh_money_t:'Деньги — в приложении',sh_money_d:'Пополнение, вывод и переводы доступны только в приложении LVS: так ваши деньги под защитой.',
+ ref_t:'Реферал',ref_lab:'За каждого друга',ref_per:'кто зарегистрировался и подтвердил номер',ref_inv:'Перешли по ссылке',ref_ok:'Подтвердили номер',ref_sub:'+1 BON за друга · подтвердили: {n}',ref_locked_s:'Откроется после подтверждения номера',ref_link:'Ваша ссылка',ref_copy:'Копировать',ref_more:'Ещё',ref_lock_t:'Сначала подтвердите свой номер',ref_lock_d:'Тогда появится ваша ссылка, и за каждого друга вы будете получать BON.',ref_phone_btn:'Подтвердить номер — 10 BON',rs1:'Поделитесь ссылкой',rs1d:'В Telegram, WhatsApp, X, Facebook, Discord — где удобно.',rs2:'Друг подтверждает номер',rs2d:'Одним нажатием в нашем боте и получает 10 BON.',rs3:'Вы получаете BON',rs3d:'Сразу, за каждого подтвердившего.',full_t:'Полное приложение',full_d:'Задания, деньги и вывод — без ограничений',move_t:'Скачайте полное приложение',move_d:'Ваши BON и приглашения переедут туда сами — номер второй раз не нужен.',dc_copied:'Ссылка скопирована — вставьте её в Discord',share_text:'Заходи в LVS — задания рядом, оплата за результат. Подтверди номер и получи 10 BON:',
  hello:'Привет',guest:'Гость LVS',guest_d:'Профиль создаётся в приложении LVS',copied:'Скопировано',
  w_cta:'Открыть в Telegram',w_how_btn:'Как это работает',w_gr:'Добрый вечер,',w_h1a:'Делайте реальные дела —',w_h1b:'получайте оплату за доказанный результат',
  w_lead:'Сфотографировать вывеску, проверить, открыт ли магазин, показать место в Live — кто-то рядом делает, LVS подтверждает где и когда, заказчик платит.',
@@ -525,15 +561,16 @@ en:{mini:'LVS mini version',acct:'Internal account',
  cr_sub:'Describe what you need — people nearby will see it',
  cr_f1:'What to do',cr_f1v:'Check if a store is open',cr_f2:'Where',cr_f2v:'Address on the map',cr_f3:'Price',cr_f3v:'In BON or VU',cr_f4:'Deadline',cr_f4v:'Until when',cr_f5:'Proof',cr_f5v:'Photo, video, Live, place',
  cr_btn:'Create in the app',cr_note:'Tasks are created and paid in the LVS app.',
- bal_gift:'Gift',gift_text:'Install LVS and confirm your number in the bot — no SMS, one tap.',gift_btn:'Download and get 10 BON',bon_note:'Bonus units: spend them on tasks. Not withdrawable, not transferable.',ok_chip:'Phone confirmed',
+ bal_gift:'Gift',gift_text:'Confirm your number in our bot — one tap, no SMS.',gift_btn:'Get 10 BON',bon_note:'Bonus units: spend them on tasks. Not withdrawable, not transferable.',ok_chip:'Phone confirmed',
  st_vu_d:'Money and withdrawals — in the app',
  w_t:'Wallet',a_top:'Top up',a_out:'Withdraw',a_send:'Send',a_recv:'Receive',hist_t:'History',hist_d:'Operations and withdrawals live in the LVS app',
  pr_phone:'Phone number',pr_ph_ok:'Confirmed',pr_ph_no:'Not confirmed',pr_ph_unk:'Check in the bot',pr_lang:'Language',pr_site:'Website',pr_bot:'Bot',pr_ver:'LVS · test network',
- ph_t:'Confirm your number — get 10 BON',ph_d:'In the LVS app, one tap through Telegram.',
+ ph_t:'Confirm your number — get 10 BON',ph_d:'One tap in our bot, no SMS.',
  inv_t:'Invite friends',inv_d:'+1 BON for every friend who confirms a phone.',inv_link:'Your link',inv_nolink:'The link appears once you sign in to the app and confirm your number.',inv_open:'Download the app',inv_copy:'Copy',inv_share:'Share',inv_cnt:'Invited: {a} · confirmed: {b}',
  sh_feed_t:'The task feed lives in the app',sh_feed_d:'Install LVS on Android or Windows: tasks nearby, the map and task creation. Same account.',
  sh_app_t:'This is done in the app',sh_app_d:'Install LVS on Android or Windows and sign in — same account.',
  sh_money_t:'Money lives in the app',sh_money_d:'Top up, withdrawals and transfers are only in the LVS app — that keeps your money safe.',
+ ref_t:'Referral',ref_lab:'For every friend',ref_per:'who signs up and confirms a phone',ref_inv:'Opened your link',ref_ok:'Confirmed a phone',ref_sub:'+1 BON per friend · confirmed: {n}',ref_locked_s:'Opens after your number is confirmed',ref_link:'Your link',ref_copy:'Copy',ref_more:'More',ref_lock_t:'Confirm your number first',ref_lock_d:'Then your link appears, and every friend brings you BON.',ref_phone_btn:'Confirm number — 10 BON',rs1:'Share your link',rs1d:'In Telegram, WhatsApp, X, Facebook, Discord — wherever you like.',rs2:'A friend confirms a phone',rs2d:'One tap in our bot, and they get 10 BON.',rs3:'You get BON',rs3d:'At once, for every friend who confirms.',full_t:'Full app',full_d:'Tasks, money and withdrawals — no limits',move_t:'Download the full app',move_d:'Your BON and invites move there by themselves — no second phone check.',dc_copied:'Link copied — paste it into Discord',share_text:'Join LVS — tasks nearby, paid for the result. Confirm your phone and get 10 BON:',
  hello:'Hi',guest:'LVS guest',guest_d:'Your profile is created in the LVS app',copied:'Copied',
  w_cta:'Open in Telegram',w_how_btn:'How it works',w_gr:'Good evening,',w_h1a:'Do real things —',w_h1b:'get paid for proven results',
  w_lead:'Photograph a shop sign, check if a store is open, show a place Live — someone nearby does it, LVS proves where and when, the requester pays.',
@@ -558,7 +595,7 @@ const $=s=>document.querySelector(s), $$=s=>[].slice.call(document.querySelector
 let me=null, cur='home';
 
 function openUrl(u){ if(inTg&&tg.openTelegramLink&&/^https:\/\/t\.me\//.test(u)) tg.openTelegramLink(u); else window.open(u,'_blank','noopener'); }
-function openSite(a){const u='https://app.lvs.network/?web=1#'+a;if(tg&&tg.openLink)tg.openLink(u);else window.open(u,'_blank','noopener')}
+function openSite(a){const u='https://app.lvs.network/?web=1'+(a==='top'?'':'#'+a);if(tg&&tg.openLink)tg.openLink(u);else window.open(u,'_blank','noopener')}
 function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),1600)}
 function haptic(){try{tg.HapticFeedback.selectionChanged()}catch(e){}}
 function copy(text){
@@ -576,7 +613,7 @@ function balHtml(){
   const bon=v?bonText(me.bon_atoms||0):'10';
   let h='<div class="big">'+bon+' <small>BON</small>'+(v?'':' <span class="chip gold">'+esc(t('bal_gift'))+'</span>')+'</div>';
   h+='<div class="note">'+esc(v?t('bon_note'):t('gift_text'))+'</div>';
-  if(!v)h+='<button class="btn block" style="margin-top:14px" data-site="download">'+esc(t('gift_btn'))+'</button>';
+  if(!v)h+='<button class="btn block" style="margin-top:14px" data-open="'+esc(botUrl('phone'))+'">'+esc(t('gift_btn'))+'</button>';
   h+='<div class="stats" data-sheet="money" style="cursor:pointer;align-items:center;gap:10px"><span class="ic gold">'+ic('vu')+'</span><div style="flex:1"><b style="font-size:15px">VU</b><span>'+esc(t('st_vu_d'))+'</span></div>'+ic('chev')+'</div>';
   return h;
 }
@@ -593,19 +630,43 @@ function renderHome(){
 function renderProfile(){
   const v=me&&me.verified;
   $('#meName').textContent=(me&&me.nickname)||t('guest');
-  $('#meUser').textContent=(me&&(me.locality||me.bio))||t('guest_d');
-  $('#meBon').textContent=me?bonText(me.bon_atoms||0):'—';
+  $('#meUser').textContent=(me&&(me.locality||me.bio))||(v?'':t('guest_d'));
+  $('#meBon').textContent=(me&&me.linked)?bonText(me.bon_atoms||0):'—';
   $('#mePhone').innerHTML=v?'<span class="chip">'+ic('check')+esc(t('pr_ph_ok'))+'</span>':esc(me?t('pr_ph_no'):t('pr_ph_unk'));
-  $('#phoneCard').innerHTML=v?'':'<div class="banner"><span class="ic gold">'+ic('bolt')+'</span><div style="flex:1"><b>'+esc(t('ph_t'))+'</b><span>'+esc(t('ph_d'))+'</span></div><button class="btn" style="min-height:44px;padding:0 16px" data-site="download">'+ic('chev')+'</button></div>';
-  const link=me&&me.invite_link;
-  let h='<div class="rowc" style="padding:0;cursor:default"><span class="ic vio round">'+ic('user')+'</span><div class="g"><b>'+esc(t('inv_t'))+'</b><span class="d">'+esc(t('inv_d'))+'</span></div></div>';
+  let b='';
+  if(!v)b='<div class="banner"><span class="ic gold">'+ic('bolt')+'</span><div style="flex:1"><b>'+esc(t('ph_t'))+'</b><span>'+esc(t('ph_d'))+'</span></div><button class="btn" style="min-height:44px;padding:0 16px" data-open="'+esc(botUrl('phone'))+'">'+ic('chev')+'</button></div>';
+  else if(me.app===false)b='<div class="banner"><span class="ic vio">'+ic('phone')+'</span><div style="flex:1"><b>'+esc(t('move_t'))+'</b><span>'+esc(t('move_d'))+'</span></div><button class="btn" style="min-height:44px;padding:0 16px" data-site="download">'+ic('chev')+'</button></div>';
+  $('#phoneCard').innerHTML=b;
+  renderRef();
+}
+const SH=[['tg','Telegram','#229ED9',ic('send')],['wa','WhatsApp','#25D366','W'],['x','X','#000','X'],['fb','Facebook','#1877F2','f'],['vk','VK','#0077FF','VK'],['dc','Discord','#5865F2','D'],['copy','','rgba(255,255,255,.1)',ic('copy')],['more','','rgba(255,255,255,.1)',ic('more')]];
+function renderRef(){
+  const v=me&&me.verified, link=me&&me.invite_link;
+  $('#refPer').textContent=me&&me.invite_atoms?bonText(me.invite_atoms):'1';
+  $('#refInv').textContent=(me&&me.invited)||0;
+  $('#refOk').textContent=(me&&me.confirmed)||0;
+  $('#refEarn').textContent='+'+bonText((me&&me.invite_earned_atoms)||0)+' BON';
+  $('#refSub').textContent=v?t('ref_sub').replace('{n}',(me.confirmed||0)):t('ref_locked_s');
+  let h;
   if(link){
-    h+='<div class="link">'+esc(link)+'</div><div class="two"><button class="btn out" data-copy="'+esc(link)+'">'+ic('copy')+esc(t('inv_copy'))+'</button><button class="btn" data-share="'+esc(link)+'">'+ic('share')+esc(t('inv_share'))+'</button></div>';
-    if(me&&me.verified)h+='<div class="mu" style="font-size:13px;text-align:center">'+esc(t('inv_cnt').replace('{a}',me.invited||0).replace('{b}',me.confirmed||0))+'</div>';
+    h='<b>'+esc(t('ref_link'))+'</b><div class="link">'+esc(link)+'</div><div class="share">'+SH.map(x=>'<button data-sh="'+x[0]+'"><span class="b" style="background:'+x[2]+(x[0]==='x'?';border:1px solid rgba(255,255,255,.25)':'')+'">'+x[3]+'</span>'+esc(x[1]||(x[0]==='copy'?t('ref_copy'):t('ref_more')))+'</button>').join('')+'</div>';
   }else{
-    h+='<div class="mu" style="font-size:13px">'+esc(t('inv_nolink'))+'</div><button class="btn block" data-site="download">'+esc(t('inv_open'))+'</button>';
+    h='<div class="rowc" style="padding:0;cursor:default"><span class="ic gold round">'+ic('lock')+'</span><div class="g"><b>'+esc(t('ref_lock_t'))+'</b><span class="d">'+esc(t('ref_lock_d'))+'</span></div></div><button class="btn block" data-open="'+esc(botUrl('phone'))+'">'+esc(t('ref_phone_btn'))+'</button>';
   }
-  $('#invCard').innerHTML=h;
+  $('#refLink').innerHTML=h;
+}
+function share(kind){
+  const link=me&&me.invite_link;if(!link)return;
+  const text=t('share_text'), u=encodeURIComponent(link), tx=encodeURIComponent(text);
+  const ext=x=>{if(tg&&tg.openLink)tg.openLink(x);else window.open(x,'_blank','noopener')};
+  if(kind==='tg')return openUrl('https://t.me/share/url?url='+u+'&text='+tx);
+  if(kind==='wa')return ext('https://wa.me/?text='+encodeURIComponent(text+' '+link));
+  if(kind==='x')return ext('https://twitter.com/intent/tweet?text='+tx+'&url='+u);
+  if(kind==='fb')return ext('https://www.facebook.com/sharer/sharer.php?u='+u);
+  if(kind==='vk')return ext('https://vk.com/share.php?url='+u);
+  if(kind==='dc'){copy(link);toast(t('dc_copied'));return}
+  if(kind==='more'&&navigator.share){navigator.share({text:text,url:link}).catch(()=>{});return}
+  copy(link);
 }
 function renderAll(){renderAva();renderHome();renderProfile()}
 function applyLang(){
@@ -620,9 +681,10 @@ function go(tab){
   cur=tab;
   $$('.tab').forEach(s=>{s.hidden=s.dataset.tab!==tab});
   $$('#tabbar button').forEach(b=>b.classList.toggle('on',b.dataset.go===tab));
-  $('#tabbar').style.display=(tab==='wallet')?'none':'flex';
+  const sub=tab==='wallet'||tab==='ref';
+  $('#tabbar').style.display=sub?'none':'flex';
   window.scrollTo(0,0);haptic();
-  if(tg&&tg.BackButton){try{tab==='wallet'?tg.BackButton.show():tg.BackButton.hide()}catch(e){}}
+  if(tg&&tg.BackButton){try{sub?tg.BackButton.show():tg.BackButton.hide()}catch(e){}}
 }
 function sheet(kind){
   const k=kind==='money'?'money':kind==='feed'?'feed':'app';
@@ -631,10 +693,11 @@ function sheet(kind){
 }
 document.addEventListener('click',e=>{
   if(e.target===$('#sheet')||e.target.closest('#shX')){$('#sheet').classList.remove('on');return}
-  const el=e.target.closest('[data-go],[data-open],[data-site],[data-bot],[data-copy],[data-share],[data-lang],[data-sheet]');
+  const el=e.target.closest('[data-go],[data-open],[data-site],[data-bot],[data-copy],[data-share],[data-lang],[data-sheet],[data-sh]');
   if(!el)return;
   if(el.dataset.lang){lang=el.dataset.lang;store.set('lvs_lang',lang);applyLang();return}
   if(el.dataset.sheet){sheet(el.dataset.sheet);return}
+  if(el.dataset.sh){haptic();share(el.dataset.sh);return}
   if(el.dataset.go!==undefined){go(el.dataset.go);return}
   if(el.dataset.open){openUrl(el.dataset.open);return}
   if(el.dataset.site){$('#sheet').classList.remove('on');openSite(el.dataset.site);return}
@@ -710,7 +773,7 @@ function startBg(){
 if(appMode){
   $('#tabbar').style.display='flex';
   if(tg){try{tg.ready();tg.expand();tg.setHeaderColor('#060A14');tg.setBackgroundColor('#060A14');if(tg.setBottomBarColor)tg.setBottomBarColor('#000000');
-    if(tg.BackButton)tg.BackButton.onClick(()=>go('home'))}catch(e){}}
+    if(tg.BackButton)tg.BackButton.onClick(()=>go(cur==='ref'?'me':'home'))}catch(e){}}
 }
 applyLang();
 startBg();
