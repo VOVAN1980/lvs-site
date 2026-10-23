@@ -479,6 +479,8 @@ const q=new URLSearchParams(location.search);
 const inTg=!!(tg&&tg.initData);
 const preview=q.get('preview')==='app';
 const appMode=inTg||preview;
+// In a normal browser the full website lives on lvs.network; the Mini App stays here.
+if(!appMode&&!/tgWebApp/.test(location.hash+location.search)&&q.get('stay')!=='1'){location.replace('https://lvs.network/'+(location.hash||''));return}
 document.body.classList.add(appMode?'tg':'web');
 
 /* ---------- icons ---------- */
