@@ -18,6 +18,7 @@ body{background:linear-gradient(180deg,var(--bg0),var(--bg1) 60%,#000) fixed;col
 header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:28px}
 .logo{display:flex;align-items:center;gap:10px;color:var(--tx);text-decoration:none;font-weight:800;letter-spacing:-.02em}
 .logo img{width:30px;height:30px}
+.brandrow{display:flex;align-items:center;gap:14px}.by{display:flex;align-items:center;gap:7px;padding-left:14px;border-left:1px solid rgba(255,255,255,.16);color:var(--tx3);font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap}.by img{width:22px;height:22px;object-fit:contain}.by:hover{color:var(--tx)}
 .seg{display:inline-flex;border:1px solid var(--stroke);border-radius:12px;overflow:hidden;background:var(--glass)}
 .seg button{border:0;background:none;color:var(--tx3);font:600 13px/1 inherit;padding:9px 13px;cursor:pointer}
 .seg button.on{background:rgba(91,140,255,.22);color:#fff}
@@ -36,7 +37,7 @@ footer a{color:var(--tx3)}
 <body>
 <div class="wrap">
 <header>
-  <a class="logo" href="/"><img src="img/orbit.webp" alt="">LVS</a>
+  <div class="brandrow"><a class="logo" href="/"><img src="img/orbit.webp" alt="">LVS</a><a class="by" href="https://vovan1980.github.io/IBITILabs/" target="_blank" rel="noopener"><img src="img/ibiti.webp" alt="">IBITI Labs</a></div>
   <span class="seg"><button data-lang="ru">RU</button><button data-lang="en">EN</button></span>
 </header>
 <article data-l="ru">
