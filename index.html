@@ -126,6 +126,12 @@
           if (keys.map[name] == null && old) window.lvsSecrets.set(name, old);
           return keys.map[name] == null ? null : keys.map[name];
         },
+        remove(name) {
+          localStorage.removeItem(name);
+          if (!keys.secure || keys.map[name] == null) return;
+          delete keys.map[name];
+          tg.SecureStorage.setItem(item, JSON.stringify(keys.map));
+        },
         set(name, value) {
           if (!keys.secure) { localStorage.setItem(name, value); return; }
           keys.map[name] = value;

@@ -1,0 +1,3 @@
+Emoji: Google Noto Emoji (https://github.com/googlefonts/noto-emoji).
+Images: Apache License 2.0. Animations: CC BY 4.0 (https://googlefonts.github.io/noto-emoji-animation/).
+Resized for LVS; served to the LVS app on first use.
