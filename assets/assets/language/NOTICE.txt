@@ -1,0 +1,20 @@
+LVS local language components
+
+Marian RU/EN models: Helsinki-NLP / OPUS-MT, Language Technology Research Group at the University of Helsinki.
+https://huggingface.co/Helsinki-NLP/opus-mt-ru-en
+https://huggingface.co/Helsinki-NLP/opus-mt-en-ru
+License: Creative Commons Attribution 4.0 International.
+https://creativecommons.org/licenses/by/4.0/
+ONNX quantization/conversion: Xenova, https://huggingface.co/Xenova/opus-mt-ru-en and opus-mt-en-ru.
+The application downloads pinned, hashed model files when enabled.
+nmt_nfkc.bin is the unchanged normalization table extracted from source.spm,
+Helsinki-NLP/opus-mt-ru-en revision fbd6dc73284f95536648512cc21d57f19191961a.
+Source SHA256 745998e51ba5b058e38b7ac7765c25c43ed5c1c39cc92b27163b9b2e323c9d7c.
+Extracted SHA256 cab969cc39d743f8402e6fd752a0916e71839bcb27171ca72191336b7f71b4bc.
+
+Whisper: Copyright OpenAI, MIT License, https://github.com/openai/whisper.
+whisper-mel80.bin is mel_80 converted to little-endian float32 without value changes,
+from whisper/assets/mel_filters.npz in v20250625.
+SHA256 4f2701b1d287d74a0dc9871026e9519d98cb76426615f2539b0d151a0ae4ec2e.
+ONNX conversion: Xenova/whisper-tiny, Apache-2.0,
+https://huggingface.co/Xenova/whisper-tiny, revision 5332fcc35e32a33b86612b9a57a89be7906102b1.

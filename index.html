@@ -1,786 +1,155 @@
-<!doctype html>
-<html lang="ru">
+<!DOCTYPE html>
+<html>
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#060A14">
-<title>LVS — задания рядом, оплата за результат</title>
-<meta name="description" content="LVS: делайте реальные дела рядом с вами и получайте оплату за доказанный результат.">
-<link rel="icon" href="img/orbit.webp">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap&subset=cyrillic" rel="stylesheet">
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-<style>
-@property --ang{syntax:'<angle>';initial-value:0deg;inherits:false}
-:root{
-  --bg0:#060A14;--bg1:#0A1020;--bg2:#000;
-  --glass:rgba(255,255,255,.08);--stroke:rgba(255,255,255,.14);
-  --tx:#fff;--tx2:rgba(255,255,255,.85);--tx3:rgba(255,255,255,.6);
-  --accent:#1F6FEB;--blue:#5B8CFF;--mint:#31D6A3;--orange:#FFA54B;--violet:#7B6BFF;--red:#FF5E6C;--gold:#D8AF63;--crim:#9E2D1E;
-  --deep:#141c30;
-}
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-[hidden]{display:none!important}
-html{background:var(--bg2);color-scheme:dark}
-body{background:linear-gradient(180deg,var(--bg0),var(--bg1) 50%,var(--bg2)) fixed;color:var(--tx);font:15px/1.4 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-#bg{position:fixed;inset:0;z-index:0;pointer-events:none}
-.layer{position:relative;z-index:1}
-svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
-h1,h2,h3{line-height:1.12;letter-spacing:-.03em}
-a{color:inherit}
-.mu{color:var(--tx3)}
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
 
-/* ---- glass, mirror, shimmer ---- */
-.glass{background:var(--glass);border:1px solid var(--stroke);border-radius:22px;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
-.mirror{position:relative;border-radius:26px;background:linear-gradient(135deg,#1A1A1A,#0E0E0E 55%,#141414);box-shadow:0 0 60px rgba(122,30,20,.33),0 18px 40px rgba(0,0,0,.55)}
-.mirror::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.5px;pointer-events:none;background:conic-gradient(from var(--ang),#5C0D14,#9E2D1E 24%,#D8AF63 55%,#9E2D1E 78%,#40100C 90%,#5C0D14);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:spin 9s linear infinite}
-.mirror::after{content:"";position:absolute;inset:4px;border-radius:calc(26px - 4px);border:1px solid rgba(226,188,119,.33);pointer-events:none}
-@keyframes spin{to{--ang:360deg}}
-.mirror>*{position:relative;z-index:1}
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
 
-/* ---- controls ---- */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 20px;border:0;border-radius:16px;font:700 15px/1 inherit;color:#fff;background:linear-gradient(135deg,#2A78F5,#1A55D4);box-shadow:0 10px 28px rgba(31,111,235,.3);cursor:pointer;text-decoration:none;position:relative;overflow:hidden}
-.btn::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.28) 50%,transparent 65%);transform:translateX(-120%);animation:glint 5s ease-in-out infinite}
-@keyframes glint{0%,60%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
-.btn:active{transform:scale(.98)}
-.btn.out{background:var(--glass);border:1px solid var(--stroke);box-shadow:none;font-weight:600}
-.btn.out::after{display:none}
-.btn.block{width:100%}
-.btn svg{width:19px;height:19px}
-.ic{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;flex:none;background:rgba(91,140,255,.18);color:var(--blue)}
-.ic svg{width:20px;height:20px}
-.ic.mint{background:rgba(49,214,163,.16);color:var(--mint)}
-.ic.org{background:rgba(255,165,75,.16);color:var(--orange)}
-.ic.vio{background:rgba(120,86,234,.2);color:#A794FF}
-.ic.gold{background:rgba(251,191,36,.16);color:var(--gold)}
-.ic.red{background:rgba(255,94,108,.16);color:var(--red)}
-.ic.round{border-radius:50%}
-.chip{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:99px;font-size:12px;font-weight:700;background:rgba(49,214,163,.16);color:var(--mint)}
-.chip.gold{background:rgba(251,191,36,.16);color:var(--gold)}
-.chip svg{width:14px;height:14px}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 0 rgba(49,214,163,.6);animation:pulse 2s infinite}
-@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(49,214,163,0)}100%{box-shadow:0 0 0 0 rgba(49,214,163,0)}}
-.sec{font-size:18px;font-weight:900;letter-spacing:-.4px;display:flex;align-items:center;gap:9px;margin:10px 4px 0}
-.sec::before{content:"";width:3px;height:16px;border-radius:2px;background:var(--gold)}
-.sec.o::before{background:var(--orange)}.sec.m::before{background:var(--mint)}.sec.v::before{background:var(--violet)}
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
 
-/* ================= MINI APP ================= */
-body.web .app,body.web #tabbar,body.web .sheet{display:none}
-body.tg .web{display:none}
-.app{max-width:520px;margin:0 auto;padding:12px 16px calc(100px + env(safe-area-inset-bottom))}
-.tab{display:flex;flex-direction:column;gap:14px;animation:in .3s ease both}
-@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.pagehead h2{font-size:30px;font-weight:900;letter-spacing:-1.1px}
-.pagehead p{color:var(--tx3);margin-top:4px}
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <base href="/">
 
-.hero{position:relative;height:270px;border-radius:26px;overflow:hidden;box-shadow:0 22px 50px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.1)}
-.hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% center;animation:kb 18s ease-in-out infinite alternate}
-@keyframes kb{from{transform:scale(1.02)}to{transform:scale(1.1) translateX(-1.5%)}}
-.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,8,15,.15),rgba(4,8,15,0) 40%,rgba(5,9,17,.82))}
-.hero .top{position:absolute;z-index:2;left:14px;right:12px;top:12px;display:flex;align-items:center;justify-content:space-between}
-.mark{width:46px;height:46px;border-radius:50%;background:rgba(0,0,0,.34);border:1px solid rgba(255,255,255,.2);display:grid;place-items:center;overflow:hidden;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
-.mark img{width:100%;height:100%;object-fit:cover}
-.gbtn{width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.34);color:#fff;display:grid;place-items:center;cursor:pointer;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
-.hero .bot{position:absolute;z-index:2;left:16px;right:16px;bottom:14px}
-.hero .gr{font-size:15px;font-weight:600;text-shadow:0 1px 6px #000}
-.hero .nm{font-size:34px;font-weight:900;letter-spacing:-1.2px;line-height:1.05;text-shadow:0 2px 16px rgba(0,0,0,.6);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pill{display:inline-flex;align-items:center;gap:8px;margin-top:8px;padding:6px 12px;border-radius:99px;background:rgba(0,0,0,.42);border:1px solid rgba(255,255,255,.16);font-size:12px;font-weight:700;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="LVS — проверенные задания и информация из реального мира.">
 
-.gate{display:flex;flex-direction:column;gap:16px;padding:16px}
-.gate .r{display:flex;gap:14px;align-items:center}
-.gate img{width:76px;height:76px;border-radius:18px;object-fit:cover;flex:none}
-.gate b{display:block;font-size:18px;font-weight:700;line-height:1.25}
-.gate span{font-size:12px;color:var(--tx3)}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  <!-- iOS meta tags & icons -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="LVS">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
-.bal{padding:20px;cursor:pointer}
-.bal .row1{display:flex;justify-content:space-between;align-items:flex-start}
-.bal .brand{font-size:30px;font-weight:900;letter-spacing:-.5px}
-.bal .sub{font-size:13px;color:var(--tx3);margin-top:2px}
-.bal .big{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin:16px 0 4px;font-size:46px;font-weight:900;letter-spacing:-1.5px;line-height:1}
-.bal .big small{font-size:20px;font-weight:800;color:var(--gold);letter-spacing:0}
-.bal .note{font-size:13px;color:var(--tx2);max-width:36ch}
-.stats{display:flex;margin-top:16px;border-top:1px solid rgba(255,255,255,.1);padding-top:14px}
-.stats>div{flex:1;min-width:0}
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
 
-.stats b{display:block;font-size:20px;font-weight:800}
-.stats span{font-size:12px;color:var(--tx3)}
-.skel{height:48px;border-radius:14px;background:linear-gradient(90deg,rgba(255,255,255,.06),rgba(255,255,255,.14),rgba(255,255,255,.06));background-size:200% 100%;animation:sk 1.3s infinite}
-@keyframes sk{to{background-position:-200% 0}}
-
-.hs{display:flex;gap:12px;overflow-x:auto;margin:0 -16px;padding:4px 16px 8px;scroll-snap-type:x mandatory;scrollbar-width:none}
-.hs::-webkit-scrollbar{display:none}
-.tcard{flex:none;width:236px;scroll-snap-align:start;overflow:hidden;cursor:pointer;padding:0;text-align:left;color:inherit;font:inherit}
-.tcard .im{position:relative;height:126px}
-.tcard .im img{width:100%;height:100%;object-fit:cover;display:block}
-.tcard .im::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(5,9,17,.7))}
-.tcard .im .chip{position:absolute;left:10px;top:10px;z-index:1;background:rgba(0,0,0,.5);color:#fff;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
-.tcard .tb{padding:12px 14px 14px}
-.tcard b{display:block;font-size:15px;font-weight:700;line-height:1.25;min-height:38px}
-.tcard .m{display:flex;justify-content:space-between;margin-top:8px;font-size:13px;color:var(--tx3)}
-.tcard .m em{font-style:normal;color:var(--mint);font-weight:800}
-.world{position:relative;overflow:hidden;border-radius:24px;min-height:170px;padding:18px;display:flex;flex-direction:column;justify-content:flex-end;gap:12px;box-shadow:0 0 0 1px rgba(255,255,255,.12)}
-.world>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.world::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,8,15,.1),rgba(4,8,15,.88))}
-.world>*:not(img){position:relative;z-index:1}
-.world b{font-size:21px;font-weight:900;letter-spacing:-.6px}
-
-.rowc{display:flex;align-items:center;gap:14px;padding:14px;cursor:pointer;width:100%;text-align:left;color:inherit;font:inherit;border:0}
-.rowc .g{flex:1;min-width:0}
-.rowc b{display:block;font-size:15px;font-weight:700}
-.rowc span.d{font-size:13px;color:var(--tx3)}
-.rowc .go{color:var(--tx3);width:18px;height:18px}
-.field{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09)}
-.field .k{font-size:12px;color:var(--tx3)}
-.field b{display:block;font-size:15px;font-weight:600;color:var(--tx2)}
-.field .lk{margin-left:auto;color:var(--tx3);width:18px;height:18px}
-.stack{display:flex;flex-direction:column;gap:10px}
-
-.who{display:flex;align-items:center;gap:16px;padding:18px}
-.ava{width:68px;height:68px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:28px;font-weight:800;background:linear-gradient(135deg,#5C0D14,#9E2D1E 55%,#D8AF63);overflow:hidden;box-shadow:0 0 0 3px rgba(216,175,99,.4)}
-.ava img{width:100%;height:100%;object-fit:cover}
-.who h2{font-size:22px;font-weight:800;letter-spacing:-.6px}
-.idb{display:inline-flex;align-items:center;gap:7px;margin-top:8px;padding:5px 11px;border-radius:10px;background:rgba(0,0,0,.3);border:1px solid var(--stroke);font-size:12px;color:var(--tx3);cursor:pointer}
-.idb svg{width:13px;height:13px}
-.kv{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 16px}
-.kv+.kv{border-top:1px solid rgba(255,255,255,.08)}
-.kv .k{color:var(--tx3)}
-.seg{display:inline-flex;border:1px solid var(--stroke);border-radius:12px;overflow:hidden}
-.seg button{background:none;border:0;color:var(--tx3);padding:8px 13px;font:700 12px/1 inherit;cursor:pointer}
-.seg button.on{background:rgba(216,175,99,.22);color:#fff}
-.link{padding:12px 14px;border-radius:14px;background:rgba(0,0,0,.4);border:1px dashed rgba(226,188,119,.4);font-size:13px;word-break:break-all;color:#E2BC77}
-.banner{display:flex;gap:14px;align-items:center;padding:16px;border-radius:22px;background:linear-gradient(135deg,rgba(216,175,99,.16),rgba(158,45,30,.16));border:1px solid rgba(226,188,119,.32)}
-.banner b{display:block;font-size:16px;font-weight:800}
-.banner span{font-size:13px;color:var(--tx2)}
-.card{padding:16px}
-
-/* wallet */
-.whead{display:flex;align-items:center;gap:14px}
-.whead h2{font-size:22px;font-weight:800}
-.acts{display:flex;justify-content:space-between;padding:6px 4px}
-.act{display:flex;flex-direction:column;align-items:center;gap:10px;width:76px;background:none;border:0;color:var(--tx);font:600 12px/1.2 inherit;text-align:center;cursor:pointer}
-.shape{width:64px;height:64px;display:grid;place-items:center;position:relative;background:rgba(255,255,255,.09);border:1px solid var(--stroke)}
-.shape.c{border-radius:50%}
-.shape.r{border-radius:22px}
-.shape.h{border:0;background:var(--stroke);clip-path:polygon(50% 0,93% 25%,93% 75%,50% 100%,7% 75%,7% 25%)}
-.shape.h::before{content:"";position:absolute;inset:1px;background:#14161c;clip-path:polygon(50% 0,93% 25%,93% 75%,50% 100%,7% 75%,7% 25%)}
-.shape.d{border-radius:16px;transform:rotate(45deg);width:54px;height:54px;margin:5px}
-.shape.d svg{transform:rotate(-45deg)}
-.shape svg{position:relative;z-index:1;width:26px;height:26px}
-.hist{padding:22px 16px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px}
-
-/* referral */
-.refhero{padding:24px 20px;text-align:center}
-.refhero .lab{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--tx3)}
-.refhero .big{font-size:56px;font-weight:900;letter-spacing:-2px;line-height:1;margin:10px 0 6px}
-.refhero .big small{font-size:24px;color:var(--gold);letter-spacing:0}
-.refhero p{color:var(--tx2);font-size:14px}
-.stat{padding:16px;display:flex;flex-direction:column;gap:6px;position:relative;min-width:0}
-.stat b{font-size:34px;font-weight:900;letter-spacing:-1px;line-height:1}
-.stat span.l{font-size:12px;color:var(--tx3)}
-.stat .plus{position:absolute;right:12px;top:14px;font-style:normal;font-weight:800;color:var(--gold);background:rgba(216,175,99,.14);border:1px solid rgba(226,188,119,.3);padding:4px 10px;border-radius:99px;font-size:13px}
-.share{display:grid;grid-template-columns:repeat(4,1fr);gap:12px 8px}
-.share button{display:flex;flex-direction:column;align-items:center;gap:7px;background:none;border:0;color:var(--tx2);font:600 11px/1.2 inherit;cursor:pointer}
-.share .b{width:54px;height:54px;border-radius:18px;display:grid;place-items:center;font:900 19px/1 inherit;color:#fff;box-shadow:0 8px 18px rgba(0,0,0,.35)}
-.share .b svg{width:24px;height:24px}
-.share button:active .b{transform:scale(.94)}
-.num{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:14px;color:#1a1206;background:linear-gradient(135deg,#F6E7C4,#D8AF63);flex:none}
-/* tab bar */
-.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;justify-content:center;padding:8px 12px calc(10px + env(safe-area-inset-bottom));background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.75) 40%)}
-.tabbar .in{display:flex;width:100%;max-width:496px;padding:6px;border-radius:26px;background:rgba(13,17,23,.82);border:1px solid var(--stroke);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:0 12px 40px rgba(0,0,0,.5)}
-.tabbar button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 0 7px;background:none;border:0;border-radius:20px;color:var(--tx3);font:600 11px/1 inherit;cursor:pointer;transition:.2s}
-.tabbar button.on{color:#fff;background:rgba(216,175,99,.14);box-shadow:inset 0 0 0 1px rgba(226,188,119,.32)}
-.sheet{position:fixed;inset:0;z-index:60;display:flex;align-items:flex-end;justify-content:center;background:rgba(2,4,10,.6);opacity:0;pointer-events:none;transition:.25s;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
-.sheet.on{opacity:1;pointer-events:auto}
-.sheet .p{width:100%;max-width:520px;padding:22px 20px calc(22px + env(safe-area-inset-bottom));border-radius:28px 28px 0 0;background:#0D1117;border:1px solid var(--stroke);border-bottom:0;transform:translateY(40px);transition:.3s;display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px}
-.sheet.on .p{transform:none}
-.sheet .p h3{font-size:21px;font-weight:900}
-.sheet .p p{color:var(--tx2);font-size:14px;max-width:36ch}
-.toast{position:fixed;left:50%;bottom:calc(104px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);background:#fff;color:#07101f;padding:10px 16px;border-radius:12px;font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:80}
-.toast.on{opacity:1;transform:translateX(-50%)}
-
-/* ================= WEBSITE ================= */
-.wrap{max-width:1100px;margin:0 auto;padding:0 22px}
-.nav{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
-.logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:21px;letter-spacing:-.04em;text-decoration:none}
-.logo img{width:36px;height:36px;border-radius:50%}
-.brandrow{display:flex;align-items:center;gap:14px}.by{display:flex;align-items:center;gap:7px;padding-left:14px;border-left:1px solid rgba(255,255,255,.16);color:var(--tx3);font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap}.by img{width:22px;height:22px;object-fit:contain}.by:hover{color:var(--tx)}
-.nav .r{display:flex;align-items:center;gap:10px}
-.wh{display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:center;padding:34px 0 70px}
-.wh h1{font-size:clamp(34px,5.4vw,60px);font-weight:900;letter-spacing:-.045em;margin-bottom:18px}
-.wh h1 em{font-style:normal;background:linear-gradient(120deg,#F6E7C4,#D8AF63 50%,#E8C98A);-webkit-background-clip:text;background-clip:text;color:transparent}
-.wh .lead{font-size:18px;color:var(--tx2);max-width:46ch;margin-bottom:26px}
-.wh .cta{display:flex;gap:12px;flex-wrap:wrap}
-.wh .btn{min-height:56px;padding:0 26px;font-size:16px}
-.stage{display:flex;justify-content:center}
-.dl{display:flex;flex-direction:column;gap:12px;padding:22px}.dl h3{font-size:20px;font-weight:800}.dl p{color:var(--tx3);font-size:14px}
-.phone{width:290px;border-radius:44px;padding:9px;background:linear-gradient(135deg,#5C0D14,#9E2D1E 28%,#D8AF63 62%,#40100C);box-shadow:0 0 90px rgba(122,30,20,.5),0 40px 80px rgba(0,0,0,.7);transform:rotate(2.5deg)}
-.phone .scr{border-radius:36px;background:linear-gradient(180deg,#060A14,#0A1020 60%,#000);padding:14px 12px 78px;position:relative;overflow:hidden;min-height:590px;display:flex;flex-direction:column;gap:12px;pointer-events:none}
-.phone .hero{height:190px;border-radius:22px}
-.phone .hero .nm{font-size:26px}
-.phone .mirror{border-radius:22px}
-.phone .bal{padding:14px}
-.phone .bal .brand{font-size:22px}.phone .bal .big{font-size:36px;margin:10px 0 2px}
-.phone .tabbar{position:absolute;padding:0 8px 10px;display:flex}
-.phone .tabbar .in{padding:4px;border-radius:20px}
-.phone .tabbar button{padding:6px 0 5px;font-size:10px}
-.phone .tabbar svg{width:20px;height:20px}
-.ws{padding:56px 0}
-.ws>h2{font-size:clamp(26px,3.8vw,40px);font-weight:900;margin-bottom:10px}
-.ws>p.sub{color:var(--tx3);margin-bottom:28px;max-width:60ch}
-.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-.feat{display:flex;flex-direction:column;gap:12px;padding:22px}
-.feat h3{font-size:18px;font-weight:800}
-.feat p{color:var(--tx3);font-size:14px}
-.feat .n{font-size:46px;font-weight:900;letter-spacing:-.05em;background:linear-gradient(120deg,#F6E7C4,#D8AF63);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
-.cur{padding:26px}.cur h3{font-size:24px;font-weight:900;margin:12px 0 8px}.cur p{color:var(--tx3)}
-.band{margin:30px 0 60px;text-align:center;padding:54px 22px}
-.band h2{font-size:clamp(26px,3.6vw,38px);font-weight:900;margin-bottom:10px}
-.band p{color:var(--tx2);margin-bottom:24px}
-.wf{padding:26px 0 40px;color:var(--tx3);font-size:13px;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
-@media(max-width:860px){.wh{grid-template-columns:1fr;padding:14px 0 50px}.g3,.g4{grid-template-columns:1fr 1fr}.g2{grid-template-columns:1fr}.phone{transform:none}}
-@media(max-width:560px){.g3,.g4{grid-template-columns:1fr}.wh .cta .btn{flex:1}}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-</style>
+  <title>LVS</title>
+  <link rel="manifest" href="manifest.json">
 </head>
 <body>
-<canvas id="bg"></canvas>
+  <!--
+    You can customize the "flutter_bootstrap.js" script.
+    This is useful to provide a custom configuration to the Flutter loader
+    or to give the user feedback during the initialization process.
 
-<!-- ================= MINI APP ================= -->
-<div class="app layer">
+    For more details:
+    * https://docs.flutter.dev/platform-integration/web/initialization
+  -->
+  <!-- Inside Telegram: the Mini App's frame, back button, links and the
+       device key in Telegram's secure storage (iOS and Android). Opened in a
+       plain browser, all of it stays off and browser storage is used. -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script>
+    (() => {
+      const tg = window.Telegram && window.Telegram.WebApp;
+      const inTelegram = !!(tg && tg.initData);
+      const query = new URLSearchParams(location.search);
+      // app.lvs.network in a plain browser: the full website is lvs.network.
+      if (location.hostname === 'app.lvs.network' && !inTelegram &&
+          !/tgWebApp/.test(location.hash + location.search) &&
+          query.get('stay') !== '1' && query.get('preview') !== 'app') {
+        window.lvsLeaving = true;
+        location.replace('https://lvs.network/' + (location.hash || ''));
+        return;
+      }
+      // Telegram's launch data is read; the address is the app's again.
+      if (/tgWebApp/.test(location.hash)) {
+        history.replaceState(null, '', location.pathname + location.search);
+      }
+      let onBack = null;
+      window.lvsTelegram = {
+        inTelegram,
+        colors(hex) {
+          if (!inTelegram) return;
+          try {
+            tg.setHeaderColor(hex);
+            tg.setBackgroundColor(hex);
+            if (tg.setBottomBarColor) tg.setBottomBarColor(hex);
+          } catch (_) {}
+        },
+        // Web links open in Telegram's browser, t.me links inside Telegram.
+        open(url) {
+          if (!inTelegram || !/^https:\/\//.test(url)) return false;
+          if (/^https:\/\/t\.me\//.test(url)) tg.openTelegramLink(url);
+          else tg.openLink(url);
+          return true;
+        },
+        back(show, handler) {
+          if (!inTelegram) return;
+          if (onBack) tg.BackButton.offClick(onBack);
+          onBack = handler || null;
+          if (onBack) tg.BackButton.onClick(onBack);
+          if (show) tg.BackButton.show(); else tg.BackButton.hide();
+        },
+      };
+      if (inTelegram) {
+        tg.ready();
+        tg.expand();
+        if (tg.disableVerticalSwipes) tg.disableVerticalSwipes();
+      }
 
-  <!-- HOME -->
-  <section class="tab" data-tab="home">
-    <div class="hero">
-      <img src="img/hero-city.webp" alt="">
-      <div class="top">
-        <div class="mark"><img src="img/orbit.webp" alt=""></div>
-        <button class="gbtn" data-go="me" aria-label="Settings"><i data-ic="tune"></i></button>
-      </div>
-      <div class="bot">
-        <div class="gr" id="greet"></div>
-        <div class="nm" id="nick"></div>
-        <div class="pill"><span class="dot"></span><span data-i="mini"></span></div>
-      </div>
-    </div>
-
-    <div class="glass gate">
-      <div class="r"><img src="img/task-address.webp" alt="">
-        <div><b data-i="gate_t"></b><span data-i="gate_d"></span></div></div>
-      <div class="two">
-        <button class="btn out" data-go="tasks"><i data-ic="tasks"></i><span data-i="tb_tasks"></span></button>
-        <button class="btn out" data-go="create"><i data-ic="plus"></i><span data-i="tb_create"></span></button>
-      </div>
-    </div>
-
-    <div class="mirror bal" id="homeBal" data-go="wallet">
-      <div class="row1"><div><div class="brand">LVS</div><div class="sub" data-i="acct"></div></div><i data-ic="flip" style="color:var(--tx3)"></i></div>
-      <div id="homeBalBox"><div class="skel" style="margin-top:16px"></div></div>
-    </div>
-
-    <h3 class="sec o" data-i="ex_t"></h3>
-    <div class="hs">
-      <button class="glass tcard" data-sheet="feed"><div class="im"><img src="img/task-product.webp" alt=""><span class="chip" data-i="c_check"></span></div><div class="tb"><b data-i="e1"></b><div class="m"><em>0.50 VU</em><span>1.8 km</span></div></div></button>
-      <button class="glass tcard" data-sheet="feed"><div class="im"><img src="img/task-auto.webp" alt=""><span class="chip" data-i="c_auto"></span></div><div class="tb"><b data-i="e2"></b><div class="m"><em>0.80 VU</em><span>2.4 km</span></div></div></button>
-      <button class="glass tcard" data-sheet="feed"><div class="im"><img src="img/task-address.webp" alt=""><span class="chip" data-i="c_addr"></span></div><div class="tb"><b data-i="e3"></b><div class="m"><em>0.40 VU</em><span>1.5 km</span></div></div></button>
-      <button class="glass tcard" data-sheet="feed"><div class="im"><img src="img/task-delivery.webp" alt=""><span class="chip" data-i="c_deliv"></span></div><div class="tb"><b data-i="e4"></b><div class="m"><em>0.60 VU</em><span>2.1 km</span></div></div></button>
-    </div>
-
-    <div class="world">
-      <img src="img/hero-worker.webp" alt="">
-      <b data-i="world_t"></b>
-      <button class="btn" data-site="download"><i data-ic="phone"></i><span data-i="app_btn"></span></button>
-    </div>
-  </section>
-
-  <!-- TASKS -->
-  <section class="tab" data-tab="tasks" hidden>
-    <div class="pagehead"><h2 data-i="tb_tasks"></h2><p data-i="tk_sub"></p></div>
-    <div class="glass card stack">
-      <div class="rowc" style="padding:0;cursor:default"><span class="ic mint round"><i data-ic="pin"></i></span><div class="g"><b data-i="tk_w_t"></b><span class="d" data-i="tk_w_d"></span></div></div>
-      <button class="btn block" data-sheet="feed"><i data-ic="map"></i><span data-i="feed_btn"></span></button>
-    </div>
-    <h3 class="sec" data-i="ex_t"></h3>
-    <div class="stack">
-      <button class="glass rowc" data-sheet="feed"><img src="img/task-product.webp" alt="" style="width:64px;height:64px;border-radius:16px;object-fit:cover"><div class="g"><b data-i="e1"></b><span class="d"><span style="color:var(--mint);font-weight:800">0.50 VU</span> · 1.8 km</span></div><i class="go" data-ic="chev"></i></button>
-      <button class="glass rowc" data-sheet="feed"><img src="img/task-auto.webp" alt="" style="width:64px;height:64px;border-radius:16px;object-fit:cover"><div class="g"><b data-i="e2"></b><span class="d"><span style="color:var(--mint);font-weight:800">0.80 VU</span> · 2.4 km</span></div><i class="go" data-ic="chev"></i></button>
-      <button class="glass rowc" data-sheet="feed"><img src="img/task-inspection.webp" alt="" style="width:64px;height:64px;border-radius:16px;object-fit:cover"><div class="g"><b data-i="e5"></b><span class="d"><span style="color:var(--mint);font-weight:800">0.70 VU</span> · 3.0 km</span></div><i class="go" data-ic="chev"></i></button>
-      <button class="glass rowc" data-sheet="feed"><img src="img/task-delivery.webp" alt="" style="width:64px;height:64px;border-radius:16px;object-fit:cover"><div class="g"><b data-i="e4"></b><span class="d"><span style="color:var(--mint);font-weight:800">0.60 VU</span> · 2.1 km</span></div><i class="go" data-ic="chev"></i></button>
-    </div>
-    <div class="mu" style="font-size:12px;text-align:center" data-i="ex_note"></div>
-  </section>
-
-  <!-- CREATE -->
-  <section class="tab" data-tab="create" hidden>
-    <div class="pagehead"><h2 data-i="tb_create"></h2><p data-i="cr_sub"></p></div>
-    <div class="field"><span class="ic"><i data-ic="edit"></i></span><div><div class="k" data-i="cr_f1"></div><b data-i="cr_f1v"></b></div><i class="lk" data-ic="lock"></i></div>
-    <div class="field"><span class="ic mint"><i data-ic="pin"></i></span><div><div class="k" data-i="cr_f2"></div><b data-i="cr_f2v"></b></div><i class="lk" data-ic="lock"></i></div>
-    <div class="field"><span class="ic gold"><i data-ic="bolt"></i></span><div><div class="k" data-i="cr_f3"></div><b data-i="cr_f3v"></b></div><i class="lk" data-ic="lock"></i></div>
-    <div class="field"><span class="ic org"><i data-ic="clock"></i></span><div><div class="k" data-i="cr_f4"></div><b data-i="cr_f4v"></b></div><i class="lk" data-ic="lock"></i></div>
-    <div class="field"><span class="ic vio"><i data-ic="cam"></i></span><div><div class="k" data-i="cr_f5"></div><b data-i="cr_f5v"></b></div><i class="lk" data-ic="lock"></i></div>
-    <button class="btn block" data-sheet="app"><i data-ic="phone"></i><span data-i="cr_btn"></span></button>
-    <div class="mu" style="font-size:13px;text-align:center" data-i="cr_note"></div>
-  </section>
-
-  <!-- PROFILE -->
-  <section class="tab" data-tab="me" hidden>
-    <div class="glass who">
-      <div class="ava" data-ava></div>
-      <div style="min-width:0"><h2 id="meName"></h2><div class="mu" id="meUser"></div></div>
-    </div>
-    <div id="phoneCard"></div>
-    <div class="glass" style="padding:0;overflow:hidden">
-      <div class="kv"><span class="k" style="display:flex;align-items:center;gap:10px"><span class="ic gold"><i data-ic="bolt"></i></span>BON</span><b id="meBon" style="font-size:18px">—</b></div>
-      <div class="kv"><span class="k" data-i="pr_phone"></span><span id="mePhone"></span></div>
-      <div class="kv"><span class="k" data-i="pr_lang"></span><span class="seg"><button data-lang="ru">RU</button><button data-lang="en">EN</button></span></div>
-    </div>
-    <div class="glass" style="padding:4px 0">
-      <button class="rowc" data-go="ref" style="background:none"><span class="ic gold round"><i data-ic="gift"></i></span><div class="g"><b data-i="ref_t"></b><span class="d" id="refSub"></span></div><i class="go" data-ic="chev"></i></button>
-      <button class="rowc" data-site="download" style="background:none;border-top:1px solid rgba(255,255,255,.08)"><span class="ic vio round"><i data-ic="phone"></i></span><div class="g"><b data-i="full_t"></b><span class="d" data-i="full_d"></span></div><i class="go" data-ic="chev"></i></button>
-      <button class="rowc" data-site="top" style="background:none;border-top:1px solid rgba(255,255,255,.08)"><span class="ic round"><i data-ic="globe"></i></span><div class="g"><b data-i="pr_site"></b><span class="d">lvs.network</span></div><i class="go" data-ic="chev"></i></button>
-      <button class="rowc" data-bot="" style="background:none;border-top:1px solid rgba(255,255,255,.08)"><span class="ic mint round"><i data-ic="send"></i></span><div class="g"><b data-i="pr_bot"></b><span class="d">@LVSNetworkBot</span></div><i class="go" data-ic="chev"></i></button>
-    </div>
-    <div class="mu" style="text-align:center;font-size:12px" data-i="pr_ver"></div>
-  </section>
-
-  <!-- REFERRAL -->
-  <section class="tab" data-tab="ref" hidden>
-    <div class="whead"><button class="gbtn" data-go="me" aria-label="Back"><i data-ic="back"></i></button><h2 data-i="ref_t"></h2></div>
-    <div class="mirror refhero"><div class="lab" data-i="ref_lab"></div><div class="big">+<span id="refPer">1</span> <small>BON</small></div><p data-i="ref_per"></p></div>
-    <div class="two">
-      <div class="glass stat"><span class="ic round"><i data-ic="user"></i></span><b id="refInv">0</b><span class="l" data-i="ref_inv"></span></div>
-      <div class="glass stat"><span class="ic gold round"><i data-ic="check"></i></span><b id="refOk">0</b><span class="l" data-i="ref_ok"></span><em class="plus" id="refEarn">+0 BON</em></div>
-    </div>
-    <div class="glass card stack" id="refLink"></div>
-    <h3 class="sec" data-i="how_t"></h3>
-    <div class="glass card stack">
-      <div class="rowc" style="padding:0;cursor:default"><span class="num">1</span><div class="g"><b data-i="rs1"></b><span class="d" data-i="rs1d"></span></div></div>
-      <div class="rowc" style="padding:0;cursor:default"><span class="num">2</span><div class="g"><b data-i="rs2"></b><span class="d" data-i="rs2d"></span></div></div>
-      <div class="rowc" style="padding:0;cursor:default"><span class="num">3</span><div class="g"><b data-i="rs3"></b><span class="d" data-i="rs3d"></span></div></div>
-    </div>
-  </section>
-
-  <!-- WALLET -->
-  <section class="tab" data-tab="wallet" hidden>
-    <div class="whead"><button class="gbtn" data-go="home" aria-label="Back"><i data-ic="back"></i></button><h2 data-i="w_t"></h2></div>
-    <div class="mirror bal">
-      <div class="row1"><div><div class="brand">LVS</div><div class="sub" data-i="acct"></div></div><i data-ic="flip" style="color:var(--tx3)"></i></div>
-      <div id="walBalBox"></div>
-    </div>
-    <div class="acts">
-      <button class="act" data-sheet="money"><span class="shape c"><i data-ic="plus"></i></span><span data-i="a_top"></span></button>
-      <button class="act" data-sheet="money"><span class="shape r"><i data-ic="upright"></i></span><span data-i="a_out"></span></button>
-      <button class="act" data-sheet="money"><span class="shape h"><i data-ic="send"></i></span><span data-i="a_send"></span></button>
-      <button class="act" data-sheet="money"><span class="shape d"><i data-ic="qr"></i></span><span data-i="a_recv"></span></button>
-    </div>
-    <h3 class="sec" data-i="hist_t"></h3>
-    <div class="glass hist"><span class="ic vio round"><i data-ic="clock"></i></span><b data-i="hist_d"></b><button class="btn out" data-sheet="money" style="min-height:44px"><span data-i="app_btn"></span></button></div>
-  </section>
-</div>
-
-<nav class="tabbar layer" id="tabbar" style="display:none"><div class="in">
-  <button data-go="home" class="on"><i data-ic="home"></i><span data-i="tb_home"></span></button>
-  <button data-go="tasks"><i data-ic="tasks"></i><span data-i="tb_tasks"></span></button>
-  <button data-go="create"><i data-ic="plusc"></i><span data-i="tb_create"></span></button>
-  <button data-go="me"><i data-ic="user"></i><span data-i="tb_me"></span></button>
-</div></nav>
-
-<div class="sheet" id="sheet"><div class="p">
-  <span class="ic vio round" style="width:56px;height:56px"><i data-ic="phone"></i></span>
-  <h3 id="shT"></h3><p id="shD"></p>
-  <button class="btn block" data-site="download"><span data-i="app_btn"></span></button>
-  <button class="btn out block" id="shX"><span data-i="close"></span></button>
-</div></div>
-<div class="toast" id="toast"></div>
-
-<!-- ================= WEBSITE ================= -->
-<div class="web layer">
-  <div class="wrap">
-    <header class="nav">
-      <div class="brandrow"><a class="logo" href="/"><img src="img/orbit.webp" alt="">LVS</a><a class="by" href="https://vovan1980.github.io/IBITILabs/" target="_blank" rel="noopener"><img src="img/ibiti.webp" alt="">IBITI Labs</a></div>
-      <div class="r"><span class="seg"><button data-lang="ru">RU</button><button data-lang="en">EN</button></span></div>
-    </header>
-
-    <section class="wh">
-      <div>
-        <h1><span data-i="w_h1a"></span> <em data-i="w_h1b"></em></h1>
-        <p class="lead" data-i="w_lead"></p>
-        <div class="cta">
-          <a class="btn" href="https://t.me/LVS_official" target="_blank" rel="noopener"><i data-ic="send"></i><span data-i="w_cta"></span></a>
-          <a class="btn out" href="#how"><span data-i="w_how_btn"></span></a>
-        </div>
-      </div>
-      <div class="stage"><div class="phone"><div class="scr">
-        <div class="hero"><img src="img/hero-city.webp" alt="">
-          <div class="top"><div class="mark" style="width:38px;height:38px"><img src="img/orbit.webp" alt=""></div></div>
-          <div class="bot"><div class="gr" data-i="w_gr"></div><div class="nm">LVS</div><div class="pill"><span class="dot"></span><span data-i="mini"></span></div></div></div>
-        <div class="mirror bal"><div class="brand">LVS</div><div class="sub" data-i="acct"></div><div class="big">10 <small>BON</small></div></div>
-        <div class="tabbar"><div class="in">
-          <button class="on"><i data-ic="home"></i><span data-i="tb_home"></span></button>
-          <button><i data-ic="tasks"></i><span data-i="tb_tasks"></span></button>
-          <button><i data-ic="plusc"></i><span data-i="tb_create"></span></button>
-          <button><i data-ic="user"></i><span data-i="tb_me"></span></button>
-        </div></div>
-      </div></div></div>
-    </section>
-
-    <section class="ws" id="how">
-      <h2 data-i="how_t"></h2><p class="sub" data-i="w_how_sub"></p>
-      <div class="g3">
-        <div class="glass feat"><div class="n">1</div><h3 data-i="s1_t"></h3><p data-i="s1_d"></p></div>
-        <div class="glass feat"><div class="n">2</div><h3 data-i="s2_t"></h3><p data-i="s2_d"></p></div>
-        <div class="glass feat"><div class="n">3</div><h3 data-i="s3_t"></h3><p data-i="s3_d"></p></div>
-      </div>
-    </section>
-
-    <section class="ws">
-      <h2 data-i="w_why"></h2><p class="sub" data-i="w_why_sub"></p>
-      <div class="g4">
-        <div class="glass feat"><span class="ic"><i data-ic="pin"></i></span><h3 data-i="f_a"></h3><p data-i="f_ad"></p></div>
-        <div class="glass feat"><span class="ic mint"><i data-ic="shield"></i></span><h3 data-i="f_b"></h3><p data-i="f_bd"></p></div>
-        <div class="glass feat"><span class="ic vio"><i data-ic="lock"></i></span><h3 data-i="f_c"></h3><p data-i="f_cd"></p></div>
-        <div class="glass feat"><span class="ic org"><i data-ic="globe"></i></span><h3 data-i="f_d"></h3><p data-i="f_dd"></p></div>
-      </div>
-    </section>
-
-    <section class="ws">
-      <h2 data-i="cur_t"></h2><p class="sub" data-i="w_cur_sub"></p>
-      <div class="g2">
-        <div class="mirror cur"><span class="ic"><i data-ic="vu"></i></span><h3>VU</h3><p data-i="vu_d"></p></div>
-        <div class="mirror cur"><span class="ic gold"><i data-ic="bolt"></i></span><h3>BON</h3><p data-i="bon_d"></p></div>
-      </div>
-    </section>
-
-    <section class="ws" id="download">
-      <h2 data-i="dl_t"></h2><p class="sub" data-i="dl_sub"></p>
-      <div class="g3">
-        <div class="glass dl"><span class="ic vio"><i data-ic="phone"></i></span><h3>Android</h3><p data-i="dl_a"></p><a class="btn" href="https://github.com/VOVAN1980/lvs-core/releases/latest/download/LVS-Android.apk" rel="noopener"><span data-i="dl_btn"></span></a></div>
-        <div class="glass dl"><span class="ic"><i data-ic="home"></i></span><h3>Windows</h3><p data-i="dl_w"></p><a class="btn" href="https://github.com/VOVAN1980/lvs-core/releases/latest/download/LVS-Windows-x64.zip" rel="noopener"><span data-i="dl_btn"></span></a></div>
-        <div class="glass dl"><span class="ic gold"><i data-ic="globe"></i></span><h3>iPhone</h3><p data-i="dl_i"></p><span class="chip gold" style="align-self:flex-start" data-i="dl_soon"></span></div>
-      </div>
-    </section>
-
-    <div class="mirror band">
-      <h2 data-i="w_final"></h2><p data-i="w_final_d"></p>
-      <a class="btn" href="https://t.me/LVS_official" target="_blank" rel="noopener" style="min-height:56px;padding:0 28px;font-size:16px"><i data-ic="send"></i><span data-i="w_cta"></span></a>
-    </div>
-    <footer class="wf"><span>© 2025–2026 LVS</span><span><a href="terms" data-i="f_terms"></a> · <a href="privacy" data-i="f_privacy"></a></span><span data-i="pr_ver"></span></footer>
-  </div>
-</div>
-
-<script>
-(function(){
-const BOT='LVSNetworkBot', API='https://api.lvs.network';
-const tg=window.Telegram&&window.Telegram.WebApp;
-const q=new URLSearchParams(location.search);
-const inTg=!!(tg&&tg.initData);
-const preview=q.get('preview')==='app';
-const appMode=inTg||preview;
-// In a normal browser the full website lives on lvs.network; the Mini App stays here.
-if(!appMode&&!/tgWebApp/.test(location.hash+location.search)&&q.get('stay')!=='1'){location.replace('https://lvs.network/'+(location.hash||''));return}
-document.body.classList.add(appMode?'tg':'web');
-
-/* ---------- icons ---------- */
-const I={
-home:'<path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
-tasks:'<path d="M9 6h11M9 12h11M9 18h11M3.5 6l1.5 1.5L7 5M3.5 12l1.5 1.5L7 11M3.5 18l1.5 1.5L7 17"/>',
-plusc:'<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>',
-plus:'<path d="M12 5v14M5 12h14"/>',
-user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>',
-tune:'<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>',
-back:'<path d="M15 5l-7 7 7 7"/>',
-chev:'<path d="M9 5l7 7-7 7"/>',
-upright:'<path d="M7 17L17 7M8 7h9v9"/>',
-send:'<path d="M21 3L10 14M21 3l-7 18-4-8-8-4z"/>',
-qr:'<path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 14h2v2M14 18h2v2h4v-2"/>',
-bolt:'<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>',
-phone:'<rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10.5 18.5h3"/>',
-pin:'<path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
-map:'<path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2zM9 4v14M15 6v14"/>',
-copy:'<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/>',
-share:'<circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.2 10.8l7.6-4.4M8.2 13.2l7.6 4.4"/>',
-check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',
-lock:'<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
-edit:'<path d="M4 20h4L19 9l-4-4L4 16z"/>',
-clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
-cam:'<path d="M4 8h3l1.5-2h7L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>',
-flip:'<rect x="3" y="5" width="7" height="14" rx="2"/><path d="M14 5h4a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-4"/>',
-shield:'<path d="M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5L15.5 10"/>',
-globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/>',
-vu:'<circle cx="12" cy="12" r="9"/><path d="M8 8l4 8 4-8"/>',
-gift:'<rect x="3" y="9" width="18" height="12" rx="2"/><path d="M3 13h18M12 9v12M12 9c-2-4-6-4-6-1.5S9 9 12 9zm0 0c2-4 6-4 6-1.5S15 9 12 9z"/>',
-more:'<circle cx="6" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="18" cy="12" r="1.6"/>'
-};
-const ic=n=>'<svg viewBox="0 0 24 24">'+(I[n]||'')+'</svg>';
-document.querySelectorAll('[data-ic]').forEach(e=>{e.innerHTML=ic(e.dataset.ic);e.style.display=e.style.display||'inline-flex'});
-
-/* ---------- texts ---------- */
-const T={
-ru:{mini:'Мини-версия LVS',acct:'Внутренний счёт',
- gm:'Доброе утро,',gd:'Добрый день,',ge:'Добрый вечер,',gn:'Доброй ночи,',
- gate_t:'Задания рядом с вами',gate_d:'Лента и карта — в приложении LVS',
- tb_home:'Главная',tb_tasks:'Задания',tb_create:'Создать',tb_me:'Профиль',
- ex_t:'Примеры заданий',ex_note:'Это примеры. Настоящая лента — в приложении LVS.',
- c_check:'Проверка',c_auto:'Авто',c_addr:'Адрес',c_deliv:'Доставка',
- e1:'Проверить наличие товара',e2:'Осмотреть автомобиль',e3:'Проверить адрес',e4:'Забрать заказ',e5:'Осмотреть объект',
- world_t:'Всё остальное — в приложении LVS',app_btn:'Скачать приложение',close:'Закрыть',
- tk_sub:'Берите задания рядом, снимайте прямо в приложении',tk_w_t:'Исполнителю',tk_w_d:'Место и время подтверждаются сами. Принято — платим сразу.',feed_btn:'Открыть ленту рядом',
- cr_sub:'Опишите, что нужно, — это увидят рядом',
- cr_f1:'Что нужно сделать',cr_f1v:'Проверить, открыт ли магазин',cr_f2:'Где',cr_f2v:'Адрес на карте',cr_f3:'Цена',cr_f3v:'В BON или VU',cr_f4:'Срок',cr_f4v:'До какого времени',cr_f5:'Чем подтвердить',cr_f5v:'Фото, видео, Live, место',
- cr_btn:'Создать в приложении',cr_note:'Задание создаётся и оплачивается в приложении LVS.',
- bal_gift:'Подарок',gift_text:'Зарегистрируйтесь и подтвердите личность в нашем боте — одним нажатием, без SMS.',gift_btn:'Получить 10 BON',bon_note:'Бонусные единицы: тратятся на задания, не выводятся и не переводятся.',ok_chip:'Личность подтверждена',
- st_vu_d:'Деньги и вывод — в приложении',
- w_t:'Кошелёк',a_top:'Пополнить',a_out:'Вывести',a_send:'Перевести',a_recv:'Получить',hist_t:'История',hist_d:'Операции и вывод денег — в приложении LVS',
- pr_phone:'Личность',pr_ph_ok:'Подтверждена',pr_ph_no:'Не подтверждена',pr_ph_unk:'Проверьте в боте',pr_lang:'Язык',pr_site:'Сайт',pr_bot:'Бот',pr_ver:'LVS · тестовая сеть',f_terms:'Условия использования',f_privacy:'Конфиденциальность',
- ph_t:'Подтвердите личность — получите 10 BON',ph_d:'Одним нажатием в нашем боте, без SMS.',
- inv_t:'Пригласить друзей',inv_d:'+1 BON за каждого, кто зарегистрируется и подтвердит личность.',inv_link:'Ваша ссылка',inv_nolink:'Ссылка появится после регистрации и подтверждения личности.',inv_open:'Скачать приложение',inv_copy:'Копировать',inv_share:'Поделиться',inv_cnt:'Приглашено: {a} · подтвердили: {b}',
- sh_feed_t:'Лента заданий — в приложении',sh_feed_d:'Установите LVS на Android или Windows: задания рядом, карта и создание. Аккаунт тот же.',
- sh_app_t:'Это делается в приложении',sh_app_d:'Установите LVS на Android или Windows и войдите — аккаунт тот же.',
- sh_money_t:'Деньги — в приложении',sh_money_d:'Пополнение, вывод и переводы доступны только в приложении LVS: так ваши деньги под защитой.',
- ref_t:'Реферал',ref_lab:'За каждого друга',ref_per:'кто зарегистрировался и подтвердил личность',ref_inv:'Перешли по ссылке',ref_ok:'Зарегистрировались',ref_sub:'+1 BON за друга · зарегистрировались: {n}',ref_locked_s:'Откроется после подтверждения личности',ref_link:'Ваша ссылка',ref_copy:'Копировать',ref_more:'Ещё',ref_lock_t:'Сначала подтвердите личность',ref_lock_d:'Тогда появится ваша ссылка, и за каждого друга вы будете получать BON.',ref_phone_btn:'Подтвердить личность — 10 BON',rs1:'Поделитесь ссылкой',rs1d:'В Telegram, WhatsApp, X, Facebook, Discord — где удобно.',rs2:'Друг проходит регистрацию',rs2d:'Одним нажатием в нашем боте — и получает 10 BON.',rs3:'Вы получаете BON',rs3d:'Сразу, за каждого зарегистрированного.',full_t:'Полное приложение',full_d:'Задания, деньги и вывод — без ограничений',move_t:'Скачайте полное приложение',move_d:'Ваши BON и приглашения переедут туда сами — второй раз ничего подтверждать не нужно.',dc_copied:'Ссылка скопирована — вставьте её в Discord',share_text:'Заходи в LVS — задания рядом, оплата за результат. Зарегистрируйся и получи 10 BON:',
- hello:'Привет',guest:'Гость LVS',guest_d:'Профиль создаётся в приложении LVS',copied:'Скопировано',
- w_cta:'Открыть в Telegram',w_how_btn:'Как это работает',w_gr:'Добрый вечер,',w_h1a:'Делайте реальные дела —',w_h1b:'получайте оплату за доказанный результат',
- w_lead:'Сфотографировать вывеску, проверить, открыт ли магазин, показать место в Live — кто-то рядом делает, LVS подтверждает где и когда, заказчик платит.',
- how_t:'Как это работает',w_how_sub:'Три шага от задачи до оплаты.',
- s1_t:'Найдите или создайте задание',s1_d:'Рядом с вами или там, где нужно.',s2_t:'Сделайте и докажите',s2_d:'Фото или видео с местом и временем — прямо в приложении.',s3_t:'Получите оплату',s3_d:'Принято — платим сразу. Заказчик молчит — платим сами.',
- w_why:'Почему LVS',w_why_sub:'Результат подтверждается данными, а не словами.',
- f_a:'Доказательства, а не обещания',f_ad:'Фото, видео и Live снимаются внутри приложения и привязаны к месту и времени.',f_b:'Честный исход',f_bd:'Принятое оплачивается сразу. Споры решаются по данным: место, время, материалы.',f_c:'Приватность',f_cd:'Чаты и медиа между двумя сторонами шифруются. Серверы не хранят ваши файлы.',f_d:'30 языков',f_dd:'Интерфейс на вашем языке и живой перевод чата между сторонами.',
- cur_t:'Две единицы',w_cur_sub:'Одна единица — для денег, другая — чтобы попробовать.',vu_d:'1 VU = 1 USDT/USDC. Пополнение и вывод на ваш крипто-кошелёк.',bon_d:'Бонус за старт: 10 за регистрацию, +1 за друга. Тратится на задания, не выводится.',
- dl_t:'Скачать LVS',dl_sub:'Полная версия без ограничений: свои задания, деньги, вывод и живая связь.',dl_a:'Приложение для Android 7+ (APK, 160 МБ). При установке разрешите установку из этого источника.',dl_w:'Приложение для Windows 10 и 11 (ZIP, 80 МБ). Распакуйте архив и запустите LVS.exe.',dl_i:'Версия для iPhone готовится.',dl_soon:'Скоро',dl_btn:'Скачать',
- w_final:'Начните в Telegram — это минута',w_final_d:'Зарегистрируйтесь в боте и получите 10 BON на первые задания.'},
-en:{mini:'LVS mini version',acct:'Internal account',
- gm:'Good morning,',gd:'Good afternoon,',ge:'Good evening,',gn:'Good night,',
- gate_t:'Tasks near you',gate_d:'Feed and map live in the LVS app',
- tb_home:'Home',tb_tasks:'Tasks',tb_create:'Create',tb_me:'Profile',
- ex_t:'Task examples',ex_note:'These are examples. The real feed lives in the LVS app.',
- c_check:'Check',c_auto:'Auto',c_addr:'Address',c_deliv:'Delivery',
- e1:'Check product availability',e2:'Inspect a car',e3:'Check an address',e4:'Pick up an order',e5:'Inspect a site',
- world_t:'Everything else lives in the LVS app',app_btn:'Download the app',close:'Close',
- tk_sub:'Take tasks nearby and shoot right in the app',tk_w_t:'For workers',tk_w_d:'Place and time prove themselves. Accepted — paid at once.',feed_btn:'Open the nearby feed',
- cr_sub:'Describe what you need — people nearby will see it',
- cr_f1:'What to do',cr_f1v:'Check if a store is open',cr_f2:'Where',cr_f2v:'Address on the map',cr_f3:'Price',cr_f3v:'In BON or VU',cr_f4:'Deadline',cr_f4v:'Until when',cr_f5:'Proof',cr_f5v:'Photo, video, Live, place',
- cr_btn:'Create in the app',cr_note:'Tasks are created and paid in the LVS app.',
- bal_gift:'Gift',gift_text:'Sign up and verify yourself in our bot — one tap, no SMS.',gift_btn:'Get 10 BON',bon_note:'Bonus units: spend them on tasks. Not withdrawable, not transferable.',ok_chip:'Verified',
- st_vu_d:'Money and withdrawals — in the app',
- w_t:'Wallet',a_top:'Top up',a_out:'Withdraw',a_send:'Send',a_recv:'Receive',hist_t:'History',hist_d:'Operations and withdrawals live in the LVS app',
- pr_phone:'Identity',pr_ph_ok:'Verified',pr_ph_no:'Not verified',pr_ph_unk:'Check in the bot',pr_lang:'Language',pr_site:'Website',pr_bot:'Bot',pr_ver:'LVS · test network',f_terms:'Terms of Use',f_privacy:'Privacy Policy',
- ph_t:'Verify yourself — get 10 BON',ph_d:'One tap in our bot, no SMS.',
- inv_t:'Invite friends',inv_d:'+1 BON for every friend who signs up and verifies.',inv_link:'Your link',inv_nolink:'The link appears after you sign up and verify yourself.',inv_open:'Download the app',inv_copy:'Copy',inv_share:'Share',inv_cnt:'Invited: {a} · confirmed: {b}',
- sh_feed_t:'The task feed lives in the app',sh_feed_d:'Install LVS on Android or Windows: tasks nearby, the map and task creation. Same account.',
- sh_app_t:'This is done in the app',sh_app_d:'Install LVS on Android or Windows and sign in — same account.',
- sh_money_t:'Money lives in the app',sh_money_d:'Top up, withdrawals and transfers are only in the LVS app — that keeps your money safe.',
- ref_t:'Referral',ref_lab:'For every friend',ref_per:'who signs up and verifies',ref_inv:'Opened your link',ref_ok:'Signed up',ref_sub:'+1 BON per friend · signed up: {n}',ref_locked_s:'Opens after you verify yourself',ref_link:'Your link',ref_copy:'Copy',ref_more:'More',ref_lock_t:'Verify yourself first',ref_lock_d:'Then your link appears, and every friend brings you BON.',ref_phone_btn:'Verify me — 10 BON',rs1:'Share your link',rs1d:'In Telegram, WhatsApp, X, Facebook, Discord — wherever you like.',rs2:'A friend signs up',rs2d:'With one tap in our bot — and gets 10 BON.',rs3:'You get BON',rs3d:'At once, for every friend who signs up.',full_t:'Full app',full_d:'Tasks, money and withdrawals — no limits',move_t:'Download the full app',move_d:'Your BON and invites move there by themselves — nothing to verify twice.',dc_copied:'Link copied — paste it into Discord',share_text:'Join LVS — tasks nearby, paid for the result. Sign up and get 10 BON:',
- hello:'Hi',guest:'LVS guest',guest_d:'Your profile is created in the LVS app',copied:'Copied',
- w_cta:'Open in Telegram',w_how_btn:'How it works',w_gr:'Good evening,',w_h1a:'Do real things —',w_h1b:'get paid for proven results',
- w_lead:'Photograph a shop sign, check if a store is open, show a place Live — someone nearby does it, LVS proves where and when, the requester pays.',
- how_t:'How it works',w_how_sub:'Three steps from task to payment.',
- s1_t:'Find or create a task',s1_d:'Near you or wherever it is needed.',s2_t:'Do it and prove it',s2_d:'Photo or video with place and time — right in the app.',s3_t:'Get paid',s3_d:'Accepted — paid at once. Requester silent — we pay for them.',
- w_why:'Why LVS',w_why_sub:'Results are confirmed by data, not by words.',
- f_a:'Proof, not promises',f_ad:'Photos, video and Live are captured inside the app and bound to place and time.',f_b:'Fair outcomes',f_bd:'Accepted work is paid at once. Disputes are decided by data: place, time, media.',f_c:'Private by design',f_cd:'Chats and media between the two sides are encrypted. Servers do not keep your files.',f_d:'30 languages',f_dd:'The interface in your language and live chat translation between the two sides.',
- cur_t:'Two units',w_cur_sub:'One unit is for money, the other is for trying it out.',vu_d:'1 VU = 1 USDT/USDC. Deposit and withdraw to your own crypto wallet.',bon_d:'Starter bonus: 10 for signing up, +1 per friend. Spend on tasks, never withdrawn.',
- dl_t:'Download LVS',dl_sub:'The full version without limits: your own tasks, money, withdrawals and live contact.',dl_a:'The app for Android 7+ (APK, 160 MB). Allow installing from this source when asked.',dl_w:'The app for Windows 10 and 11 (ZIP, 80 MB). Unpack it and run LVS.exe.',dl_i:'The iPhone version is in the works.',dl_soon:'Soon',dl_btn:'Download',
- w_final:'Start in Telegram — it takes a minute',w_final_d:'Sign up in the bot and get 10 BON for your first tasks.'}
-};
-const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
-const user=(inTg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||(preview?{id:123456789,first_name:'Demo',username:'demo',language_code:'ru'}:null);
-const pick=l=>/^(ru|be|kk|uk)/i.test(l||'')?'ru':'en';
-let lang=store.get('lvs_lang')||pick((user&&user.language_code)||navigator.language);
-const t=k=>(T[lang]&&T[lang][k])||T.en[k]||k;
-const startParam=((inTg&&tg.initDataUnsafe&&tg.initDataUnsafe.start_param)||q.get('ref')||'').replace(/^ref_/,'');
-const refCode=/^[A-Za-z0-9_-]{4,40}$/.test(startParam)?startParam:'';
-const botUrl=p=>'https://t.me/'+BOT+(p?'?start='+p:'');
-const botStart=()=>botUrl(refCode?'ref_'+refCode:'');
-const $=s=>document.querySelector(s), $$=s=>[].slice.call(document.querySelectorAll(s));
-let me=null, cur='home';
-
-function openUrl(u){ if(inTg&&tg.openTelegramLink&&/^https:\/\/t\.me\//.test(u)) tg.openTelegramLink(u); else window.open(u,'_blank','noopener'); }
-function openSite(a){const u='https://app.lvs.network/?web=1'+(a==='top'?'':'#'+a);if(tg&&tg.openLink)tg.openLink(u);else window.open(u,'_blank','noopener')}
-function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),1600)}
-function haptic(){try{tg.HapticFeedback.selectionChanged()}catch(e){}}
-function copy(text){
-  const done=()=>toast(t('copied'));
-  function fb(){const a=document.createElement('textarea');a.value=text;document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(e){}a.remove();done()}
-  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done,fb)}else fb();
-}
-const bonText=a=>(Math.round(a/1e6*100)/100).toString();
-const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function greetKey(){const h=new Date().getHours();return h>=5&&h<11?'gm':h<17&&h>=11?'gd':h>=17&&h<23?'ge':'gn'}
-
-/* ---------- render ---------- */
-function balHtml(){
-  const v=me&&me.verified;
-  const bon=v?bonText(me.bon_atoms||0):'10';
-  let h='<div class="big">'+bon+' <small>BON</small>'+(v?'':' <span class="chip gold">'+esc(t('bal_gift'))+'</span>')+'</div>';
-  h+='<div class="note">'+esc(v?t('bon_note'):t('gift_text'))+'</div>';
-  if(!v)h+='<button class="btn block" style="margin-top:14px" data-open="'+esc(botUrl('phone'))+'">'+esc(t('gift_btn'))+'</button>';
-  h+='<div class="stats" data-sheet="money" style="cursor:pointer;align-items:center;gap:10px"><span class="ic gold">'+ic('vu')+'</span><div style="flex:1"><b style="font-size:15px">VU</b><span>'+esc(t('st_vu_d'))+'</span></div>'+ic('chev')+'</div>';
-  return h;
-}
-function renderAva(){
-  $$('[data-ava]').forEach(e=>{e.textContent='';
-    const i=new Image();i.alt='';i.src=(me&&me.avatar)?me.avatar:'img/orbit.webp';i.style.background='#000';e.appendChild(i)});
-}
-function renderHome(){
-  $('#greet').textContent=t(greetKey());
-  $('#nick').textContent=(me&&me.nickname)||(user&&user.first_name)||'LVS';
-  $('#homeBalBox').innerHTML=balHtml();
-  $('#walBalBox').innerHTML=balHtml();
-}
-function renderProfile(){
-  const v=me&&me.verified;
-  $('#meName').textContent=(me&&me.nickname)||t('guest');
-  $('#meUser').textContent=(me&&(me.locality||me.bio))||(v?'':t('guest_d'));
-  $('#meBon').textContent=(me&&me.linked)?bonText(me.bon_atoms||0):'—';
-  $('#mePhone').innerHTML=v?'<span class="chip">'+ic('check')+esc(t('pr_ph_ok'))+'</span>':esc(me?t('pr_ph_no'):t('pr_ph_unk'));
-  let b='';
-  if(!v)b='<div class="banner"><span class="ic gold">'+ic('bolt')+'</span><div style="flex:1"><b>'+esc(t('ph_t'))+'</b><span>'+esc(t('ph_d'))+'</span></div><button class="btn" style="min-height:44px;padding:0 16px" data-open="'+esc(botUrl('phone'))+'">'+ic('chev')+'</button></div>';
-  else if(me.app===false)b='<div class="banner"><span class="ic vio">'+ic('phone')+'</span><div style="flex:1"><b>'+esc(t('move_t'))+'</b><span>'+esc(t('move_d'))+'</span></div><button class="btn" style="min-height:44px;padding:0 16px" data-site="download">'+ic('chev')+'</button></div>';
-  $('#phoneCard').innerHTML=b;
-  renderRef();
-}
-const SH=[['tg','Telegram','#229ED9',ic('send')],['wa','WhatsApp','#25D366','W'],['x','X','#000','X'],['fb','Facebook','#1877F2','f'],['vk','VK','#0077FF','VK'],['dc','Discord','#5865F2','D'],['copy','','rgba(255,255,255,.1)',ic('copy')],['more','','rgba(255,255,255,.1)',ic('more')]];
-function renderRef(){
-  const v=me&&me.verified, link=me&&me.invite_link;
-  $('#refPer').textContent=me&&me.invite_atoms?bonText(me.invite_atoms):'1';
-  $('#refInv').textContent=(me&&me.invited)||0;
-  $('#refOk').textContent=(me&&me.confirmed)||0;
-  $('#refEarn').textContent='+'+bonText((me&&me.invite_earned_atoms)||0)+' BON';
-  $('#refSub').textContent=v?t('ref_sub').replace('{n}',(me.confirmed||0)):t('ref_locked_s');
-  let h;
-  if(link){
-    h='<b>'+esc(t('ref_link'))+'</b><div class="link">'+esc(link)+'</div><div class="share">'+SH.map(x=>'<button data-sh="'+x[0]+'"><span class="b" style="background:'+x[2]+(x[0]==='x'?';border:1px solid rgba(255,255,255,.25)':'')+'">'+x[3]+'</span>'+esc(x[1]||(x[0]==='copy'?t('ref_copy'):t('ref_more')))+'</button>').join('')+'</div>';
-  }else{
-    h='<div class="rowc" style="padding:0;cursor:default"><span class="ic gold round">'+ic('lock')+'</span><div class="g"><b>'+esc(t('ref_lock_t'))+'</b><span class="d">'+esc(t('ref_lock_d'))+'</span></div></div><button class="btn block" data-open="'+esc(botUrl('phone'))+'">'+esc(t('ref_phone_btn'))+'</button>';
-  }
-  $('#refLink').innerHTML=h;
-}
-function share(kind){
-  const link=me&&me.invite_link;if(!link)return;
-  const text=t('share_text'), u=encodeURIComponent(link), tx=encodeURIComponent(text);
-  const ext=x=>{if(tg&&tg.openLink)tg.openLink(x);else window.open(x,'_blank','noopener')};
-  if(kind==='tg')return openUrl('https://t.me/share/url?url='+u+'&text='+tx);
-  if(kind==='wa')return ext('https://wa.me/?text='+encodeURIComponent(text+' '+link));
-  if(kind==='x')return ext('https://twitter.com/intent/tweet?text='+tx+'&url='+u);
-  if(kind==='fb')return ext('https://www.facebook.com/sharer/sharer.php?u='+u);
-  if(kind==='vk')return ext('https://vk.com/share.php?url='+u);
-  if(kind==='dc'){copy(link);toast(t('dc_copied'));return}
-  if(kind==='more'&&navigator.share){navigator.share({text:text,url:link}).catch(()=>{});return}
-  copy(link);
-}
-function renderAll(){renderAva();renderHome();renderProfile()}
-function applyLang(){
-  document.documentElement.lang=lang;
-  $$('[data-i]').forEach(e=>{e.textContent=t(e.dataset.i)});
-  $$('[data-lang]').forEach(b=>b.classList.toggle('on',b.dataset.lang===lang));
-  if(appMode)renderAll();
-}
-
-/* ---------- navigation ---------- */
-function go(tab){
-  cur=tab;
-  $$('.tab').forEach(s=>{s.hidden=s.dataset.tab!==tab});
-  $$('#tabbar button').forEach(b=>b.classList.toggle('on',b.dataset.go===tab));
-  const sub=tab==='wallet'||tab==='ref';
-  $('#tabbar').style.display=sub?'none':'flex';
-  window.scrollTo(0,0);haptic();
-  if(tg&&tg.BackButton){try{sub?tg.BackButton.show():tg.BackButton.hide()}catch(e){}}
-}
-function sheet(kind){
-  const k=kind==='money'?'money':kind==='feed'?'feed':'app';
-  $('#shT').textContent=t('sh_'+k+'_t');$('#shD').textContent=t('sh_'+k+'_d');
-  $('#sheet').classList.add('on');haptic();
-}
-document.addEventListener('click',e=>{
-  if(e.target===$('#sheet')||e.target.closest('#shX')){$('#sheet').classList.remove('on');return}
-  const el=e.target.closest('[data-go],[data-open],[data-site],[data-bot],[data-copy],[data-share],[data-lang],[data-sheet],[data-sh]');
-  if(!el)return;
-  if(el.dataset.lang){lang=el.dataset.lang;store.set('lvs_lang',lang);applyLang();return}
-  if(el.dataset.sheet){sheet(el.dataset.sheet);return}
-  if(el.dataset.sh){haptic();share(el.dataset.sh);return}
-  if(el.dataset.go!==undefined){go(el.dataset.go);return}
-  if(el.dataset.open){openUrl(el.dataset.open);return}
-  if(el.dataset.site){$('#sheet').classList.remove('on');openSite(el.dataset.site);return}
-  if(el.dataset.bot!==undefined){
-    if(el.tagName==='A')e.preventDefault();
-    $('#sheet').classList.remove('on');
-    openUrl(el.dataset.bot==='app'?botUrl('app'):botStart());return}
-  if(el.dataset.copy){copy(el.dataset.copy);return}
-  if(el.dataset.share){
-    const text=lang==='ru'?'Заходи в LVS — задания рядом, оплата за результат. Тебе подарок: 10 BON.':'Join LVS — tasks nearby, paid for the result. A gift for you: 10 BON.';
-    openUrl('https://t.me/share/url?url='+encodeURIComponent(el.dataset.share)+'&text='+encodeURIComponent(text));
-  }
-});
-
-async function loadMe(){
-  if(!inTg)return;
-  try{
-    const c=new AbortController();const to=setTimeout(()=>c.abort(),6000);
-    const r=await fetch(API+'/blob/bonus/miniapp/me',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({init_data:tg.initData}),signal:c.signal});
-    clearTimeout(to);
-    if(!r.ok)throw new Error(r.status);
-    me=await r.json();
-  }catch(e){me=null}
-  renderAll();
-}
-
-/* ---------- living background (stars, gems, rings; breathing glow; tap ripples) ---------- */
-function startBg(){
-  const c=$('#bg'),g=c.getContext('2d');
-  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let w,h,dpr,parts=[],ripples=[],raf=0,last=0;
-  const cols=['245,235,215','226,188,119','255,255,255','160,185,255'];
-  function size(){dpr=Math.min(window.devicePixelRatio||1,2);w=innerWidth;h=innerHeight;c.width=w*dpr;c.height=h*dpr;g.setTransform(dpr,0,0,dpr,0,0);
-    const n=w<600?34:64;parts=[];for(let i=0;i<n;i++)parts.push(mk(true))}
-  function mk(init){const r=Math.random();return{x:Math.random()*w,y:init?Math.random()*h:h+20,kind:r<.5?0:r<.8?1:2,s:4+Math.random()*9,rot:Math.random()*6.28,vr:(Math.random()-.5)*.0006,
-    vy:-(.006+Math.random()*.018),vx:(Math.random()-.5)*.01,ph:Math.random()*6.28,sp:.0006+Math.random()*.0016,col:cols[Math.random()<.7?0:1+Math.floor(Math.random()*3)],ix:0,iy:0}}
-  function star(p,a){g.strokeStyle='rgba('+p.col+','+a+')';g.lineWidth=1;g.beginPath();
-    g.moveTo(p.x-p.s,p.y);g.lineTo(p.x+p.s,p.y);g.moveTo(p.x,p.y-p.s*1.5);g.lineTo(p.x,p.y+p.s*1.5);
-    const d=p.s*.55;g.moveTo(p.x-d,p.y-d);g.lineTo(p.x+d,p.y+d);g.moveTo(p.x-d,p.y+d);g.lineTo(p.x+d,p.y-d);g.stroke()}
-  function gem(p,a){g.save();g.translate(p.x,p.y);g.rotate(p.rot);g.strokeStyle='rgba('+p.col+','+a+')';g.lineWidth=1;
-    const s=p.s;g.beginPath();g.moveTo(0,-s);g.lineTo(s*.8,0);g.lineTo(0,s);g.lineTo(-s*.8,0);g.closePath();g.moveTo(-s*.8,0);g.lineTo(s*.8,0);g.moveTo(0,-s);g.lineTo(0,s);g.stroke();g.restore()}
-  function ring(p,a){g.strokeStyle='rgba('+p.col+','+a+')';g.lineWidth=1;g.beginPath();g.arc(p.x,p.y,p.s,0,6.283);g.stroke()}
-  function frame(now){
-    raf=requestAnimationFrame(frame);
-    if(now-last<33)return;const dt=Math.min(now-last,80);last=now;
-    g.clearRect(0,0,w,h);
-    const k=(Math.sin(now/6500)+1)/2;
-    let gr=g.createRadialGradient(w*(.15+.6*k),h*.18,0,w*(.15+.6*k),h*.18,Math.max(w,h)*.75);
-    gr.addColorStop(0,'rgba(216,175,99,'+(.05+.03*k)+')');gr.addColorStop(1,'rgba(216,175,99,0)');g.fillStyle=gr;g.fillRect(0,0,w,h);
-    gr=g.createRadialGradient(w*(.85-.55*k),h*.88,0,w*(.85-.55*k),h*.88,Math.max(w,h)*.7);
-    gr.addColorStop(0,'rgba(158,45,30,'+(.14+.05*(1-k))+')');gr.addColorStop(1,'rgba(158,45,30,0)');g.fillStyle=gr;g.fillRect(0,0,w,h);
-    for(const p of parts){
-      p.x+=p.vx*dt+p.ix;p.y+=p.vy*dt+p.iy;p.rot+=p.vr*dt;p.ix*=.92;p.iy*=.92;
-      if(p.y<-24||p.x<-24||p.x>w+24){Object.assign(p,mk(false),{x:Math.random()*w})}
-      const a=.18+.55*(.5+.5*Math.sin(now*p.sp+p.ph));
-      p.kind===0?star(p,a):p.kind===1?gem(p,a*.9):ring(p,a*.7);
+      // The device key: Telegram's secure storage where the phone has it,
+      // otherwise browser storage. One item holds the key of every network.
+      const item = 'lvs_device_secrets';
+      const keys = { secure: false, map: {} };
+      const answer = (ask) => new Promise((resolve) => {
+        setTimeout(() => resolve(null), 4000);
+        try { ask(resolve); } catch (_) { resolve(null); }
+      });
+      window.lvsSecretsReady = (async () => {
+        const storage = inTelegram && tg.isVersionAtLeast('9.0') ? tg.SecureStorage : null;
+        if (!storage) return;
+        const read = await answer((done) => storage.getItem(item,
+          (error, value, canRestore) => done({ error, value, canRestore })));
+        // No answer or an error: this Telegram (for PC) has no secure storage.
+        if (!read || read.error) return;
+        let value = read.value;
+        if (!value && read.canRestore) {
+          const restored = await answer((done) => storage.restoreItem(item,
+            (error, saved) => done({ error, value: saved })));
+          value = restored && !restored.error ? restored.value : null;
+        }
+        try { keys.map = value ? JSON.parse(value) : {}; } catch (_) { keys.map = {}; }
+        keys.secure = true;
+      })();
+      window.lvsSecrets = {
+        get(name) {
+          if (!keys.secure) return localStorage.getItem(name);
+          const old = localStorage.getItem(name);
+          // A key kept by this browser before: it moves to Telegram's storage.
+          if (keys.map[name] == null && old) window.lvsSecrets.set(name, old);
+          return keys.map[name] == null ? null : keys.map[name];
+        },
+        set(name, value) {
+          if (!keys.secure) { localStorage.setItem(name, value); return; }
+          keys.map[name] = value;
+          tg.SecureStorage.setItem(item, JSON.stringify(keys.map), (error) => {
+            // Kept in the browser only while Telegram did not take it.
+            if (error) localStorage.setItem(name, value);
+            else localStorage.removeItem(name);
+          });
+        },
+      };
+    })();
+  </script>
+  <!-- The Mini App's LVS core (WebAssembly, built from web-core) starts
+       first; the app's screens find it as window.lvsCore. -->
+  <script type="module">
+    if (!window.lvsLeaving) {
+      const { default: init, openRuntime, callRuntime, closeRuntime, call } =
+        await import('./lvs_core/lvs_core.js');
+      await Promise.all([init(), window.lvsSecretsReady]);
+      window.lvsCore = { openRuntime, callRuntime, closeRuntime, call };
+      const flutter = document.createElement('script');
+      flutter.src = 'flutter_bootstrap.js';
+      document.body.appendChild(flutter);
     }
-    for(let i=ripples.length-1;i>=0;i--){const r=ripples[i];r.t+=dt;const f=r.t/900;if(f>=1){ripples.splice(i,1);continue}
-      g.strokeStyle='rgba(226,188,119,'+(.5*(1-f))+')';g.lineWidth=1.5;g.beginPath();g.arc(r.x,r.y,10+f*110,0,6.283);g.stroke();
-      for(const p of parts){const dx=p.x-r.x,dy=p.y-r.y,d=Math.hypot(dx,dy);if(d<140&&d>1){p.ix+=dx/d*.05*(1-f);p.iy+=dy/d*.05*(1-f)}}}
-  }
-  function still(){g.clearRect(0,0,w,h);const gr=g.createRadialGradient(w*.5,h*.2,0,w*.5,h*.2,Math.max(w,h)*.75);gr.addColorStop(0,'rgba(216,175,99,.07)');gr.addColorStop(1,'rgba(216,175,99,0)');g.fillStyle=gr;g.fillRect(0,0,w,h);
-    for(const p of parts){const a=.4;p.kind===0?star(p,a):p.kind===1?gem(p,a):ring(p,a*.7)}}
-  size();
-  addEventListener('resize',()=>{size();if(reduce)still()});
-  if(reduce){still();return}
-  addEventListener('pointerdown',e=>{ripples.push({x:e.clientX,y:e.clientY,t:0})},{passive:true});
-  document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(raf)}else{last=0;raf=requestAnimationFrame(frame)}});
-  raf=requestAnimationFrame(frame);
-}
-
-/* ---------- start ---------- */
-if(appMode){
-  $('#tabbar').style.display='flex';
-  if(tg){try{tg.ready();tg.expand();tg.setHeaderColor('#060A14');tg.setBackgroundColor('#060A14');if(tg.setBottomBarColor)tg.setBottomBarColor('#000000');
-    if(tg.BackButton)tg.BackButton.onClick(()=>go(cur==='ref'?'me':'home'))}catch(e){}}
-}
-applyLang();
-startBg();
-loadMe();
-})();
-</script>
+  </script>
 </body>
 </html>

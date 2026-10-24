@@ -1,0 +1,8 @@
+OpenCV 4.13.0 classifiers, from https://github.com/opencv/opencv at
+fe38fc608f6acb8b68953438a62305d8318f4fcd (tag 4.13.0).
+OpenCV: Apache-2.0; see LICENSE-OpenCV.txt and original notices in XML.
+frontalface_alt2: 7b0c967d9abbdfbde025eb9c786947d151b6426040d07a8f9562ed8fd90724b4
+profileface: b39a4a3be45539db146a7fc1d3e761a292c196eb88421185e6a615b3055e612d
+russian_plate_number: 814cb5954682af570e58361f9e5f8b5b513a4112776bb9ecacef9f0e4ca6c2d7
+The plate cascade was trained for Russian-style plates; it does not promise
+universal detection across countries. Preview and inspection remain necessary.
