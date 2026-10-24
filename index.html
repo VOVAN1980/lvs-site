@@ -94,16 +94,55 @@
         if (tg.disableVerticalSwipes) tg.disableVerticalSwipes();
       }
 
+      // A one-time sign-in («Запомнить это устройство» off: a friend's phone
+      // or Telegram): from then on everything the app keeps lives in the
+      // tab's own storage, which is gone when the Mini App closes. A one-time
+      // session that ended without its clean-up is wiped on the next start.
+      const oneTime = 'lvs.one-time';
+      const persistent = window.localStorage;
+      const ownStorage = Object.getOwnPropertyDescriptor(window, 'localStorage');
+      const tabOnly = () => Object.defineProperty(window, 'localStorage',
+        { configurable: true, get: () => window.sessionStorage });
+      // Telegram's own launch data stays: it opens the Mini App again.
+      const wipe = (storage) => Object.keys(storage)
+        .filter((name) => !name.startsWith('__telegram__'))
+        .forEach((name) => storage.removeItem(name));
+      if (sessionStorage.getItem(oneTime)) tabOnly();
+      else if (persistent.getItem(oneTime)) wipe(persistent);
+
       // The device key: Telegram's secure storage where the phone has it,
       // otherwise browser storage. One item holds the key of every network.
       const item = 'lvs_device_secrets';
       const keys = { secure: false, map: {} };
+      window.lvsOneTime = {
+        begin() {
+          if (sessionStorage.getItem(oneTime)) return;
+          for (let i = 0; i < persistent.length; i++) {
+            const name = persistent.key(i);
+            sessionStorage.setItem(name, persistent.getItem(name));
+          }
+          wipe(persistent);
+          persistent.setItem(oneTime, '1');
+          sessionStorage.setItem(oneTime, '1');
+          keys.secure = false;
+          keys.map = {};
+          tabOnly();
+        },
+        end() {
+          if (!sessionStorage.getItem(oneTime)) return;
+          wipe(sessionStorage);
+          wipe(persistent);
+          if (ownStorage) Object.defineProperty(window, 'localStorage', ownStorage);
+          else delete window.localStorage;
+        },
+      };
       const answer = (ask) => new Promise((resolve) => {
         setTimeout(() => resolve(null), 4000);
         try { ask(resolve); } catch (_) { resolve(null); }
       });
       window.lvsSecretsReady = (async () => {
-        const storage = inTelegram && tg.isVersionAtLeast('9.0') ? tg.SecureStorage : null;
+        const storage = inTelegram && tg.isVersionAtLeast('9.0') &&
+          !sessionStorage.getItem(oneTime) ? tg.SecureStorage : null;
         if (!storage) return;
         const read = await answer((done) => storage.getItem(item,
           (error, value, canRestore) => done({ error, value, canRestore })));

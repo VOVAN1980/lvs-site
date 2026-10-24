@@ -1,8 +1,9 @@
 # app.lvs.network
 
 The LVS Telegram Mini App (@LVSNetworkBot): the LVS app's own screens in
-Telegram, for tasks paid in BON. Everything that works only in the LVS app
-(VU, wallet, photo, video, GPS, Live) leads to the downloads on
+Telegram, for tasks paid in BON. The wallet, trust and rating are visible
+here; what works only in the LVS app (VU tasks, deposit, withdrawal, transfer,
+photo, video, GPS, Live) leads to the downloads on
 [lvs.network](https://lvs.network).
 
 A plain browser visit goes to [lvs.network](https://lvs.network).
