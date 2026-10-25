@@ -89,7 +89,25 @@
        plain browser, all of it stays off and browser storage is used. -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script>
-    (() => {
+    // The device key's store exists from the start, whatever happens below
+    // (owner 25.10: a failure here left the app without it, "Null check").
+    window.lvsBootErrors = [];
+    window.lvsSecrets = {
+      get: (name) => localStorage.getItem(name),
+      set: (name, value) => localStorage.setItem(name, value),
+      remove: (name) => localStorage.removeItem(name),
+    };
+    const showBootError = () => {
+      if (!window.lvsBootErrors.length || !document.body) return;
+      const note = document.createElement('div');
+      note.style.cssText = 'position:fixed;left:0;right:0;bottom:0;z-index:10000;' +
+        'padding:10px 12px;background:#4a1426;color:#fff;font:12px/1.4 sans-serif;word-break:break-all';
+      note.textContent = '⚠ ' + window.lvsBootErrors.join(' | ');
+      note.onclick = () => note.remove();
+      document.body.appendChild(note);
+    };
+    window.addEventListener('DOMContentLoaded', showBootError);
+    try { (() => {
       const tg = window.Telegram && window.Telegram.WebApp;
       const inTelegram = !!(tg && tg.initData);
       const query = new URLSearchParams(location.search);
@@ -244,7 +262,9 @@
           });
         },
       };
-    })();
+    })(); } catch (error) {
+      window.lvsBootErrors.push(String((error && error.stack) || error).slice(0, 300));
+    }
   </script>
   <!-- The Mini App's LVS core (WebAssembly, built from web-core) starts
        first; the app's screens find it as window.lvsCore. -->
