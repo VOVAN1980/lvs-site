@@ -1,9 +1,9 @@
 {
-    "name": "LVS Alpha",
+    "name": "LVS",
     "short_name": "LVS",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#080A0E",
+    "background_color": "#020716",
     "theme_color": "#5B8CFF",
     "description": "Проверенные задания и информация из реального мира.",
     "orientation": "portrait-primary",
