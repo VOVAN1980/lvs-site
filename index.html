@@ -235,7 +235,13 @@
             (error, saved) => done({ error, value: saved })));
           value = restored && !restored.error ? restored.value : null;
         }
-        try { keys.map = value ? JSON.parse(value) : {}; } catch (_) { keys.map = {}; }
+        try {
+          const saved = value ? JSON.parse(value) : null;
+          // A cleared item may contain JSON "null", which parses successfully
+          // but is not a key map. Keep valid maps unchanged on reopening.
+          keys.map = saved && typeof saved === 'object' && !Array.isArray(saved)
+            ? saved : {};
+        } catch (_) { keys.map = {}; }
         keys.secure = true;
       })();
       window.lvsSecrets = {
