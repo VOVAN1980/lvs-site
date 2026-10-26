@@ -75,6 +75,18 @@
       splash.classList.add('gone');
       setTimeout(() => splash.remove(), 500);
     });
+    // Every frame is drawn by the phone's graphics chip at the screen's full
+    // density; on the owner's phone (2.75) a fifth of the time went to
+    // waiting for it while scrolling (26.10.2026). Drawn at 2 at most, the
+    // chip has about half the pixels to fill.
+    (() => {
+      const density = Object.getOwnPropertyDescriptor(window, 'devicePixelRatio');
+      if (!density || !density.get) return;
+      Object.defineProperty(window, 'devicePixelRatio', {
+        configurable: true,
+        get: () => Math.min(2, density.get.call(window)),
+      });
+    })();
   </script>
   <!--
     You can customize the "flutter_bootstrap.js" script.
