@@ -153,6 +153,21 @@
           else tg.openLink(url);
           return true;
         },
+        // The device mark: Telegram forgets the Mini App's own storage, its
+        // account and app stay. One Telegram app = one device in LVS.
+        deviceId() {
+          try {
+            const user = tg.initDataUnsafe && tg.initDataUnsafe.user;
+            if (!inTelegram || !user || !user.id) return '';
+            return 'telegram:' + user.id + ':' + (tg.platform || 'unknown');
+          } catch (_) { return ''; }
+        },
+        deviceName() {
+          if (!inTelegram) return '';
+          const names = {android: 'Android', ios: 'iPhone', tdesktop: 'Desktop', macos: 'Mac',
+            weba: 'Web', webk: 'Web'};
+          return names[tg.platform] || '';
+        },
         back(show, handler) {
           if (!inTelegram) return;
           if (onBack) tg.BackButton.offClick(onBack);
